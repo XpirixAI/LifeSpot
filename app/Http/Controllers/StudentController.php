@@ -1,0 +1,14 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+class StudentController extends Controller
+{
+    public function index()
+    {
+        return view('student.index');
+        // return view('lifespot.mylifespot.family.dependents.show');
+    }
+}

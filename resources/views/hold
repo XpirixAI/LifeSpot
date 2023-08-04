@@ -1,0 +1,18 @@
+<script>
+    let container = document.querySelector('#conversation');
+    window.addEventListener('DOMContentLoaded', () => {
+            scrollDown();
+    });
+    window.addEventListener('scrollDown', () => {
+        Livewire.hook('message.processed', () => {
+            if (container.scrollTop + container. + 100 < container.scrollHeight) {
+                return;
+            }
+            scrollDown();
+        });
+    });
+
+    function scrollDown() {
+        container.scrollTop = container.scrollHeight;
+    }
+</script>
