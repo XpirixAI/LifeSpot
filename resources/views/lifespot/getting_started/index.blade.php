@@ -324,7 +324,7 @@
                 </a>
             </div>
             <div class="mx-3 lg:mx-20 border-l-8 border-l-teal-700 bg-white rounded-lg mt-8 px-5">
-                <a href="{{ route('documents', 0) }}" class="flex justify-between items-center mr-4">
+                <a href="{{ route('documents', 1) }}" class="flex justify-between items-center mr-4">
                     <div class="py-2">
                         <div class="flex items-center lg:px-5 py-3">
                             <svg xmlns="http://www.w3.org/2000/svg" class="lg:h-10 lg:w-10 h-12 w-20 bg-teal-700 text-white p-1 rounded-full" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">

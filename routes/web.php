@@ -333,18 +333,22 @@ Route::post('dropzone/store', [PersonalInfoController::class, 'dropzoneStore'])-
         Route::get('members/other_estates',[OtherEstatesController::class, 'index'])->name('other_estates');
 
         //Documents
+            // ...handling change of page/view
+        Route::get('/documents/favorites', [DocumentsController::class, 'favorites'])->name('documents.favorites');
+        Route::get('/documents/recents', [DocumentsController::class, 'recents'])->name('documents.recents');
+        Route::get('/documents/custom/{cat_id}', [DocumentsController::class, 'custom'])->name('documents.custom.category');
         Route::get('/documents/{cat_id}',[DocumentsController::class, 'index'])->name('documents');
+            // ...handling db interactions
         Route::post('/documents/store', [DocumentsController::class, 'store'])->name('documents.store');
         Route::post('/documents/details', [DocumentsController::class, 'get_doc_details'])->name('document.get.details');
-        // Route::post('/documents/test', [DocumentsController::class, 'test'])->name('document.test');
         Route::patch('/documents/update', [DocumentsController::class, 'update_doc'])->name('document.update');
         Route::post('/documents/delete', [DocumentsController::class, 'delete_doc'])->name('document.delete');
         Route::patch('/documents/favorite', [DocumentsController::class, 'favorite_doc'])->name('document.favorite');
-
+        Route::post('/documents/custom/create', [DocumentsController::class, 'custom_create'])->name('documents.custom.category.create');
+        Route::delete('/documents/custom/delete', [DocumentsController::class, 'custom_delete'])->name('documents.custom.category.delete');
+        
         // Grow My Estate
         Route::resource('/growmyestate', GrowMyEstateController::class);
-
-
 
         // Membership(Xpirix) Access
         // Route::resource('/posts',PostController::class)->except('show'); //Landing Page View

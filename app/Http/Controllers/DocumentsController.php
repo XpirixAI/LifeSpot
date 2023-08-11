@@ -37,8 +37,6 @@ class DocumentsController extends Controller
     public function store(Request $request)
     {
         //
-        // $file = $request->
-        Log::info('DEV: DocumentsContoller store() fired');
     }
 
     /**
