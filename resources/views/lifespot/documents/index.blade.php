@@ -89,14 +89,14 @@
             </div>
             <ul class="space-y-3 mb-5">
                 @foreach ($custom_categories as $cat)
-                    <li class="{{ isset($custom_cat_id) && $custom_cat_id == $cat->id ? 'bg-blue-50' : '' }} hover:bg-blue-50 hover:rounded-lg w-full py-1">
+                    <li id="{{'js-category_side_link'.$cat->id}}" class="{{ isset($custom_cat_id) && $custom_cat_id == $cat->id ? 'bg-blue-50' : '' }} hover:bg-blue-50 hover:rounded-lg w-full py-1">
                         <a class="flex space-x-2 text-xs items-center" href="{{route('documents.custom.category', $cat->id)}}">
                             <span>
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 19a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1M5 19h14a2 2 0 002-2v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5a2 2 0 01-2 2z" />
                                 </svg>
                             </span>
-                            <div class="">{{$cat->title}}</div>
+                            <div id="{{'js-category_side_link_title'.$cat->id}}">{{$cat->title}}</div>
                         </a>
                     </li>
                 @endforeach
@@ -153,7 +153,7 @@
                         {{-- <span>Created: July 27, 2022</span> --}}
                         <span>Files: {{ count($documents) }}</span>
                     </div>
-                    <div>Last Edited: 1 hour ago</div>
+                    {{-- <div>Last Edited: 1 hour ago</div> --}}
                 </div>
                 <hr class="my-1">
                 <div class="flex justify-between mt-3 items-center mb-5">
@@ -742,48 +742,96 @@
                     <h5 class="font-black text-black">Delete Folders</h5>
                     <button type="button" class="cursor-pointer" @click="toggleViewFoldersOpen">X</button>
                 </div>
-                <form method="DELETE" action="{{route('documents.custom.category.delete')}}">
-                    @method('DELETE')
-                    @csrf
-                    {{-- <input name="title" type="text" class="block mb-5" placeholder="Title..."/>
-                    <button
-                        type="submit"
-                        class="bg-[#1f588d] text-white border float-right border-gray-400 rounded-lg font-semibold text-xs py-1 lg:py-2 px-2 lg:px-5"
-                        @click="createFolder"
-                    >
-                        Create Folder
-                    </button> --}}
-                    <table class="w-full shadow-md rounded">
-                        <thead class="bg-gray-50 border-b-2 border-gray-200">
-                            <tr class="bg-white">
-                                <th class="w-32 p-4 text-left text-sm font-semibold tracking-wide whitespace-nowrap">Title</th>
-                                <th class="w-32 p-4 text-left text-sm font-semibold tracking-wide whitespace-nowrap">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-300">
-                            @foreach ($custom_categories as $cat)
-                                <tr class="bg-gray-50">
-                                    <td class="p-4 text-sm text-gray-700 whitespace-nowrap">{{ $cat->title }}</td>
-                                    <td>
+                {{-- <input name="title" type="text" class="block mb-5" placeholder="Title..."/>
+                <button
+                    type="submit"
+                    class="bg-[#1f588d] text-white border float-right border-gray-400 rounded-lg font-semibold text-xs py-1 lg:py-2 px-2 lg:px-5"
+                    @click="createFolder"
+                >
+                    Create Folder
+                </button> --}}
+                <table class="w-full shadow-md rounded">
+                    <thead class="bg-gray-50 border-b-2 border-gray-200">
+                        <tr class="bg-white">
+                            <th class="w-64 p-4 text-left text-sm font-semibold tracking-wide whitespace-nowrap">Title</th>
+                            <th class="w-64 p-4 text-left text-sm font-semibold tracking-wide whitespace-nowrap">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-300">
+                        @foreach ($custom_categories as $cat)
+                            <tr id="{{ 'js-category_row'.$cat->id }}" class="bg-gray-50">
+                                <td class="p-4 text-sm text-gray-700 whitespace-nowrap">
+                                    <div
+                                        id="{{'js-category_title_text'.$cat->id}}"
+                                        class="js-category_title_text"
+                                    >
+                                        {{ $cat->title }}
+                                    </div>
+                                    <input
+                                        id="{{'js-category_title_input'.$cat->id}}"
+                                        class="js-category_title_input hidden block text-sm rounded-md border"
+                                        type="text"
+                                        value="{{ $cat->title }}"
+                                    />
+                                </td>
+                                <td>
+                                    <div id="{{ 'js-category_actions'.$cat->id }}">
                                         <button
                                             type="button"
-                                            class="text-red-500 hover:text-red-700 rounded-lg font-semibold text-xs px-2"
+                                            class="text-red-500 hover:text-red-700 hover:underline rounded-lg font-semibold text-xs px-2"
+                                            onclick="checkDelete({{ $cat->id }})"
                                         >
                                             Delete
                                         </button>
+                                        
                                         <button
                                             type="button"
-                                            class="text-red-500 hover:text-red-700 rounded-lg font-semibold text-xs px-2"
+                                            class="text-blue-500 hover:text-blue-700 hover:underline rounded-lg font-semibold text-xs px-2"
+                                            onclick="editFolder({{ $cat->id }})"
                                         >
                                             Edit
                                         </button>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    
-                </form>
+                                    </div>
+                                    <div id="{{ 'js-category_delete_text'.$cat->id }}" class="hidden text-xs">
+                                        Are you sure?
+                                        <div class="block">
+                                            <button 
+                                                class="text-blue-500 hover:text-blue-700 hover:underline rounded-lg font-semibold text-xs px-2" 
+                                                type="button"
+                                                onclick="deleteFolder({{ $cat->id }})"
+                                            >
+                                                Yes
+                                            </button>
+                                            <button
+                                                class="text-red-500 hover:text-red-700 hover:underline rounded-lg font-semibold text-xs px-2"
+                                                type="button"
+                                                onclick="cancelDelete({{ $cat->id }})"
+                                            >
+                                                No
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div id="{{ 'js-category_edit_text'.$cat->id }}" class="hidden text-xs">
+                                        <button 
+                                            class="text-blue-500 hover:text-blue-700 hover:underline rounded-lg font-semibold text-xs px-2" 
+                                            type="button"
+                                            onclick="updateFolder({{ $cat->id }})"
+                                        >
+                                            Confirm
+                                        </button>
+                                        <button
+                                            class="text-red-500 hover:text-red-700 hover:underline rounded-lg font-semibold text-xs px-2"
+                                            type="button"
+                                            onclick="cancelEditFolder({{ $cat->id }},'{{ $cat->title }}')"
+                                        >
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -877,6 +925,73 @@
             })
         })
 
+        function checkDelete(catID) {
+            $('#js-category_actions' + catID).addClass('hidden');
+            $('#js-category_delete_text' + catID).removeClass('hidden');
+        }
+
+        function cancelDelete(catID) {
+            $('#js-category_actions' + catID).removeClass('hidden');
+            $('#js-category_delete_text' + catID).addClass('hidden');
+        }
+
+        function deleteFolder(catID) {
+            $.ajax({
+                url: "{{ route('documents.custom.category.delete') }}",
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    id: catID,
+                },
+                type: "DELETE",
+                success: function (data) {
+                    console.log('status: ', data.status);
+                    $('#js-category_row' + catID).addClass('hidden');
+                    $('#js-category_side_link' + catID).addClass('hidden');
+                }
+            });   
+        }
+
+        function editFolder(catID) {
+            $('#js-category_title_text' + catID).addClass('hidden');
+            $('#js-category_title_input' + catID).removeClass('hidden');
+
+            $('#js-category_actions' + catID).addClass('hidden');
+            $('#js-category_edit_text' + catID).removeClass('hidden');
+        }
+
+        function cancelEditFolder(catID, catTitle) {
+            $('#js-category_title_text' + catID).removeClass('hidden');
+            $('#js-category_title_input' + catID).addClass('hidden');
+
+            $('#js-category_actions' + catID).removeClass('hidden');
+            $('#js-category_edit_text' + catID).addClass('hidden');
+
+            $('#js-category_title_input' + catID).val(catTitle);
+        }
+
+        function updateFolder(catID) {
+            $('#js-category_title_text' + catID).removeClass('hidden');
+            $('#js-category_title_input' + catID).addClass('hidden');
+
+            $('#js-category_actions' + catID).removeClass('hidden');
+            $('#js-category_edit_text' + catID).addClass('hidden');
+
+            var title = $('#js-category_title_input' + catID).val();
+            $.ajax({
+                url: "{{ route('documents.custom.category.update') }}",
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    id: catID,
+                    title: title,
+                },
+                type: "PATCH",
+                success: function (data) {
+                    $('#js-category_title_input' + catID).val(title);
+                    $('#js-category_title_text' + catID).html(title);
+                    $('#js-category_side_link_title' + catID).html(title);
+                }
+            });
+        }
         /*
             function search() {
                 $.ajax({

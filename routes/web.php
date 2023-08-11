@@ -346,7 +346,8 @@ Route::post('dropzone/store', [PersonalInfoController::class, 'dropzoneStore'])-
         Route::patch('/documents/favorite', [DocumentsController::class, 'favorite_doc'])->name('document.favorite');
         Route::post('/documents/custom/create', [DocumentsController::class, 'custom_create'])->name('documents.custom.category.create');
         Route::delete('/documents/custom/delete', [DocumentsController::class, 'custom_delete'])->name('documents.custom.category.delete');
-        
+        Route::patch('/documents/custom/update', [DocumentsController::class, 'custom_update'])->name('documents.custom.category.update');
+
         // Grow My Estate
         Route::resource('/growmyestate', GrowMyEstateController::class);
 

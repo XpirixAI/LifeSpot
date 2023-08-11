@@ -65,12 +65,33 @@ class DocumentsController extends Controller
         ]);
     }
 
-    public function custom_create(Request $request) {
+    public function custom_create(Request $request) 
+    {
         $user_id = Auth::user()->id;
         $title = $request->title;
 
         DB::table('user_custom_file_categories')->insert(['title' => $title, 'user_id' => $user_id]);
         return redirect()->back();
+    }
+
+    public function custom_delete(Request $request) 
+    {
+        $user_id = Auth::user()->id;
+        $cat_id = $request->id;
+
+        DB::table('user_custom_file_categories')->where(['user_id' => $user_id, 'id' => $cat_id])->delete();
+        return response()->json(['status' => 'Success']);
+    }
+
+    public function custom_update(Request $request) 
+    {
+        $user_id = Auth::user()->id;
+        $cat_id = $request->id;
+
+        DB::table('user_custom_file_categories')
+            ->where(['user_id' => $user_id, 'id' => $cat_id])
+            ->update(['title' => $request->title]);
+        return response()->json(['status' => 'Success']);
     }
 
     public function favorites(Request $request)
