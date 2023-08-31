@@ -1,8 +1,23 @@
 @extends('lifespot_layout')
 
 @section('content')
-<div class="pt-6 px-6">
-    <h1 class="font-black text-xl mb-4">Members & Other Estates</h1>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<style>
+    [x-cloak] {
+        display: none;
+    }
+</style>
+
+<div 
+    x-cloak
+    x-data="data"
+    @keydown.escape="isInviteModalOpen = false"
+    class="pt-6 px-6"
+>
+    <div class="flex flex-row justify-start items-center mb-4">
+        <h1 class="font-black text-xl">Members & Other Estates</h1>
+        <button class="ml-5 btn bg-blue-500 p-3 rounded-lg text-white" type="button" @click="toggleIsInviteModalOpen">Invite</button>
+    </div>
     <div class="lg:flex justify-between text-sm items-center ">
         <div class="flex space-x-3 ">
             <span class="hover:underline underline-offset-8 hover:text-blue-700">
@@ -29,7 +44,6 @@
         </div>
     </div>
     <div class="grid lg:grid-cols-4 gap-4 mt-5">
-
         <div class="lg:col-span-3">
 
             <div class="grid lg:grid-cols-2 gap-4">
@@ -310,14 +324,8 @@
                         </div>
                     </div>
                 </div>
-
-
-
-
-
             </div>
         </div>
-
         <div class="hidden md:block space-y-4">
             <form class="mb-2">
                 <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300">Search</label>
@@ -336,17 +344,52 @@
                     <h5 class="font-bold text-blue-500 text-xs">Invite a New Member</h5>
                 </div>
             </div>
-
             <div class="h-72 overflow-y-auto bg-blue-50 rounded-xl p-6">
                 <div class="rounded-full w-8 h-8 fond-black bg-blue-500 text-white text-xl py-1 px-3 mb-2">?</div>
                 <h3 class="text-black font-black">Why is this information important?</h3>
                 <p class="mt-2 text-xs">New members in your Lifespot account can include friends, family, and estate appointed members. Friends and family can be added to the account as part of the primary user’s network of contacts. Estate appointed members are typically people such as a family member, lawyer, or financial advisor who are responsible for managing your estate in the event of death or incapacity. These members can be added to the account to ensure that the user’s wishes are carried out and that the estate is managed properly. When the user adds an estate appointed member to the account, with Lifespot, they can set permissions for that member to access certain information, documents, and financial accounts associated with the user’s estate. This will help to ensure that the user’s wishes are followed and that the estate is managed effectively. Have Fun!</p>
             </div>
-
         </div>
     </div>
-
-
-
+    <div
+        x-cloak
+        x-show="isInviteModalOpen"
+        style="background-color: rgba(0, 0, 0, .5)"
+        class="fixed inset-0 z-30 flex items-center justify-center overflow-auto bg-black bg-opacity-50"
+    >
+        <div
+            @click.away="toggleIsInviteModalOpen()"
+            x-transition:enter="motion-safe:ease-out duration-500"
+            x-transition:enter-start="opacity-0 scale-90"
+            x-transition:enter-end="opacity-100 scale-100"
+            class="xmax-w-3xl px-5 py-4 mx-auto text-left bg-white rounded-xl shadow-lg"
+        >
+            <form method="POST" action="{{route('dispatch.invite.email')}}">
+                @csrf
+                @method('POST')
+                <label for="email_invite" class="font-semibold text-sm mb-2">Invite By Email</label>
+                <input id="email_invite" class="block mb-5 rounded-md" name="email" type="email" placeholder="john.doe@gmail.com" />
+                <label for="relationship_type" class="font-semibold text-sm mb-2">Relationship In Your Estate</label>
+                <select id="relationship_type" class="block mb-5 rounded-md w-full" name="relationship_type">
+                    <option value="" disabled selected>Select An Option</option>
+                    @foreach ($rel_types as $rel)
+                        <option value="{{$rel->id}}">{{$rel->title}}</option>
+                    @endforeach
+                </select>
+                <button type="submit" class="btn bg-blue-500 p-3 rounded-lg text-white float-right">Submit</button>
+            </form>
+        </div>
+    </div>
 </div>
 @endsection
+
+@push('js')
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('data', () => ({
+                'isInviteModalOpen': false,
+                toggleIsInviteModalOpen() { this.isInviteModalOpen = !this.isInviteModalOpen },
+            }))
+        });
+    </script>
+@endpush

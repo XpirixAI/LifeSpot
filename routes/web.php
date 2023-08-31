@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\AdmimController;
 use App\Http\Controllers\PriceController;
+use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\HelpAreaController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\HelpXpirixController;
@@ -393,6 +394,8 @@ Route::post('dropzone/store', [PersonalInfoController::class, 'dropzoneStore'])-
             return view('admin.help.index');
         })->name('help_content.index');
 
+        // Invite Routes
+        Route::post('/invite-member', [InvitationController::class, 'create'])->name('dispatch.invite.email');
 });
 
  /*  ------------------------End Auth - Member - Owner Access Routes --------------------------- */
