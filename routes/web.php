@@ -52,6 +52,8 @@ use App\Http\Controllers\LifeSpot\MyLifeSpot\Work_and_Education\EducationControl
 use App\Http\Controllers\LifeSpot\MyLifeSpot\Work_and_Education\VolunteerController;
 use App\Http\Controllers\LifeSpot\MyLifeSpot\Home_and_Property\AdditionalAssetController;
 
+use App\Mail\MyTestEmail;
+use Illuminate\Support\Facades\Mail;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,6 +71,11 @@ use App\Http\Controllers\LifeSpot\MyLifeSpot\Home_and_Property\AdditionalAssetCo
     /*  ---------------------------GUEST PUBLIC Access Routes --------------------------- */
 
     Route::get('/',[XpirixLandingPageController::class, 'index']);
+
+    // START Temporary pre-launch routes (delete post launch, or use for site maintenance)
+    // Route::get('/',[XpirixLandingPageController::class, 'temp_coming_soon'])->name('temp.coming.soon');
+    // Route::get('/temp-dev-pass',[XpirixLandingPageController::class, 'temp_dev_pass'])->name('temp.dev.pass');
+
     Route::get('/article/{post}',[XpirixLandingPageController::class, 'show'])->name('article.show');
 
     Route::get('/pricing', [PriceController::class, 'index'])->name('price');
@@ -400,3 +407,13 @@ Route::post('dropzone/store', [PersonalInfoController::class, 'dropzoneStore'])-
 
  /*  ------------------------End Auth - Member - Owner Access Routes --------------------------- */
 
+
+Route::get('/testroute', function() {
+    // $name = "Funny Coder";
+
+    // The email sending is done using the to method on the Mail facade
+
+    // Mail::to('coltondev01@gmail.com’')->send(new MyTestEmail($name));
+    Illuminate\Support\Facades\Log::info('DEV: Mail::to() fired');
+    Mail::to('coltondev01@gmail.com')->send(new MyTestEmail());
+})->name('test.email.send');

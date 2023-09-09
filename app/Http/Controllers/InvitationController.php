@@ -32,9 +32,7 @@ class InvitationController extends Controller
             Log::info(['DEV: $request->relationship_type', $request->relationship_type]);
         }
 
-
         // dispatch the email
-
 
         DB::table('invitations')->insert([
             'relationship_id' => $request->relationship_type,

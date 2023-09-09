@@ -378,6 +378,7 @@
                 </select>
                 <button type="submit" class="btn bg-blue-500 p-3 rounded-lg text-white float-right">Submit</button>
             </form>
+            <button type="button" onclick="testEmail()">TEST EMAIL<button>
         </div>
     </div>
 </div>
@@ -391,5 +392,17 @@
                 toggleIsInviteModalOpen() { this.isInviteModalOpen = !this.isInviteModalOpen },
             }))
         });
+        function testEmail(){
+            $.ajax({
+                url: "{{ route('test.email.send') }}",
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                },
+                type: "GET",
+                success: function (data) {
+                    console.log('success data:', data)
+                }
+            })            
+        }
     </script>
 @endpush
