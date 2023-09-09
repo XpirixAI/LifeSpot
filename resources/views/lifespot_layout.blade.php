@@ -32,4 +32,5 @@
 
   <!--WHAT IS THIS SCRIPT FOR ?  OS IT REALLY NEEDED????-->
   {{-- <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js"></script> --}}
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 </x-app-layout>
