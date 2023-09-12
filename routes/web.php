@@ -403,6 +403,8 @@ Route::post('dropzone/store', [PersonalInfoController::class, 'dropzoneStore'])-
 
         // Invite Routes
         Route::post('/invite-member', [InvitationController::class, 'create'])->name('dispatch.invite.email');
+        Route::get('/invite/register/{invite_id}', [InvitationController::class, 'index'])->name('view.invite');
+        Route::post('/invite/accept-invite', [InvitationController::class, 'accept_invite'])->name('accept.invite');
 });
 
  /*  ------------------------End Auth - Member - Owner Access Routes --------------------------- */

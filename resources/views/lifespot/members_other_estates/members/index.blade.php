@@ -28,7 +28,7 @@
             <span class="hover:underline underline-offset-8 hover:text-blue-700">
                 <a href="{{ route('other_estates') }}" class="{{ (Request::is('')? 'underline text-blue-700' : '') }}">
                     <span class="hidden lg:block">The Brandon Walker Family Estate</span>
-                    <span class="lg:hidden"> Brandon Walker Estate</span>
+                    <span class="lg:hidden">Brandon Walker Estate</span>
                 </a>
             </span>
         </div>
@@ -363,21 +363,16 @@
             x-transition:enter-end="opacity-100 scale-100"
             class="xmax-w-3xl px-5 py-4 mx-auto text-left bg-white rounded-xl shadow-lg"
         >
-            <form method="POST" action="{{route('dispatch.invite.email')}}">
-                @csrf
-                @method('POST')
-                <label for="email_invite" class="font-semibold text-sm mb-2">Invite By Email</label>
-                <input id="email_invite" class="block mb-5 rounded-md" name="email" type="email" placeholder="john.doe@gmail.com" />
-                <label for="relationship_type" class="font-semibold text-sm mb-2">Relationship In Your Estate</label>
-                <select id="relationship_type" class="block mb-5 rounded-md w-full" name="relationship_type">
-                    <option value="" disabled selected>Select An Option</option>
-                    @foreach ($rel_types as $rel)
-                        <option value="{{$rel->id}}">{{$rel->title}}</option>
-                    @endforeach
-                </select>
-                <button type="submit" class="btn bg-blue-500 p-3 rounded-lg text-white float-right">Submit</button>
-            </form>
-            <button type="button" onclick="testEmail()">TEST EMAIL<button>
+            <label for="email_invite" class="font-semibold text-sm mb-2">Invite By Email</label>
+            <input id="email_invite" class="block mb-5 rounded-md" name="email" type="email" placeholder="john.doe@gmail.com" />
+            <label for="relationship_type" class="font-semibold text-sm mb-2">Relationship In Your Estate</label>
+            <select id="relationship_type" class="block mb-5 rounded-md w-full" name="relationship_type">
+                <option value="" disabled selected>Select An Option</option>
+                @foreach ($rel_types as $rel)
+                    <option value="{{$rel->id}}">{{$rel->title}}</option>
+                @endforeach
+            </select>
+            <button type="button" class="btn bg-blue-500 p-3 rounded-lg text-white float-right" @click="submitInvite">Submit</button>
         </div>
     </div>
 </div>
@@ -389,19 +384,30 @@
             Alpine.data('data', () => ({
                 'isInviteModalOpen': false,
                 toggleIsInviteModalOpen() { this.isInviteModalOpen = !this.isInviteModalOpen },
-            }))
-        });
-        function testEmail(){
-            $.ajax({
-                url: "{{ route('test.email.send') }}",
-                data: {
-                    "_token": "{{ csrf_token() }}",
+                submitInvite() {
+
+                    // TODO: replace modal content with loading animation.
+                    // Do not allow user to click away while loading is occuring.
+                    var email = $('#email_invite').val();
+                    var rel = $('#relationship_type').val();
+                    $.ajax({
+                        context: this,
+                        url: "{{ route('dispatch.invite.email') }}",
+                        data: {
+                            "_token": "{{ csrf_token() }}",
+                            email: email,
+                            relationship_type: rel,
+                        },
+                        type: "POST",
+                        success: function (data) {                            
+                            this.toggleIsInviteModalOpen();
+                            $('#email_invite').val('');
+                            $('#relationship_type').val('');
+                            // TODO: remove loading animation
+                        }
+                    })
                 },
-                type: "GET",
-                success: function (data) {
-                    console.log('success data:', data)
-                }
-            })            
-        }
+            }));
+        });
     </script>
 @endpush

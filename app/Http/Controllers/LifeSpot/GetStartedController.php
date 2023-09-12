@@ -27,11 +27,11 @@ class GetStartedController extends Controller
                     ->orWhere('user_id', auth()->user()->id)->where('isPublic','private')->where('isPublished','Published')
                     // ->latest()
                     ->orderBy('updated_at','desc')
-                    ->orderBy('user_id','desc')->filter(
-                        request(['author','category','search']))
-                            // ->paginate(10)
-                            // ->withQueryString(),
-                            ->get(),
+                    ->orderBy('user_id','desc')
+                    ->filter(request(['author','category','search']))
+                        // ->paginate(10)
+                        // ->withQueryString(),
+                        ->get(),
             ]);
             } else {
 
@@ -42,11 +42,10 @@ class GetStartedController extends Controller
 
                         // ->latest()
                         ->orderBy('updated_at','desc')
-                        ->filter(
-                            request(['author', 'category','search']))
-                                // ->paginate(10)
-                                // ->withQueryString(),
-                                ->get(),
+                        ->filter(request(['author', 'category','search']))
+                            // ->paginate(10)
+                            // ->withQueryString(),
+                            ->get(),
                 ]);
         }
     }

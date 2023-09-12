@@ -9,6 +9,9 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+
 class MyTestEmail extends Mailable
 {
     use Queueable, SerializesModels;
@@ -18,7 +21,7 @@ class MyTestEmail extends Mailable
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(private $relationship, private $user, private $invite_id)
     {
         //
     }
@@ -44,6 +47,11 @@ class MyTestEmail extends Mailable
     {
         return new Content(
             view: 'mail.test-email',
+            with: [
+                'relationship' => $this->relationship,
+                'user' => $this->user,
+                'invite_id' => $this->invite_id,
+            ]
         );
     }
 

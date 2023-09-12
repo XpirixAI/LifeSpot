@@ -80,22 +80,21 @@ class XpirixLandingPageController extends Controller
                             // ->withQueryString(),
                             ->get(),
             ]);
-            } else {
+        } else {
+            return view('xpirix', compact('contents','categories'),[
+                'posts' => Post::where('isPublic','public')
+                    ->where('isPublished','Published')
+                    // ->orWhere('user_id', auth()->user()->id)->where('isPublic','private')
 
-                return view('xpirix', compact('contents','categories'),[
-                    'posts' => Post::where('isPublic','public')
-                        ->where('isPublished','Published')
-                        // ->orWhere('user_id', auth()->user()->id)->where('isPublic','private')
-
-                        // ->latest()
-                        ->orderBy('updated_at','desc')
-                        ->filter(
-                            request(['author', 'category','search']))
-                                // ->paginate(10)
-                                // ->withQueryString(),
-                                ->get(),
-                ]);
-        }
+                    // ->latest()
+                    ->orderBy('updated_at','desc')
+                    ->filter(
+                        request(['author', 'category','search']))
+                            // ->paginate(10)
+                            // ->withQueryString(),
+                            ->get(),
+            ]);
+    }
 
     }
 
