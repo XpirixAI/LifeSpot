@@ -6,16 +6,36 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
+use App\Mail\MyTestEmail;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
+
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Laravel\Jetstream\Jetstream;
+
+use App\Actions\Fortify\CreateNewUser;
+use App\Actions\Fortify\PasswordValidationRules;
+
 class InvitationController extends Controller
 {
+
+    use PasswordValidationRules;
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        // Log::info(['DEV: InviteController::index() $request:', $request]);
+        return view('auth.invite-register', [
+            'invite_id' => $request->invite_id,
+            'owner_id' => $request->owner_id,
+            'relationship_type' => $request->relationship_type
+        ]);
     }
 
     /**
@@ -25,19 +45,20 @@ class InvitationController extends Controller
      */
     public function create(Request $request)
     {
-        if(!empty($request->email)){
-            Log::info(['DEV: $request->email', $request->email]);
-        }
-        if(!empty($request->relationship_type)){
-            Log::info(['DEV: $request->relationship_type', $request->relationship_type]);
-        }
-
-        // dispatch the email
-
-        DB::table('invitations')->insert([
+        $relationship = DB::table('relationship_types')->where('id', $request->relationship_type)->first();
+        $user = Auth::user();
+        $invite_id = DB::table('invitations')->insertGetId([
             'relationship_id' => $request->relationship_type,
             'email' => $request->email,
+            'responded' => 0
         ]);
+
+        Mail::to($request->email)->send(new MyTestEmail(
+            $relationship,
+            $user,
+            $invite_id,
+        ));
+
         return redirect()->back();
     }
 
@@ -95,5 +116,37 @@ class InvitationController extends Controller
     public function destroy()
     {
         //
+    }
+
+    public function accept_invite(Request $request)
+    {
+        Validator::make($request->all(), [
+            'fname' => ['required', 'string', 'max:255'],
+            'lname' => ['required', 'string', 'max:255'],
+            'uname' => ['required', 'string', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => $this->passwordRules(),
+            'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
+        ])->validate();
+
+        $new_user_id = User::create([
+            'name' => $request->fname .' '. $request->lname,
+            'fname' => $request->fname,
+            'lname' => $request->lname,
+            'uname' => $request->uname,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ])->id;
+
+        DB::table('estate_relationships')->insert([
+            'owner_id' => $request->owner_id,
+            'relationship_type' => $request->relationship_type,
+            'rel_user_id' => $new_user_id,
+        ]);
+        DB::table('invitations')->where('id', $request->invite_id)->where('responded', 0)->update(['responded' => 1]);
+        
+        // TODO: automatically log user in
+
+        return redirect()->route('getting_started');
     }
 }

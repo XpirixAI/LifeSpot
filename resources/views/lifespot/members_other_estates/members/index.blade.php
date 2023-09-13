@@ -15,7 +15,6 @@
 >
     <div class="flex flex-row justify-start items-center mb-4">
         <h1 class="font-black text-xl">Members & Other Estates</h1>
-        <button class="ml-5 btn bg-blue-500 p-3 rounded-lg text-white" type="button" @click="toggleIsInviteModalOpen">Invite</button>
     </div>
     <div class="lg:flex justify-between text-sm items-center ">
         <div class="flex space-x-3 ">
@@ -28,7 +27,7 @@
             <span class="hover:underline underline-offset-8 hover:text-blue-700">
                 <a href="{{ route('other_estates') }}" class="{{ (Request::is('')? 'underline text-blue-700' : '') }}">
                     <span class="hidden lg:block">The Brandon Walker Family Estate</span>
-                    <span class="lg:hidden"> Brandon Walker Estate</span>
+                    <span class="lg:hidden">Brandon Walker Estate</span>
                 </a>
             </span>
         </div>
@@ -44,9 +43,7 @@
     </div>
     <div class="grid lg:grid-cols-4 gap-4 mt-5">
         <div class="lg:col-span-3">
-
             <div class="grid lg:grid-cols-2 gap-4">
-
                 <div>
                     <div class="block p-6 rounded-lg shadow-lg bg-white max-w-sm">
                       <div class="text-gray-900 text-xl leading-tight font-medium mb-8">
@@ -104,225 +101,64 @@
                     </div>
                 </div>
 
-                <div>
-                    <div class="block p-6 rounded-lg shadow-lg bg-white max-w-sm">
-                      <div class="text-gray-900 text-xl leading-tight font-medium mb-8">
-                        <div class="flex justify-between">
-                            <div class="flex space-x-2">
-                                <img class="h-12 w-12 rounded-full" src="{{ asset('img/WalkerFamilyPics/Sue.jpeg') }}" alt="">
-                                <div class="text-sm">
-                                    <span  class="font-bold text-blue-900">Sue Stuart</span>
-                                    <div class="text-gray-700">Friend</div>
-                                <div  class="flex px-2 pt-1 bg-gray-100 whitespace-nowrap text-gray-500 font-bold text-xs leading-tight uppercase rounded-full shadow-md">Executor
-                                </div>
-                                </div>
-                            </div>
-                             <span class="text-2xl font-bold text-right">...</span>
-                        </div>
-                      </div>
-
-                        <div class="flex justify-between">
-                            <div class="flex space-x-2 pr-2">
-                                <a href="#!">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-blue-500">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
-                                    </svg>
-
-                                </a>
-                                <a href="#!">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-blue-500">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-                                    </svg>
-
-                                </a>
-                                <a href="#!">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-blue-500">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.076-4.076a1.526 1.526 0 011.037-.443 48.282 48.282 0 005.68-.494c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
-                                    </svg>
-
-                                </a>
-                                <a href="#!">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-blue-500">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
-                                    </svg>
-
-                                </a>
-                            </div>
-                            <div class="flex justify-end">
-                                <button type="button" class="flex  px-2 pt-1 bg-blue-100 whitespace-nowrap text-blue-900 font-bold text-xs leading-tight uppercase rounded-full shadow-md hover:bg-blue-200 hover:shadow-lg focus:bg-blue-200 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-300 active:shadow-lg transition duration-150 ease-in-out">Emergency Contact
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-2 pb-1">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div>
-                    <div class="block p-6 rounded-lg shadow-lg bg-white max-w-sm">
-                      <div class="text-gray-900 text-xl leading-tight font-medium mb-8">
-                        <div class="flex justify-between">
-                            <div class="flex space-x-2">
-                                <img class="h-12 w-12 rounded-full" src="{{ asset('img/WalkerFamilyPics/tommy.webp') }}" alt="">
-                                <div class="text-sm">
-                                    <span  class="font-bold text-blue-900">Tommy Hill</span>
-                                    <div class="text-gray-700">Neighbor</div>
-                                <div  class="flex px-2 pt-1 bg-gray-100 whitespace-nowrap text-gray-500 font-bold text-xs leading-tight uppercase rounded-full shadow-md">Landscaper
-                                </div>
+                @foreach ($relations as $rel)
+                    <div>
+                        <div class="block p-6 rounded-lg shadow-lg bg-white max-w-sm">
+                            <div class="text-gray-900 text-xl leading-tight font-medium mb-8">
+                                <div class="flex justify-between">
+                                    <div class="flex space-x-2">
+                                        <img class="h-12 w-12 rounded-full" src="{{ (!empty($rel['user']->profile_photo_path)) ? asset('upload/admin_images/'.$rel['user']->profile_photo_path) : url('upload/no_image.png') }}" alt="Profile Image">
+                                        <div class="text-sm">
+                                            <span  class="font-bold text-blue-900">
+                                                {{ $rel['user']->name }}
+                                            </span>
+                                            <div class="text-gray-700">{{ $rel['info']->title }}</div>
+                                        <div  class="flex px-2 pt-1 bg-gray-100 whitespace-nowrap text-gray-500 font-bold text-xs leading-tight uppercase rounded-full shadow-md">Overview
+                                        </div>
+                                        </div>
+                                    </div>
+                                    <a href="#!" class="text-2xl font-bold text-right">...</a>
                                 </div>
                             </div>
-                             <span class="text-2xl font-bold text-right">...</span>
-                        </div>
-                      </div>
 
-                        <div class="flex justify-between">
-                            <div class="flex space-x-2 pr-2">
-                                <a href="#!">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-blue-500">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
-                                    </svg>
+                            <div class="flex justify-between">
+                                <div class="flex space-x-2 pr-2">
+                                    <a href="#!">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-blue-500">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
+                                        </svg>
 
-                                </a>
-                                <a href="#!">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-blue-500">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-                                    </svg>
+                                    </a>
+                                    <a href="#!">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-blue-500">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                                        </svg>
 
-                                </a>
-                                <a href="#!">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-blue-500">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.076-4.076a1.526 1.526 0 011.037-.443 48.282 48.282 0 005.68-.494c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
-                                    </svg>
+                                    </a>
+                                    <a href="#!">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-blue-500">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.076-4.076a1.526 1.526 0 011.037-.443 48.282 48.282 0 005.68-.494c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
+                                        </svg>
 
-                                </a>
-                                <a href="#!">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-blue-500">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
-                                    </svg>
+                                    </a>
+                                    <a href="#!">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-blue-500">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
+                                        </svg>
 
-                                </a>
-                            </div>
-                            <div class="flex justify-end">
-                                <button type="button" class="flex  px-2 pt-1 bg-blue-100 whitespace-nowrap text-blue-900 font-bold text-xs leading-tight uppercase rounded-full shadow-md hover:bg-blue-200 hover:shadow-lg focus:bg-blue-200 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-300 active:shadow-lg transition duration-150 ease-in-out">Lorem Ipsum
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-2 pb-1">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                                    </svg>
-                                </button>
+                                    </a>
+                                </div>
+                                <div class="flex justify-end">
+                                    <button type="button" class="flex  px-2 pt-1 bg-blue-100 whitespace-nowrap text-blue-900 font-bold text-xs leading-tight uppercase rounded-full shadow-md hover:bg-blue-200 hover:shadow-lg focus:bg-blue-200 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-300 active:shadow-lg transition duration-150 ease-in-out">Lorem Ipsum
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-2 pb-1">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                                        </svg>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div>
-                    <div class="block p-6 rounded-lg shadow-lg bg-white max-w-sm">
-                      <div class="text-gray-900 text-xl leading-tight font-medium mb-8">
-                        <div class="flex justify-between">
-                            <div class="flex space-x-2">
-                                <img class="h-12 w-12 rounded-full" src="{{ asset('img/WalkerFamilyPics/fidelity.png') }}" alt="">
-                                <div class="text-sm">
-                                    <span  class="font-bold text-blue-900">Gary McDaniel</span>
-                                    <div class="text-gray-700">Advisor</div>
-                                <div  class="flex px-2 pt-1 bg-gray-100 whitespace-nowrap text-gray-500 font-bold text-xs leading-tight uppercase rounded-full shadow-md">Trustee
-                                </div>
-                                </div>
-                            </div>
-                             <span class="text-2xl font-bold text-right">...</span>
-                        </div>
-                      </div>
-
-                        <div class="flex justify-between">
-                            <div class="flex space-x-2 pr-2">
-                                <a href="#!">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-blue-500">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
-                                    </svg>
-
-                                </a>
-                                <a href="#!">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-blue-500">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-                                    </svg>
-
-                                </a>
-                                <a href="#!">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-blue-500">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.076-4.076a1.526 1.526 0 011.037-.443 48.282 48.282 0 005.68-.494c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
-                                    </svg>
-
-                                </a>
-                                <a href="#!">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-blue-500">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
-                                    </svg>
-
-                                </a>
-                            </div>
-                            <div class="flex justify-end">
-                                <button type="button" class="flex  px-2 pt-1 bg-blue-100 whitespace-nowrap text-blue-900 font-bold text-xs leading-tight uppercase rounded-full shadow-md hover:bg-blue-200 hover:shadow-lg focus:bg-blue-200 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-300 active:shadow-lg transition duration-150 ease-in-out">Lorem Ipsum
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-2 pb-1">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div>
-                    <div class="block p-6 rounded-lg shadow-lg bg-white max-w-sm">
-                      <div class="text-gray-900 text-xl leading-tight font-medium mb-8">
-                        <div class="flex justify-between">
-                            <div class="flex space-x-2">
-                                <img class="h-12 w-12 rounded-full" src="{{ asset('img/WalkerFamilyPics/amy.webp') }}" alt="">
-                                <div class="text-sm">
-                                    <span  class="font-bold text-blue-900">Amy Smith</span>
-                                    <div class="text-gray-700">Baby Sitter</div>
-                                <div  class="flex px-2 pt-1 bg-gray-100 whitespace-nowrap text-gray-500 font-bold text-xs leading-tight uppercase rounded-full shadow-md">Helper
-                                </div>
-                                </div>
-                            </div>
-                             <span class="text-2xl font-bold text-right">...</span>
-                        </div>
-                      </div>
-
-                        <div class="flex justify-between">
-                            <div class="flex space-x-2 pr-2">
-                                <a href="#!">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-blue-500">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
-                                    </svg>
-
-                                </a>
-                                <a href="#!">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-blue-500">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-                                    </svg>
-
-                                </a>
-                                <a href="#!">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-blue-500">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.076-4.076a1.526 1.526 0 011.037-.443 48.282 48.282 0 005.68-.494c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
-                                    </svg>
-
-                                </a>
-                                <a href="#!">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-blue-500">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
-                                    </svg>
-
-                                </a>
-                            </div>
-                            <div class="flex justify-end">
-                                <button type="button" class="flex  px-2 pt-1 bg-blue-100 whitespace-nowrap text-blue-900 font-bold text-xs leading-tight uppercase rounded-full shadow-md hover:bg-blue-200 hover:shadow-lg focus:bg-blue-200 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-300 active:shadow-lg transition duration-150 ease-in-out">Lorem Ipsum
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-2 pb-1">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
         <div class="hidden md:block space-y-4">
@@ -335,12 +171,14 @@
                     <input type="search" id="default-search" class="block px-4 py-2 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search..." required="">
                 </div>
             </form>
+            
             <div class="bg-gray-50 text-center rounded-xl border border-gray-100 h-36 p-5 px-12">
                 <div>
                     <img class="rounded-full bg-white w-12 h-12 ml-8" src="{{ asset('img/add_user_icon.jpeg') }}" alt="">
                 </div>
-                <div class=" p-3">
-                    <h5 class="font-bold text-blue-500 text-xs">Invite a New Member</h5>
+                <div class="p-3">
+                    <button @click="toggleIsInviteModalOpen"><h5 class="font-bold text-blue-500 text-xs">Invite a New Member</h5></button>
+                    {{-- <button class="btn bg-blue-500 p-3 rounded-lg text-white" type="button">Invite</button> --}}
                 </div>
             </div>
             <div class="h-72 overflow-y-auto bg-blue-50 rounded-xl p-6">
@@ -363,21 +201,16 @@
             x-transition:enter-end="opacity-100 scale-100"
             class="xmax-w-3xl px-5 py-4 mx-auto text-left bg-white rounded-xl shadow-lg"
         >
-            <form method="POST" action="{{route('dispatch.invite.email')}}">
-                @csrf
-                @method('POST')
-                <label for="email_invite" class="font-semibold text-sm mb-2">Invite By Email</label>
-                <input id="email_invite" class="block mb-5 rounded-md" name="email" type="email" placeholder="john.doe@gmail.com" />
-                <label for="relationship_type" class="font-semibold text-sm mb-2">Relationship In Your Estate</label>
-                <select id="relationship_type" class="block mb-5 rounded-md w-full" name="relationship_type">
-                    <option value="" disabled selected>Select An Option</option>
-                    @foreach ($rel_types as $rel)
-                        <option value="{{$rel->id}}">{{$rel->title}}</option>
-                    @endforeach
-                </select>
-                <button type="submit" class="btn bg-blue-500 p-3 rounded-lg text-white float-right">Submit</button>
-            </form>
-            <button type="button" onclick="testEmail()">TEST EMAIL<button>
+            <label for="email_invite" class="font-semibold text-sm mb-2">Invite By Email</label>
+            <input id="email_invite" class="block mb-5 rounded-md" name="email" type="email" placeholder="john.doe@gmail.com" />
+            <label for="relationship_type" class="font-semibold text-sm mb-2">Relationship In Your Estate</label>
+            <select id="relationship_type" class="block mb-5 rounded-md w-full" name="relationship_type">
+                <option value="" disabled selected>Select An Option</option>
+                @foreach ($rel_types as $rel)
+                    <option value="{{$rel->id}}">{{$rel->title}}</option>
+                @endforeach
+            </select>
+            <button type="button" class="btn bg-blue-500 p-3 rounded-lg text-white float-right" @click="submitInvite">Submit</button>
         </div>
     </div>
 </div>
@@ -389,19 +222,30 @@
             Alpine.data('data', () => ({
                 'isInviteModalOpen': false,
                 toggleIsInviteModalOpen() { this.isInviteModalOpen = !this.isInviteModalOpen },
-            }))
-        });
-        function testEmail(){
-            $.ajax({
-                url: "{{ route('test.email.send') }}",
-                data: {
-                    "_token": "{{ csrf_token() }}",
+                submitInvite() {
+
+                    // TODO: replace modal content with loading animation.
+                    // Do not allow user to click away while loading is occuring.
+                    var email = $('#email_invite').val();
+                    var rel = $('#relationship_type').val();
+                    $.ajax({
+                        context: this,
+                        url: "{{ route('dispatch.invite.email') }}",
+                        data: {
+                            "_token": "{{ csrf_token() }}",
+                            email: email,
+                            relationship_type: rel,
+                        },
+                        type: "POST",
+                        success: function (data) {                            
+                            this.toggleIsInviteModalOpen();
+                            $('#email_invite').val('');
+                            $('#relationship_type').val('');
+                            // TODO: remove loading animation
+                        }
+                    })
                 },
-                type: "GET",
-                success: function (data) {
-                    console.log('success data:', data)
-                }
-            })            
-        }
+            }));
+        });
     </script>
 @endpush

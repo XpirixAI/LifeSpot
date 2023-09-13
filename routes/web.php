@@ -403,17 +403,9 @@ Route::post('dropzone/store', [PersonalInfoController::class, 'dropzoneStore'])-
 
         // Invite Routes
         Route::post('/invite-member', [InvitationController::class, 'create'])->name('dispatch.invite.email');
+        Route::get('/invite/register/{invite_id}', [InvitationController::class, 'index'])->name('view.invite');
+        Route::post('/invite/accept-invite', [InvitationController::class, 'accept_invite'])->name('accept.invite');
 });
 
  /*  ------------------------End Auth - Member - Owner Access Routes --------------------------- */
-
-
-Route::get('/testroute', function() {
-    // $name = "Funny Coder";
-
-    // The email sending is done using the to method on the Mail facade
-
-    // Mail::to('coltondev01@gmail.com’')->send(new MyTestEmail($name));
-    Illuminate\Support\Facades\Log::info('DEV: Mail::to() fired');
-    Mail::to('coltondev01@gmail.com')->send(new MyTestEmail());
-})->name('test.email.send');
+ 
