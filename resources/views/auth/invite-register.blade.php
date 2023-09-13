@@ -67,6 +67,8 @@
             </div>
 
             <input type="hidden" value="{{$invite_id}}" name="invite_id" />
+            <input type="hidden" value="{{$relationship_type}}" name="relationship_type" />
+            <input type="hidden" value="{{$owner_id}}" name="owner_id" />
         </form>
     </x-jet-authentication-card>
 </x-guest-layout>

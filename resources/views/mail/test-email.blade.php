@@ -20,7 +20,13 @@
         <div>
             <p>Hi,</p>
             <p>You have been invited to join LifeSpot as {{ $user->name }}'s {{ $relationship->title }}</p>
-            <a href="{{route('view.invite', [ 'invite_id' => $invite_id ])}}">Sign up here.</a>
+            <a 
+                href="{{route('view.invite', [
+                    'invite_id' => $invite_id,
+                    'relationship_type' => $relationship->id,
+                    'owner_id' => $user->id 
+                ])}}"
+            >Sign up here.</a>
         </div>
     </body>
 </html>

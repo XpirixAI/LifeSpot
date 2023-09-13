@@ -21,8 +21,11 @@ class MyTestEmail extends Mailable
      *
      * @return void
      */
-    public function __construct(private $relationship, private $user, private $invite_id)
-    {
+    public function __construct(
+        private $relationship,
+        private $user,
+        private $invite_id
+    ) {
         //
     }
 

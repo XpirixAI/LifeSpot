@@ -9,7 +9,7 @@
             <div class="hover:underline underline-offset-8 hover:text-blue-700">
                 <a href="{{ route('mymembers') }}" class="{{ (Request::is('')? 'underline text-blue-700' : '') }}">
                     <span class="hidden lg:block">The {{ Auth::user()->fname }} {{ Auth::user()->lname }} Family Estate</span>
-                    <span class="lg:hidden">{{ Auth::user()->fname }} {{ Auth::user()->lname }} Estate</span>
+                    <span class="lg:hidden">{{ Auth::user()->fname }} {{ Auth::user()->lname }} Estate TEST</span>
                 </a>
             </div>
             <div class="hover:underline underline-offset-8 hover:text-blue-700">
