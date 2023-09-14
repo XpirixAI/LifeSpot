@@ -94,6 +94,10 @@ use Illuminate\Support\Facades\Mail;
     Route::get('/grow-lifespot-help', [HelpArticleController::class, 'growLifespot'])->name('grow_lifespot_article');
     Route::get('/wepspot-help', [HelpArticleController::class, 'webspotArticle'])->name('webspot_article');
 
+    // Off-Platform User Invite
+    Route::get('/invite/register/{invite_id}', [InvitationController::class, 'index'])->name('view.invite');
+    Route::post('/invite/accept-invite', [InvitationController::class, 'accept_invite'])->name('accept.invite');
+
     /*  ---------------------------------------------------------------------------------------*/
     /*                         End Guest/Public Access Routes                                  */
     /*  ---------------------------------------------------------------------------------------*/
@@ -109,8 +113,8 @@ use Illuminate\Support\Facades\Mail;
         'verified'
     ])->group(function () {
 
-Route::get('dropzone', [PersonalInfoController::class, 'dropzone']);
-Route::post('dropzone/store', [PersonalInfoController::class, 'dropzoneStore'])->name('dropzone.store');
+        Route::get('dropzone', [PersonalInfoController::class, 'dropzone']);
+        Route::post('dropzone/store', [PersonalInfoController::class, 'dropzoneStore'])->name('dropzone.store');
 
 
         // LifeSpot Getting Started Routes
@@ -403,8 +407,6 @@ Route::post('dropzone/store', [PersonalInfoController::class, 'dropzoneStore'])-
 
         // Invite Routes
         Route::post('/invite-member', [InvitationController::class, 'create'])->name('dispatch.invite.email');
-        Route::get('/invite/register/{invite_id}', [InvitationController::class, 'index'])->name('view.invite');
-        Route::post('/invite/accept-invite', [InvitationController::class, 'accept_invite'])->name('accept.invite');
 });
 
  /*  ------------------------End Auth - Member - Owner Access Routes --------------------------- */
