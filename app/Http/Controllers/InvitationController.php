@@ -30,7 +30,14 @@ class InvitationController extends Controller
      */
     public function index(Request $request)
     {
-        // Log::info(['DEV: InviteController::index() $request:', $request]);
+        if(Auth::check()) {            
+            Auth::logout();
+
+            $request->session()->invalidate();
+ 
+            $request->session()->regenerateToken();
+        }
+        
         return view('auth.invite-register', [
             'invite_id' => $request->invite_id,
             'owner_id' => $request->owner_id,
@@ -129,23 +136,23 @@ class InvitationController extends Controller
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
         ])->validate();
 
-        $new_user_id = User::create([
+        $new_user = User::create([
             'name' => $request->fname .' '. $request->lname,
             'fname' => $request->fname,
             'lname' => $request->lname,
             'uname' => $request->uname,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-        ])->id;
+        ]);
 
         DB::table('estate_relationships')->insert([
             'owner_id' => $request->owner_id,
             'relationship_type' => $request->relationship_type,
-            'rel_user_id' => $new_user_id,
+            'rel_user_id' => $new_user->id,
         ]);
         DB::table('invitations')->where('id', $request->invite_id)->where('responded', 0)->update(['responded' => 1]);
-        
-        // TODO: automatically log user in
+
+        Auth::attempt(['email' => $request->email, 'password' => $request->password]);
 
         return redirect()->route('getting_started');
     }
