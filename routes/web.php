@@ -343,6 +343,11 @@ use Illuminate\Support\Facades\Mail;
         // Members & Other Estates
         Route::get('members',[MembersController::class, 'index'])->name('mymembers');
         Route::get('members/other_estates',[OtherEstatesController::class, 'index'])->name('other_estates');
+        
+        Route::get('members/get_user_document_permissions', [MembersController::class, 'get_user_document_permissions'])
+            ->name('get.user.document.permissions');
+        Route::post('members/update_user_document_permissions', [MembersController::class, 'update_user_document_permissions'])
+            ->name('update.user.document.permissions');
 
         //Documents
             // ...handling change of page/view

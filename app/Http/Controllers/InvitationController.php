@@ -30,7 +30,7 @@ class InvitationController extends Controller
      */
     public function index(Request $request)
     {
-        if(Auth::check()) {            
+        if(Auth::check()) {
             Auth::logout();
 
             $request->session()->invalidate();
