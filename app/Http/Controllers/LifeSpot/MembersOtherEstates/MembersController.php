@@ -54,14 +54,29 @@ class MembersController extends Controller
         $files = [];
         $default_file_categories = DB::table('file_categories')->get();
         $custom_file_categories = [];
-
-        // IF selected estate is not owned by the current user, get list of current documents and permissions
+        
+        // IF selected estate is not owned by the current user, get list of current documents
         if($is_owned_by_current_user) {
             $files = DB::table('files')->where('user_id', $user_id)->get();
             $custom_file_categories = DB::table('user_custom_file_categories')->where('user_id', $user_id)->get();
         // ELSE, find all shared documents for display in modal
         } else {
-            
+            $files = DB::table('files')
+                ->where('user_id', $owner_id)
+                ->get();
+
+            $doc_permissions = DB::table('estate_user_file_permissions')
+                ->where('doc_owner_id', $owner_id)
+                ->where('doc_viewer_id', $user_id)
+                ->get();
+
+            $allowed_file_ids = $doc_permissions->map(function($permission){ 
+                return $permission->doc_id;
+            })->toArray();
+
+            $files = $files->filter(function($file) use ($allowed_file_ids){
+                return in_array($file->id, $allowed_file_ids);
+            });
         }
 
         return view('lifespot.members_other_estates.members.index')
@@ -84,7 +99,6 @@ class MembersController extends Controller
 
         $permissions = [];
         foreach($request->file_permissions as $file_name => $file_perm) {
-            Log::info(['DEV: $file_perm', $file_perm]);
             if($file_perm == 'true') {
                 // $file_type = strtok($file_name, "_");
                 $file_id = (int)substr($file_name, strrpos($file_name, '_') + 1);
@@ -107,13 +121,29 @@ class MembersController extends Controller
 
     public function get_user_document_permissions(Request $request) {
         $doc_permissions = DB::table('estate_user_file_permissions')
+            ->where('doc_owner_id', Auth::user()->id)
             ->where('doc_viewer_id', $request->doc_viewer_id)
             ->get();
-        Log::info(['DEV: doc_permissions', $doc_permissions]);
         return response()
             ->json([
                 'doc_permissions' => $doc_permissions
             ]);
     }
     // END document permissions methods
+
+    public function download_file(Request $request)
+    {
+        $file = DB::table('files')->where('id', $request->fileID)->first();
+
+        // $file= public_path()."/storage".$request->fileName;
+        $file_path = storage_path('app/upload/'.$file->name);
+
+        $headers = [
+            'Content-Type' => 'application/pdf',
+        ];
+
+        return response()->download($file_path, $file->title, $headers);
+
+        // return response()->json(['success'=>'success']);
+    }
 }

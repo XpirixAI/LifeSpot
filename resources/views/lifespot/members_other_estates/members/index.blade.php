@@ -253,7 +253,24 @@
                 x-transition:enter-end="opacity-100 scale-100"
                 class="xmax-w-3xl px-5 py-4 mx-auto text-left bg-white rounded-xl shadow-lg"
             >
-                <h1>Shared Documents</h1>
+                <div>
+                    <div class="border-b-4 mb-4">
+                        <h3 class="h3">Documents Shared With You</h1>
+                    </div>
+                    @foreach($files as $file)
+                        <div class="border-b-2 py-2 flex justify-between item-center">
+                            <div>{{$file->title}}</div>
+                            <form method="GET" action="{{route('download.file')}}">
+                                <label>
+                                    <input type="submit" value="{{$file->id}}" name="fileID" class="hidden"/>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="blue" class="w-6 h-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15M9 12l3 3m0 0l3-3m-3 3V2.25" />
+                                    </svg>
+                                </label>
+                            </form>
+                        </div>
+                    @endforeach
+                </div>
             </div>
         </div>
         {{-- END SHARED DOCUMENTS MODAL --}}
@@ -436,22 +453,23 @@
                                 doc_viewer_id: user_id,
                             },
                             type: "GET",
-                            success: function (data) {       
-                                console.log('data.doc_permissions:', data.doc_permissions);           
+                            success: function (data) {
                                 data.doc_permissions.forEach(filePerm => {
                                     if($('#custom_cat_file_' + filePerm.doc_id).length) {
                                         $('#custom_cat_file_' + filePerm.doc_id).prop('checked', true);
                                     } else if($('#default_cat_file_' + filePerm.doc_id).length) {
-                                        $('#default_cat_file_' + filePerm.doc_id).prop('checked', true)
+                                        $('#default_cat_file_' + filePerm.doc_id).prop('checked', true);
                                     } else {
                                         console.log("no input found");
                                     }
                                 })
+                                // TODO: create logic to check categories and the 'ALL DOCUMENTS' inputs if all relevant files have been given viewing permission
                                 this.isDocumentPermissionsModalOpen = true;
                             }
                         });
                     }
                     else {
+                        $('.file_checkbox').prop('checked', true);
                         $('#doc_permissions_user_id').val('');
                         $('.doc_permissions_modal_accordion_content').addClass('hidden');
                         this.isDocumentPermissionsModalOpen = false;
@@ -503,7 +521,7 @@
                             $('#relationship_type').val('');
                             // TODO: remove loading animation
                         }
-                    })
+                    });
                 },
             }));
         });
@@ -515,8 +533,7 @@
                 $('.file_checkbox').prop('checked', e.target.checked);
                 $('.cat_checkbox').prop('checked', e.target.checked);
             });
-        });
-       
+        });       
         function toggleAccordion(id, isDefaultCategory) {            
             var type_string = isDefaultCategory ? 'default' : 'custom';
             var opening = $('#' + type_string + '_doc_category_content_' + id).hasClass('hidden');
@@ -533,7 +550,6 @@
                 $('#' + type_string + '_doc_category_' + id + '_chevron_down').removeClass('hidden');
             }
         }
-
         function checkCategory(id, isDefaultCategory, e) {
             // stop propagation
             if (!e) var e = window.event
@@ -549,5 +565,20 @@
             $('.' + type_string + '_cat_' + id + '_file_checkbox').prop('checked', e.target.checked);
         }
         // END functions for Document Permission modal, UI
+
+
+        function downloadFile(fileID){
+            $.ajax({
+                url: "{{ route('download.file') }}",
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    fileID: fileID
+                },
+                type: "GET",
+                success: function (data) {
+                    console.log('success');               
+                }
+            });
+        }
     </script>
 @endpush
