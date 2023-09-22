@@ -154,7 +154,7 @@ class DocumentsController extends Controller
         }
 
         if($request->formFile) {
-            $formFile = $request-> formFile;
+            $formFile = $request->formFile;
             $fileName = time().'.'.$formFile->extension();
             $fileTitle = $formFile->getClientOriginalName();
         }
