@@ -4,7 +4,13 @@ namespace App\Http\Livewire\Admin\Messages;
 
 use App\Models\Conversation;
 use App\Models\Message;
+use App\Models\User;
 use Livewire\Component;
+
+
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class ListConversationAndMessages extends Component
 {
@@ -55,8 +61,24 @@ class ListConversationAndMessages extends Component
             ->latest()
             ->get();
 
+        // Find users that are in the current user's estate
+        $relations = array();
+
+        $estate_relationships = DB::table('estate_relationships')->where('owner_id', Auth::user()->id)->get();
+        foreach($estate_relationships as $estate_rel) {
+            $rel_user = User::find($estate_rel->rel_user_id);
+            array_push($relations, $rel_user);
+        }
+        
+        $other_estate_relationships = DB::table('estate_relationships')->where('rel_user_id', Auth::user()->id)->get();
+        foreach($other_estate_relationships as $estate_rel) {
+            $rel_user = User::find($estate_rel->rel_user_id);
+            array_push($relations, $rel_user);
+        }
+
         return view('livewire.admin.messages.list-conversation-and-messages', [
-            'conversations' => $conversations
+            'conversations' => $conversations,
+            'users' => $relations,
         ]);
     }
 

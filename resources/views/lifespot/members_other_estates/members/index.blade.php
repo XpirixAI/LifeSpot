@@ -10,7 +10,8 @@
     <div 
         x-cloak
         x-data="data"
-        @keydown.escape="isInviteModalOpen = false"
+        @body-scroll="document.body.style.overflowY = (isInviteModalOpen || isSharedDocumentsModalOpen || isDocumentPermissionsModalOpen) ? 'hidden' : ''"
+        {{-- @keydown.escape="isInviteModalOpen = false" --}}
         class="pt-6 px-6"
     >
         <div class="flex flex-row justify-start items-center mb-4">
@@ -66,7 +67,7 @@
                         </form>
                     </div>
                     <div class="col-span-2 flex items-center justify-end">
-                        <button @click="toggleIsInviteModalOpen" type="button" href="#!" class="flex space-x-2 font-bold items-center text-blue-700 pr-8 lg:my-0 my-4">
+                        <button @click="toggleIsInviteModalOpen()" type="button" href="#!" class="flex space-x-2 font-bold items-center text-blue-700 pr-8 lg:my-0 my-4">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-blue-700 ">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
@@ -78,7 +79,7 @@
 
                 @if(!$is_owned_by_current_user)
                     <div class="w-full flex justify-end">
-                        <button @click="toggleIsSharedDocumentsModalOpen" type="button" href="#!" class="flex space-x-2 font-bold items-center text-blue-700 pr-8 lg:my-0 my-4">
+                        <button @click="toggleIsSharedDocumentsModalOpen()" type="button" href="#!" class="flex space-x-2 font-bold items-center text-blue-700 pr-8 lg:my-0 my-4">
                             <span>View Shared Documents</span>
                         </button>
                     </div>
@@ -113,7 +114,7 @@
                                         </svg>
                                     </a> --}}
                                     @if(!$is_owned_by_current_user)
-                                        <button type="button" @click="toggleIsDocumentPermissionsModalOpen">
+                                        <button type="button" @click="toggleIsDocumentPermissionsModalOpen()">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-blue-500">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
                                             </svg>
@@ -171,7 +172,7 @@
 
                                         </a> --}}
                                         @if($is_owned_by_current_user)
-                                            <button type="button" @click="toggleIsDocumentPermissionsModalOpen({{$rel['user']->id}})">
+                                            <button type="button" @click="toggleIsDocumentPermissionsModalOpen({{ $rel['user']->id }})">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-blue-500">
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
                                                 </svg>
@@ -212,232 +213,247 @@
         </div>
 
         {{-- START INVITE USER MODAL --}}
-        <div
-            x-cloak
-            x-show="isInviteModalOpen"
-            style="background-color: rgba(0, 0, 0, .5)"
-            class="fixed inset-0 z-30 flex items-center justify-center overflow-auto bg-black bg-opacity-50"
-        >
             <div
-                @click.away="toggleIsInviteModalOpen()"
-                x-transition:enter="motion-safe:ease-out duration-500"
-                x-transition:enter-start="opacity-0 scale-90"
-                x-transition:enter-end="opacity-100 scale-100"
-                class="xmax-w-3xl px-5 py-4 mx-auto text-left bg-white rounded-xl shadow-lg"
+                x-cloak
+                x-show="isInviteModalOpen"
+                style="background-color: rgba(0, 0, 0, .5)"
+                class="fixed inset-0 z-30 flex items-center justify-center bg-black bg-opacity-50"
             >
-                <label for="email_invite" class="font-semibold text-sm mb-2">Invite By Email</label>
-                <input id="email_invite" class="block mb-5 rounded-md" name="email" type="email" placeholder="john.doe@gmail.com" />
-                <label for="relationship_type" class="font-semibold text-sm mb-2">Relationship In Your Estate</label>
-                <select id="relationship_type" class="block mb-5 rounded-md w-full" name="relationship_type">
-                    <option value="" disabled selected>Select An Option</option>
-                    @foreach ($rel_types as $rel)
-                        <option value="{{$rel->id}}">{{$rel->title}}</option>
-                    @endforeach
-                </select>
-                <button type="button" class="btn bg-blue-500 p-3 rounded-lg text-white float-right" @click="submitInvite">Submit</button>
+                <div
+                    @click.away="toggleIsInviteModalOpen()"
+                    x-transition:enter="motion-safe:ease-out duration-500"
+                    x-transition:enter-start="opacity-0 scale-90"
+                    x-transition:enter-end="opacity-100 scale-100"
+                    class="px-5 py-4 mx-auto text-left bg-white rounded-xl shadow-lg"
+                >
+                    <div class="overflow-y-auto h-60">
+                        <label for="email_invite" class="font-semibold text-sm mb-2">Invite By Email</label>
+                        <input id="email_invite" class="block mb-5 rounded-md" name="email" type="email" placeholder="john.doe@gmail.com" />
+                        <table id="suggested_contacts_table" class="table table-bordered data-table">
+                            <thead>
+                                <tr>
+                                    <th>Avatar</th>
+                                    <th>Name</th>
+                                    <th width="100px">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                        <label for="relationship_type" class="font-semibold text-sm mb-2">Relationship In Your Estate</label>
+                        <select id="relationship_type" class="block mb-5 rounded-md w-full" name="relationship_type">
+                            <option value="" disabled selected>Select An Option</option>
+                            @foreach ($rel_types as $rel)
+                                <option value="{{$rel->id}}">{{$rel->title}}</option>
+                            @endforeach
+                        </select>
+                        <button type="button" class="btn bg-blue-500 p-3 rounded-lg text-white float-right" @click="submitInvite">Submit</button>
+                    </div>
+                </div>
             </div>
-        </div>
         {{-- END INVITE USER MODAL --}}
 
         {{-- START SHARED DOCUMENTS MODAL --}}
-        <div
-            x-cloak
-            x-show="isSharedDocumentsModalOpen"
-            style="background-color: rgba(0, 0, 0, .5)"
-            class="fixed inset-0 z-30 flex items-center justify-center overflow-auto bg-black bg-opacity-50"
-        >
             <div
-                @click.away="toggleIsSharedDocumentsModalOpen()"
-                x-transition:enter="motion-safe:ease-out duration-500"
-                x-transition:enter-start="opacity-0 scale-90"
-                x-transition:enter-end="opacity-100 scale-100"
-                class="xmax-w-3xl px-5 py-4 mx-auto text-left bg-white rounded-xl shadow-lg"
+                x-cloak
+                x-show="isSharedDocumentsModalOpen"
+                style="background-color: rgba(0, 0, 0, .5)"
+                class="fixed inset-0 z-30 flex items-center justify-center overflow-auto bg-black bg-opacity-50"
             >
-                <div>
-                    <div class="border-b-4 mb-4">
-                        <h3 class="h3">Documents Shared With You</h1>
-                    </div>
-                    @foreach($files as $file)
-                        <div class="border-b-2 py-2 flex justify-between item-center">
-                            <div>{{$file->title}}</div>
-                            <form method="GET" action="{{route('download.file')}}">
-                                <label>
-                                    <input type="submit" value="{{$file->id}}" name="fileID" class="hidden"/>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="blue" class="w-6 h-6">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15M9 12l3 3m0 0l3-3m-3 3V2.25" />
-                                    </svg>
-                                </label>
-                            </form>
+                <div
+                    @click.away="toggleIsSharedDocumentsModalOpen()"
+                    x-transition:enter="motion-safe:ease-out duration-500"
+                    x-transition:enter-start="opacity-0 scale-90"
+                    x-transition:enter-end="opacity-100 scale-100"
+                    class="xmax-w-3xl px-5 py-4 mx-auto text-left bg-white rounded-xl shadow-lg"
+                >
+                    <div>
+                        <div class="border-b-4 mb-4">
+                            <h3 class="h3">Documents Shared With You</h1>
                         </div>
-                    @endforeach
+                        @foreach($files as $file)
+                            <div class="border-b-2 py-2 flex justify-between item-center">
+                                <div>{{$file->title}}</div>
+                                <form method="GET" action="{{route('download.file')}}">
+                                    <label>
+                                        <input type="submit" value="{{$file->id}}" name="fileID" class="hidden"/>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="blue" class="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15M9 12l3 3m0 0l3-3m-3 3V2.25" />
+                                        </svg>
+                                    </label>
+                                </form>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
             </div>
-        </div>
         {{-- END SHARED DOCUMENTS MODAL --}}
 
         {{-- START DOCUMENT PERMISSIONS MODAL --}}
-        <div
-            x-cloak
-            x-show="isDocumentPermissionsModalOpen"
-            {{-- x-trap.noscroll="open" --}}
-            style="background-color: rgba(0, 0, 0, .5)"
-            class="fixed inset-0 z-30 flex items-center justify-center overflow-auto bg-black bg-opacity-50"
-        >
             <div
-                @click.away="toggleIsDocumentPermissionsModalOpen()"
-                x-transition:enter="motion-safe:ease-out duration-500"
-                x-transition:enter-start="opacity-0 scale-90"
-                x-transition:enter-end="opacity-100 scale-100"
-                class="xmax-w-5xl px-5 py-4 mx-auto text-left bg-white rounded-xl shadow-lg"
+                x-cloak
+                x-show="isDocumentPermissionsModalOpen"
+                {{-- x-trap.noscroll="open" --}}
+                style="background-color: rgba(0, 0, 0, .5)"
+                class="fixed inset-0 z-30 flex items-center justify-center overflow-auto bg-black bg-opacity-50"
             >
-                <div class="max-h-36 overflow-y-scroll">
-                    <h3 class="border-b-4 mb-4">Document Permissions</h1>
-                    <div>
-                        <div class="mb-6">
-                            <div class="flex justify-start items-center my-4">
-                                <input
-                                    id="all_documents_checkbox"
-                                    type="checkbox"
-                                    class="rounded-full mr-2"
-                                    name="all-documents"
-                                />
-                                <label for="all_documents_checkbox">ALL DOCUMENTS</label>
+                <div
+                    @click.away="toggleIsDocumentPermissionsModalOpen()"
+                    x-transition:enter="motion-safe:ease-out duration-500"
+                    x-transition:enter-start="opacity-0 scale-90"
+                    x-transition:enter-end="opacity-100 scale-100"
+                    class="xmax-w-5xl px-5 py-4 mx-auto text-left bg-white rounded-xl shadow-lg"
+                >
+                    <div class="max-h-36 overflow-y-scroll">
+                        <h3 class="border-b-4 mb-4">Document Permissions</h1>
+                        <div>
+                            <div class="mb-6">
+                                <div class="flex justify-start items-center my-4">
+                                    <input
+                                        id="all_documents_checkbox"
+                                        type="checkbox"
+                                        class="rounded-full mr-2"
+                                        name="all-documents"
+                                    />
+                                    <label for="all_documents_checkbox">ALL DOCUMENTS</label>
+                                </div>
+                                @foreach($default_file_categories as $cat)
+                                    <div class="border-b-2 w-full min-w-32 mb-2">
+                                        <button
+                                            type="button"
+                                            class="w-full"
+                                            onclick="toggleAccordion({{$cat->id}}, true)"
+                                        >
+                                            <div
+                                                id="default_doc_category_{{$cat->id}} w-full"
+                                                class="flex justify-between items-center"
+                                            >
+                                                <div class="flex justify-start items-center">
+                                                    <input
+                                                        type="checkbox"
+                                                        name="default_cat_{{$cat->id}}"
+                                                        class="cat_checkbox mr-2 rounded-full"
+                                                        onclick="checkCategory({{$cat->id}}, true)"
+                                                        id="default_cat_{{$cat->id}}"
+                                                    />
+                                                    <label for="default_cat_{{$cat->id}}" >{{$cat->title}}</label>
+                                                </div>
+                                                <div id="default_doc_category_{{$cat->id}}_chevron_down">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                                                    </svg>
+                                                </div>
+                                                <div id="default_doc_category_{{$cat->id}}_chevron_up" class="hidden">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+                                                    </svg>
+
+                                                </div>
+                                            </div>
+                                        </button>
+                                        <div id="default_doc_category_content_{{$cat->id}}" class="doc_permissions_modal_accordion_content hidden my-4">
+                                            @if(count($files->filter(function($file) use ($cat) { return $file->category == $cat->id && !$file->is_custom_category; })) >= 1)
+                                                @foreach($files as $file)
+                                                    @if($file->category == $cat->id && !$file->is_custom_category)
+                                                        <div class="flex justify-between items-center">
+                                                            <label for="default_cat_file_{{$file->id}}">{{$file->title}}</label>
+                                                            <input
+                                                                id="default_cat_file_{{$file->id}}"
+                                                                type="checkbox"
+                                                                name="default_cat_file_{{$file->id}}"
+                                                                class="default_cat_{{$cat->id}}_file_checkbox file_checkbox rounded-full"
+                                                            />
+                                                        </div>
+                                                    @endif
+                                                @endforeach 
+                                            @else
+                                                <div>No Files</div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                @endforeach
+
+                                @foreach($custom_file_categories as $cat)
+                                    <div class="border-b-2 w-full min-w-32 mb-2">
+                                        <button
+                                            type="button"
+                                            class="w-full"
+                                            onclick="toggleAccordion({{$cat->id}}, false)"
+                                        >
+                                            <div
+                                                id="custom_doc_category_{{$cat->id}} w-full"
+                                                class="flex justify-between"
+                                            >
+                                                <div class="mr-6 flex justify-start items-center">
+                                                    <input
+                                                        id="custom_cat_{{$cat->id}}"
+                                                        type="checkbox"
+                                                        name="custom_cat_{{$cat->id}}"
+                                                        class="cat_checkbox mr-2 rounded-full"
+                                                        onclick="checkCategory({{$cat->id}}, false)"
+                                                    />
+                                                    <label for="custom_cat_{{$cat->id}}">
+                                                        {{$cat->title}}
+                                                    </label>
+                                                </div>
+                                                <div id="custom_doc_category_{{$cat->id}}_chevron_down">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                                                    </svg>
+                                                </div>
+                                                <div id="custom_doc_category_{{$cat->id}}_chevron_up" class="hidden">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+                                                    </svg>
+
+                                                </div>
+                                            </div>
+                                        </button>
+                                        <div id="custom_doc_category_content_{{$cat->id}}" class="doc_permissions_modal_accordion_content hidden my-4">
+                                            @if(count($files->filter(function($file) use ($cat) { return $file->category == $cat->id && $file->is_custom_category; })) >= 1)
+                                                @foreach($files as $file)
+                                                @if($file->category == $cat->id && $file->is_custom_category)
+                                                        <div class="flex justify-between items-center">
+                                                            <label for="custom_cat_file_{{$file->id}}">
+                                                                {{$file->title}}
+                                                            </label>
+                                                            <input
+                                                                id="custom_cat_file_{{$file->id}}"
+                                                                type="checkbox"
+                                                                name="custom_cat_file_{{$file->id}}"
+                                                                class="custom_cat_{{$cat->id}}_file_checkbox file_checkbox rounded-full"
+                                                            />
+                                                        </div>
+                                                    @endif
+                                                @endforeach
+                                            @else
+                                                <div>No Files</div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
-                            @foreach($default_file_categories as $cat)
-                                <div class="border-b-2 w-full min-w-32 mb-2">
-                                    <button
-                                        type="button"
-                                        class="w-full"
-                                        onclick="toggleAccordion({{$cat->id}}, true)"
-                                    >
-                                        <div
-                                            id="default_doc_category_{{$cat->id}} w-full"
-                                            class="flex justify-between items-center"
-                                        >
-                                            <div class="flex justify-start items-center">
-                                                <input
-                                                    type="checkbox"
-                                                    name="default_cat_{{$cat->id}}"
-                                                    class="cat_checkbox mr-2 rounded-full"
-                                                    onclick="checkCategory({{$cat->id}}, true)"
-                                                    id="default_cat_{{$cat->id}}"
-                                                />
-                                                <label for="default_cat_{{$cat->id}}" >{{$cat->title}}</label>
-                                            </div>
-                                            <div id="default_doc_category_{{$cat->id}}_chevron_down">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                                                </svg>
-                                            </div>
-                                            <div id="default_doc_category_{{$cat->id}}_chevron_up" class="hidden">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
-                                                </svg>
 
-                                            </div>
-                                        </div>
-                                    </button>
-                                    <div id="default_doc_category_content_{{$cat->id}}" class="doc_permissions_modal_accordion_content hidden my-4">
-                                        @if(count($files->filter(function($file) use ($cat) { return $file->category == $cat->id && !$file->is_custom_category; })) >= 1)
-                                            @foreach($files as $file)
-                                                @if($file->category == $cat->id && !$file->is_custom_category)
-                                                    <div class="flex justify-between items-center">
-                                                        <label for="default_cat_file_{{$file->id}}">{{$file->title}}</label>
-                                                        <input
-                                                            id="default_cat_file_{{$file->id}}"
-                                                            type="checkbox"
-                                                            name="default_cat_file_{{$file->id}}"
-                                                            class="default_cat_{{$cat->id}}_file_checkbox file_checkbox rounded-full"
-                                                        />
-                                                    </div>
-                                                @endif
-                                            @endforeach 
-                                        @else
-                                            <div>No Files</div>
-                                        @endif
-                                    </div>
-                                </div>
-                            @endforeach
-
-                            @foreach($custom_file_categories as $cat)
-                                <div class="border-b-2 w-full min-w-32 mb-2">
-                                    <button
-                                        type="button"
-                                        class="w-full"
-                                        onclick="toggleAccordion({{$cat->id}}, false)"
-                                    >
-                                        <div
-                                            id="custom_doc_category_{{$cat->id}} w-full"
-                                            class="flex justify-between"
-                                        >
-                                            <div class="mr-6 flex justify-start items-center">
-                                                <input
-                                                    id="custom_cat_{{$cat->id}}"
-                                                    type="checkbox"
-                                                    name="custom_cat_{{$cat->id}}"
-                                                    class="cat_checkbox mr-2 rounded-full"
-                                                    onclick="checkCategory({{$cat->id}}, false)"
-                                                />
-                                                <label for="custom_cat_{{$cat->id}}">
-                                                    {{$cat->title}}
-                                                </label>
-                                            </div>
-                                            <div id="custom_doc_category_{{$cat->id}}_chevron_down">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                                                </svg>
-                                            </div>
-                                            <div id="custom_doc_category_{{$cat->id}}_chevron_up" class="hidden">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
-                                                </svg>
-
-                                            </div>
-                                        </div>
-                                    </button>
-                                    <div id="custom_doc_category_content_{{$cat->id}}" class="doc_permissions_modal_accordion_content hidden my-4">
-                                        @if(count($files->filter(function($file) use ($cat) { return $file->category == $cat->id && $file->is_custom_category; })) >= 1)
-                                            @foreach($files as $file)
-                                            @if($file->category == $cat->id && $file->is_custom_category)
-                                                    <div class="flex justify-between items-center">
-                                                        <label for="custom_cat_file_{{$file->id}}">
-                                                            {{$file->title}}
-                                                        </label>
-                                                        <input
-                                                            id="custom_cat_file_{{$file->id}}"
-                                                            type="checkbox"
-                                                            name="custom_cat_file_{{$file->id}}"
-                                                            class="custom_cat_{{$cat->id}}_file_checkbox file_checkbox rounded-full"
-                                                        />
-                                                    </div>
-                                                @endif
-                                            @endforeach
-                                        @else
-                                            <div>No Files</div>
-                                        @endif
-                                    </div>
-                                </div>
-                            @endforeach
+                            <input type="hidden" id="doc_permissions_user_id" name="doc_permissions_user_id" />
+                            <button
+                                type="button"
+                                class="btn bg-blue-500 p-2 rounded-lg text-white float-right"
+                                @click="submitDocumentPermissions()"
+                            >
+                                Update Permissions
+                            </button>
                         </div>
-
-                        <input type="hidden" id="doc_permissions_user_id" name="doc_permissions_user_id" />
-                        <button
-                            type="button"
-                            class="btn bg-blue-500 p-2 rounded-lg text-white float-right"
-                            @click="submitDocumentPermissions()"
-                        >
-                            Update Permissions
-                        </button>
                     </div>
                 </div>
             </div>
-        </div>
         {{-- END DOCUMENT PERMISSIONS MODAL --}}
     </div>
 @endsection
 
 @push('js')
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+    <script src="http://benalman.com/code/projects/jquery-throttle-debounce/jquery.ba-throttle-debounce.js" type="text/javascript"></script>
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.data('data', () => ({
@@ -465,6 +481,7 @@
                                 })
                                 // TODO: create logic to check categories and the 'ALL DOCUMENTS' inputs if all relevant files have been given viewing permission
                                 this.isDocumentPermissionsModalOpen = true;
+                                this.$dispatch('body-scroll', {})
                             }
                         });
                     }
@@ -473,6 +490,7 @@
                         $('#doc_permissions_user_id').val('');
                         $('.doc_permissions_modal_accordion_content').addClass('hidden');
                         this.isDocumentPermissionsModalOpen = false;
+                        this.$dispatch('body-scroll', {})
                     }
                 },
                 submitDocumentPermissions() {
@@ -498,9 +516,15 @@
                     });
                 },
                 isSharedDocumentsModalOpen: false,
-                toggleIsSharedDocumentsModalOpen() { this.isSharedDocumentsModalOpen = !this.isSharedDocumentsModalOpen },
+                toggleIsSharedDocumentsModalOpen() { 
+                    this.isSharedDocumentsModalOpen = !this.isSharedDocumentsModalOpen;
+                    this.$dispatch('body-scroll', {}); 
+                },
                 isInviteModalOpen: false,
-                toggleIsInviteModalOpen() { this.isInviteModalOpen = !this.isInviteModalOpen },
+                toggleIsInviteModalOpen() {
+                    this.isInviteModalOpen = !this.isInviteModalOpen;
+                    this.$dispatch('body-scroll', {})
+                },
                 submitInvite() {
                     // TODO: replace modal content with loading animation.
                     // Do not allow user to click away while loading is occuring.
@@ -526,44 +550,74 @@
             }));
         });
 
+        // START functions for Invite Member modal, UI
+            function searchExistingUsers (e) {
+                // This automatically executes the ajax.data function in the DataTable initialization.
+                $('#suggested_contacts_table').DataTable().ajax.reload()
+            }
+            $('#email_invite').keyup($.debounce(250, searchExistingUsers));
+
+            $(document).ready(function(){
+                var suggestContactsList = $('#suggested_contacts_table').DataTable({
+                    searching: false,
+                    paging: false,
+                    info: false,
+                    processing: true,
+                    serverSide: true,
+                    ajax: {
+                        url: "{{ route('load.user.suggestions') }}",
+                        data: function(d) {
+                            // Get the values directly from the inputs
+                            d.search_text = $("#email_invite").val(); 
+                        }
+                    },
+                    columns: [
+                        { data: 'avatar', name: 'avatar' },
+                        { data: 'name', name: 'name' },
+                        {data: 'action', name: 'action', orderable: false},
+                    ],
+                });
+            })
+        //END functions for Invite Member modal, UI
+
 
         // START functions for Document Permission modal, UI
-        $(document).ready( function() {
-            $('#all_documents_checkbox').on('click', function(e) {
-                $('.file_checkbox').prop('checked', e.target.checked);
-                $('.cat_checkbox').prop('checked', e.target.checked);
-            });
-        });       
-        function toggleAccordion(id, isDefaultCategory) {            
-            var type_string = isDefaultCategory ? 'default' : 'custom';
-            var opening = $('#' + type_string + '_doc_category_content_' + id).hasClass('hidden');
-            
-            if(opening) {
-                $('#' + type_string + '_doc_category_content_' + id).removeClass('hidden');
+            $(document).ready( function() {
+                $('#all_documents_checkbox').on('click', function(e) {
+                    $('.file_checkbox').prop('checked', e.target.checked);
+                    $('.cat_checkbox').prop('checked', e.target.checked);
+                });
+            });       
+            function toggleAccordion(id, isDefaultCategory) {            
+                var type_string = isDefaultCategory ? 'default' : 'custom';
+                var opening = $('#' + type_string + '_doc_category_content_' + id).hasClass('hidden');
+                
+                if(opening) {
+                    $('#' + type_string + '_doc_category_content_' + id).removeClass('hidden');
 
-                $('#' + type_string + '_doc_category_' + id + '_chevron_up').removeClass('hidden');
-                $('#' + type_string + '_doc_category_' + id + '_chevron_down').addClass('hidden');
-            } else {
-                $('#' + type_string + '_doc_category_content_' + id).addClass('hidden');
+                    $('#' + type_string + '_doc_category_' + id + '_chevron_up').removeClass('hidden');
+                    $('#' + type_string + '_doc_category_' + id + '_chevron_down').addClass('hidden');
+                } else {
+                    $('#' + type_string + '_doc_category_content_' + id).addClass('hidden');
 
-                $('#' + type_string + '_doc_category_' + id + '_chevron_up').addClass('hidden');
-                $('#' + type_string + '_doc_category_' + id + '_chevron_down').removeClass('hidden');
+                    $('#' + type_string + '_doc_category_' + id + '_chevron_up').addClass('hidden');
+                    $('#' + type_string + '_doc_category_' + id + '_chevron_down').removeClass('hidden');
+                }
             }
-        }
-        function checkCategory(id, isDefaultCategory, e) {
-            // stop propagation
-            if (!e) var e = window.event
-            e.cancelBubble = true;
-            if (e.stopPropagation) e.stopPropagation();
+            function checkCategory(id, isDefaultCategory, e) {
+                // stop propagation
+                if (!e) var e = window.event
+                e.cancelBubble = true;
+                if (e.stopPropagation) e.stopPropagation();
 
-            // open the accordion if not already open
-            var type_string = isDefaultCategory ? 'default' : 'custom';
-            var isClosed = $('#' + type_string + '_doc_category_content_' + id).hasClass('hidden');
-            if(isClosed) toggleAccordion(id, isDefaultCategory);
+                // open the accordion if not already open
+                var type_string = isDefaultCategory ? 'default' : 'custom';
+                var isClosed = $('#' + type_string + '_doc_category_content_' + id).hasClass('hidden');
+                if(isClosed) toggleAccordion(id, isDefaultCategory);
 
-            // check or uncheck all inputs in the given category
-            $('.' + type_string + '_cat_' + id + '_file_checkbox').prop('checked', e.target.checked);
-        }
+                // check or uncheck all inputs in the given category
+                $('.' + type_string + '_cat_' + id + '_file_checkbox').prop('checked', e.target.checked);
+            }
         // END functions for Document Permission modal, UI
 
 

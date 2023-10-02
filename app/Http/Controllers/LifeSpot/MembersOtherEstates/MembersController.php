@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Models\User;
 
+use DataTables;
+
 class MembersController extends Controller
 {
     public function index(Request $request)
@@ -145,5 +147,42 @@ class MembersController extends Controller
         return response()->download($file_path, $file->title, $headers);
 
         // return response()->json(['success'=>'success']);
+    }
+
+    public function load_user_suggestions(Request $request)
+    {
+        $search_text =  $request->search_text;
+        $users = [];
+
+        if(!empty($request->search_text)) {
+            $users = User::where(function ($query) use ($search_text){
+                $query->where('name', 'LIKE', '%'.$search_text.'%')
+                    ->orWhere('fname', 'LIKE', '%'.$search_text.'%')
+                    ->orWhere('lname', 'LIKE', '%'.$search_text.'%')
+                    ->orWhere('email', 'LIKE', '%'.$search_text.'%');
+            })
+            ->where('id', '!=', Auth::user()->id)
+            ->get();
+        }
+
+        return DataTables::of($users)
+            ->editColumn('avatar',  function ($res) {
+                $url = url('upload/no_image.png');
+                if (!empty($res->profile_photo_path)) {
+                   $url = url('upload/admin_images/'.$res->profile_photo_path);
+                }
+                return '<img class="h-12 w-12 rounded-full" src="'.$url.'" alt="Profile Image">';
+            })
+            ->editColumn('name',  function ($res) {
+                return $res->name;
+            })
+            ->editColumn('action',  function ($res) {
+                $btn = '<button type="button" data-id="'.$res->id.'" class="btn btn-sm btn-primary js_delete_resource_btn">select</button> ';
+                return $btn;
+            })
+            ->rawColumns(['avatar', 'action'])
+            ->make(true);
+
+        // return response()->json(['users' => $users]);
     }
 }

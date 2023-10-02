@@ -349,6 +349,7 @@ use Illuminate\Support\Facades\Mail;
         Route::post('members/update_user_document_permissions', [MembersController::class, 'update_user_document_permissions'])
             ->name('update.user.document.permissions');
         Route::get('members/download_file', [MembersController::class, 'download_file'])->name('download.file');
+        Route::get('members/load_user_suggestions', [MembersController::class, 'load_user_suggestions'])->name('load.user.suggestions');
 
         //Documents
             // ...handling change of page/view
