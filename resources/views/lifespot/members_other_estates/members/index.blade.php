@@ -547,7 +547,7 @@
                                     } else if($('#default_cat_file_' + filePerm.doc_id).length) {
                                         $('#default_cat_file_' + filePerm.doc_id).prop('checked', true);
                                     } else {
-                                        console.log("no input found");
+                                        // console.log("no input found");
                                     }
                                 })
                                 // TODO: create logic to check categories and the 'ALL DOCUMENTS' inputs if all relevant files have been given viewing permission
@@ -630,7 +630,6 @@
 
         // START functions for New Invitations modal
             function acceptInvitation(invitationID) {
-                console.log('accept invitation');
                 $.ajax({
                     url: "{{route('accept.on.platform.invite')}}",
                     type: "POST",
@@ -682,7 +681,6 @@
             })
 
             function selectUserSuggestion(id) {
-                console.log('selectUserSuggestion:', id);
                 $.ajax({
                     url: "{{route('select.user.suggestion')}}",
                     type: "GET",
@@ -758,7 +756,6 @@
                 },
                 type: "GET",
                 success: function (data) {
-                    console.log('success');            
                 }
             });
         }
