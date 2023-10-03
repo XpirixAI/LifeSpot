@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Models\User;
 
+use DataTables;
+
 class MembersController extends Controller
 {
     public function index(Request $request)
@@ -79,6 +81,13 @@ class MembersController extends Controller
             });
         }
 
+        // Find all on-platform invitations to current user
+        $invitations = DB::table('invitations')
+            ->where('invitee_id', $user_id)
+            ->where('is_on_platform', 1)
+            ->where('responded', 0)
+            ->get();
+
         return view('lifespot.members_other_estates.members.index')
             ->with([
                 'rel_types' => $rel_types,
@@ -89,6 +98,7 @@ class MembersController extends Controller
                 'files' => $files,
                 'default_file_categories' => $default_file_categories,
                 'custom_file_categories' => $custom_file_categories,
+                'invitations' => $invitations,
             ]);
     }
 
@@ -145,5 +155,63 @@ class MembersController extends Controller
         return response()->download($file_path, $file->title, $headers);
 
         // return response()->json(['success'=>'success']);
+    }
+
+    public function load_user_suggestions(Request $request)
+    {
+        $search_text =  $request->search_text;
+        $users = [];
+
+        if(!empty($request->search_text)) {
+            $users = User::where(function ($query) use ($search_text){
+                $query->where('name', 'LIKE', '%'.$search_text.'%')
+                    ->orWhere('fname', 'LIKE', '%'.$search_text.'%')
+                    ->orWhere('lname', 'LIKE', '%'.$search_text.'%')
+                    ->orWhere('email', 'LIKE', '%'.$search_text.'%');
+            })
+            ->where('id', '!=', Auth::user()->id)
+            ->get();
+        }
+
+        return DataTables::of($users)
+            ->editColumn('avatar',  function ($res) {
+                $url = url('upload/no_image.png');
+                if (
+                    !empty($res->profile_photo_path) 
+                    && file_exists(public_path('upload/admin_images/'.$res->profile_photo_path))
+                ) {
+                   $url = url('upload/admin_images/'.$res->profile_photo_path);
+                }
+                return '<img class="h-12 w-12 rounded-full" src="'.$url.'" alt="Profile Image">';
+            })
+            ->editColumn('name',  function ($res) {
+                return $res->name;
+            })
+            ->editColumn('action',  function ($res) {
+                $btn = 
+                    '<button
+                        id="select_button_'.$res->id.'"
+                        type="button"
+                        class="flex space-x-2 font-bold items-center text-blue-700 pr-8 lg:my-0 my-4"
+                        onclick="selectUserSuggestion('.$res->id.')"
+                    >
+                        Select
+                    </button>';
+                return $btn;
+            })
+            ->rawColumns(['avatar', 'action'])
+            ->make(true);
+
+        // return response()->json(['users' => $users]);
+    }
+
+    public function select_user_suggestion(Request $request) 
+    {
+        $user = User::where('id', $request->id)->first();
+        return response()->json([
+            'id' => $user->id,
+            'name' => $user->name,
+            'profile_photo_path' => url('upload/admin_images/'.$user->profile_photo_path)
+        ]);
     }
 }

@@ -53,18 +53,36 @@ class InvitationController extends Controller
     public function create(Request $request)
     {
         $relationship = DB::table('relationship_types')->where('id', $request->relationship_type)->first();
-        $user = Auth::user();
-        $invite_id = DB::table('invitations')->insertGetId([
-            'relationship_id' => $request->relationship_type,
-            'email' => $request->email,
-            'responded' => 0
-        ]);
+        
+        // on platform invite
+        if($request->selected_user_id) {
+            $selected_user = User::where('id', $request->selected_user_id)->first();
 
-        Mail::to($request->email)->send(new MyTestEmail(
-            $relationship,
-            $user,
-            $invite_id,
-        ));
+            DB::table('invitations')->insertGetId([
+                'relationship_id' => $request->relationship_type,
+                'email' => $selected_user->email,
+                'is_on_platform' => 1,
+                'responded' => 0,
+                'inviter_id' => Auth::user()->id,
+                'invitee_id' => $selected_user->id,
+            ]);
+        // off platform invite
+        } else {
+            $user = Auth::user();
+
+            $invite_id = DB::table('invitations')->insertGetId([
+                'relationship_id' => $request->relationship_type,
+                'email' => $request->email,
+                'is_on_platform' => 0,
+                'responded' => 0,
+                'inviter_id' => Auth::user()->id,
+            ]);
+            Mail::to($request->email)->send(new MyTestEmail(
+                $relationship,
+                $user,
+                $invite_id,
+            ));
+        }
 
         return redirect()->back();
     }
@@ -125,7 +143,19 @@ class InvitationController extends Controller
         //
     }
 
-    public function accept_invite(Request $request)
+    public function accept_on_platform_invite(Request $request) 
+    {   $invite = DB::table('invitations')->where('id', $request->id)->first();
+
+        DB::table('invitations')->where('id', $request->id)->update(['responded' => 1]);
+        DB::table('estate_relationships')->insert([
+            'owner_id' => $invite->inviter_id,
+            'rel_user_id' => Auth::user()->id,
+            'relationship_type' => $invite->relationship_id,
+        ]);
+        return redirect()->back();
+    }
+
+    public function accept_invite(Request $request) // off platform invite
     {
         Validator::make($request->all(), [
             'fname' => ['required', 'string', 'max:255'],
