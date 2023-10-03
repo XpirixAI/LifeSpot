@@ -350,6 +350,7 @@ use Illuminate\Support\Facades\Mail;
             ->name('update.user.document.permissions');
         Route::get('members/download_file', [MembersController::class, 'download_file'])->name('download.file');
         Route::get('members/load_user_suggestions', [MembersController::class, 'load_user_suggestions'])->name('load.user.suggestions');
+        Route::get('members/select_user_suggestion', [MembersController::class, 'select_user_suggestion'])->name('select.user.suggestion');
 
         //Documents
             // ...handling change of page/view
@@ -414,6 +415,7 @@ use Illuminate\Support\Facades\Mail;
 
         // Invite Routes
         Route::post('/invite-member', [InvitationController::class, 'create'])->name('dispatch.invite.email');
+        Route::post('/accept-on-platform-invitation', [InvitationController::class, 'accept_on_platform_invite'])->name('accept.on.platform.invite');
 });
 
  /*  ------------------------End Auth - Member - Owner Access Routes --------------------------- */

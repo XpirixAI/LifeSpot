@@ -81,6 +81,13 @@ class MembersController extends Controller
             });
         }
 
+        // Find all on-platform invitations to current user
+        $invitations = DB::table('invitations')
+            ->where('invitee_id', $user_id)
+            ->where('is_on_platform', 1)
+            ->where('responded', 0)
+            ->get();
+
         return view('lifespot.members_other_estates.members.index')
             ->with([
                 'rel_types' => $rel_types,
@@ -91,6 +98,7 @@ class MembersController extends Controller
                 'files' => $files,
                 'default_file_categories' => $default_file_categories,
                 'custom_file_categories' => $custom_file_categories,
+                'invitations' => $invitations,
             ]);
     }
 
@@ -168,7 +176,10 @@ class MembersController extends Controller
         return DataTables::of($users)
             ->editColumn('avatar',  function ($res) {
                 $url = url('upload/no_image.png');
-                if (!empty($res->profile_photo_path)) {
+                if (
+                    !empty($res->profile_photo_path) 
+                    && file_exists(public_path('upload/admin_images/'.$res->profile_photo_path))
+                ) {
                    $url = url('upload/admin_images/'.$res->profile_photo_path);
                 }
                 return '<img class="h-12 w-12 rounded-full" src="'.$url.'" alt="Profile Image">';
@@ -177,12 +188,30 @@ class MembersController extends Controller
                 return $res->name;
             })
             ->editColumn('action',  function ($res) {
-                $btn = '<button type="button" data-id="'.$res->id.'" class="btn btn-sm btn-primary js_delete_resource_btn">select</button> ';
+                $btn = 
+                    '<button
+                        id="select_button_'.$res->id.'"
+                        type="button"
+                        class="flex space-x-2 font-bold items-center text-blue-700 pr-8 lg:my-0 my-4"
+                        onclick="selectUserSuggestion('.$res->id.')"
+                    >
+                        Select
+                    </button>';
                 return $btn;
             })
             ->rawColumns(['avatar', 'action'])
             ->make(true);
 
         // return response()->json(['users' => $users]);
+    }
+
+    public function select_user_suggestion(Request $request) 
+    {
+        $user = User::where('id', $request->id)->first();
+        return response()->json([
+            'id' => $user->id,
+            'name' => $user->name,
+            'profile_photo_path' => url('upload/admin_images/'.$user->profile_photo_path)
+        ]);
     }
 }

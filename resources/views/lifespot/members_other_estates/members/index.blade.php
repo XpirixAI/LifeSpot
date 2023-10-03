@@ -13,14 +13,25 @@
         @body-scroll="document.body.style.overflowY = (isInviteModalOpen || isSharedDocumentsModalOpen || isDocumentPermissionsModalOpen) ? 'hidden' : ''"
         {{-- @keydown.escape="isInviteModalOpen = false" --}}
         class="pt-6 px-6"
-    >
-        <div class="flex flex-row justify-start items-center mb-4">
-            <h1 class="font-black text-xl">Members & Other Estates</h1>
-        </div>
-        
+    >        
         <div class="grid lg:grid-cols-4 gap-4 mt-5">
             <div class="lg:col-span-3">
                 <div class="w-full grid grid-cols-4 gap-4 mb-2">
+                    <div class="col-span-2">
+                        <h1 class="font-black text-xl">Members & Other Estates</h1>
+                    </div>
+                    <div class="col-span-2 flex items-center justify-end">
+                        @if(count($invitations) > 0)
+                        <button
+                            @click="toggleIsInvitationListModalOpen()"
+                            type="button"
+                            href="#!"
+                            class="flex space-x-2 font-bold items-center text-white bg-green-700 lg:my-0 my-4 px-4 py-2 rounded-lg relative"
+                        >
+                            <span>New Invitations</span>
+                        </button>
+                        @endif
+                    </div>
                     <div class="col-span-2">
                         <form method="GET" action="{{route('mymembers')}}" class="w-full">
                             @csrf()
@@ -48,12 +59,12 @@
                         </form>
                     </div>
                     <div class="col-span-2 flex items-center justify-end">
-                        <a href="#!" class="flex space-x-2 font-bold items-center text-blue-700 pr-8 lg:my-0 my-4">
+                        {{-- <a href="#!" class="flex space-x-2 font-bold items-center text-blue-700 lg:my-0 my-4">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-blue-700 ">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                             <span>Add an Estate</span>
-                        </a>
+                        </a> --}}
                     </div>
                     <div class="col-span-2">
                         <form>
@@ -67,7 +78,7 @@
                         </form>
                     </div>
                     <div class="col-span-2 flex items-center justify-end">
-                        <button @click="toggleIsInviteModalOpen()" type="button" href="#!" class="flex space-x-2 font-bold items-center text-blue-700 pr-8 lg:my-0 my-4">
+                        <button @click="toggleIsInviteModalOpen()" type="button" href="#!" class="flex space-x-2 font-bold items-center text-blue-700 lg:my-0 my-4">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-blue-700 ">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
@@ -212,6 +223,52 @@
             </div>
         </div>
 
+        {{-- START INVITATIONS MODAL --}}
+            <div
+                x-cloak
+                x-show="isInvitationListModalOpen"
+                style="background-color: rgba(0, 0, 0, .5)"
+                class="fixed inset-0 z-30 flex items-center justify-center bg-black bg-opacity-50"
+            >
+                <div
+                    @click.away="toggleIsInvitationListModalOpen"
+                    x-transition:enter="motion-safe:ease-out duration-500"
+                    x-transition:enter-start="opacity-0 scale-90"
+                    x-transition:enter-end="opacity-100 scale-100"
+                    class="px-5 py-4 mx-auto text-left bg-white rounded-xl shadow-lg"
+                >
+                    <table id="" class="table-auto">
+                        <thead class="">
+                            <tr>
+                                <th class="w-40"><div>Invited By (ID)</div></th>
+                                <th class="w-40">Relationship Type</th>
+                                <th class="w-40">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="w-full">
+                            @foreach($invitations as $invite)
+                                <tr class="border-b-2 py-4 mb-4">
+                                    <td>{{$invite->inviter_id}}</td>
+                                    <td>
+                                        @foreach($rel_types as $rel)
+                                            @if($rel->id == $invite->relationship_id)
+                                                {{ $rel->title }}
+                                            @endif
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        <button onclick="acceptInvitation({{$invite->id}})" class="text-white bg-green-700 lg:my-0 my-2 px-4 py-2 rounded-lg">
+                                            Accept
+                                        </button>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {{-- END INVITATIONS MODAL --}}
+
         {{-- START INVITE USER MODAL --}}
             <div
                 x-cloak
@@ -226,20 +283,34 @@
                     x-transition:enter-end="opacity-100 scale-100"
                     class="px-5 py-4 mx-auto text-left bg-white rounded-xl shadow-lg"
                 >
-                    <div class="overflow-y-auto h-60">
-                        <label for="email_invite" class="font-semibold text-sm mb-2">Invite By Email</label>
-                        <input id="email_invite" class="block mb-5 rounded-md" name="email" type="email" placeholder="john.doe@gmail.com" />
-                        <table id="suggested_contacts_table" class="table table-bordered data-table">
-                            <thead>
-                                <tr>
-                                    <th>Avatar</th>
-                                    <th>Name</th>
-                                    <th width="100px">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
+                    <div class="overflow-y-auto h-60 w-96">
+                        <div id="invite_table_and_search">
+                            <label for="email_invite" class="font-semibold text-sm mb-2">Invite By Email</label>
+                            <input id="email_invite" class="block mb-5 rounded-md w-full" name="email" type="email" placeholder="john.doe@gmail.com" />
+                            <table id="suggested_contacts_table" class="table table-bordered data-table w-full mb-5">
+                                <thead>
+                                    <tr>
+                                        <th><div class="hidden">Avatar</div></th>
+                                        <th>Name</th>
+                                        <th width="100px">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="w-full">
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="selected_user" class="hidden flex justify-between items-center border-blue-500 border-2 rounded-lg mb-5">
+                            <input type="hidden" name="selected_user_id" id="selected_user_id"/>
+                            <div class="flex justify-between items-center">
+                                <img id="selected_user_img" class="h-12 w-12 rounded-full" src="" alt="Profile Image"/>
+                                <div id="selected_user_name" class="mx-5"></div>
+                            </div>
+                            <button class="mx-5" onclick="cancelSelectedUser()">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
                         <label for="relationship_type" class="font-semibold text-sm mb-2">Relationship In Your Estate</label>
                         <select id="relationship_type" class="block mb-5 rounded-md w-full" name="relationship_type">
                             <option value="" disabled selected>Select An Option</option>
@@ -530,6 +601,7 @@
                     // Do not allow user to click away while loading is occuring.
                     var email = $('#email_invite').val();
                     var rel = $('#relationship_type').val();
+                    var id = $('#selected_user_id').val();
                     $.ajax({
                         context: this,
                         url: "{{ route('dispatch.invite.email') }}",
@@ -537,6 +609,7 @@
                             "_token": "{{ csrf_token() }}",
                             email: email,
                             relationship_type: rel,
+                            selected_user_id: id,
                         },
                         type: "POST",
                         success: function (data) {                            
@@ -547,11 +620,33 @@
                         }
                     });
                 },
+                isInvitationListModalOpen: false,
+                toggleIsInvitationListModalOpen() {
+                    this.isInvitationListModalOpen = !this.isInvitationListModalOpen;
+                    this.$dispatch('body-scroll', {})
+                },
             }));
         });
 
-        // START functions for Invite Member modal, UI
-            function searchExistingUsers (e) {
+        // START functions for New Invitations modal
+            function acceptInvitation(invitationID) {
+                console.log('accept invitation');
+                $.ajax({
+                    url: "{{route('accept.on.platform.invite')}}",
+                    type: "POST",
+                    data: {
+                        "_token": "{{csrf_token()}}",
+                        id: invitationID,
+                    },
+                    success: function(data) {
+                        window.location.reload();
+                    }
+                });
+            }
+        // END functions for New Invitations modal
+
+        // START functions for Invite Member modal
+            function searchExistingUsers(e) {
                 // This automatically executes the ajax.data function in the DataTable initialization.
                 $('#suggested_contacts_table').DataTable().ajax.reload()
             }
@@ -564,12 +659,19 @@
                     info: false,
                     processing: true,
                     serverSide: true,
+                    bAutoWidth: false,
                     ajax: {
                         url: "{{ route('load.user.suggestions') }}",
                         data: function(d) {
+
                             // Get the values directly from the inputs
                             d.search_text = $("#email_invite").val(); 
-                        }
+                        },
+                        /*
+                        beforeSend: function () {
+                            waitingBlockUI(); // show wating animation
+                        },
+                        */
                     },
                     columns: [
                         { data: 'avatar', name: 'avatar' },
@@ -578,10 +680,37 @@
                     ],
                 });
             })
-        //END functions for Invite Member modal, UI
 
+            function selectUserSuggestion(id) {
+                console.log('selectUserSuggestion:', id);
+                $.ajax({
+                    url: "{{route('select.user.suggestion')}}",
+                    type: "GET",
+                    data: {
+                        "_token": "{{csrf_token()}}",
+                        id: id
+                    },
+                    success: function(data) {
+                        $('#selected_user').removeClass('hidden');
+                        $('#invite_table_and_search').addClass('hidden');
+                        $('#selected_user_id').val(data.id);
+                        $('#selected_user_img').attr('src', data.profile_photo_path);
+                        $('#selected_user_name').html(data.name);
+                    }
+                })
+            }
 
-        // START functions for Document Permission modal, UI
+            function cancelSelectedUser() {
+                $('#selected_user').addClass('hidden');
+                $('#invite_table_and_search').removeClass('hidden');
+                $('#selected_user_id').val('');
+                $('#selected_user_img').attr('src', '');
+                $('#selected_user_name').html('');
+            }
+
+        //END functions for Invite Member modal
+
+        // START functions for Document Permission modal
             $(document).ready( function() {
                 $('#all_documents_checkbox').on('click', function(e) {
                     $('.file_checkbox').prop('checked', e.target.checked);
@@ -618,8 +747,7 @@
                 // check or uncheck all inputs in the given category
                 $('.' + type_string + '_cat_' + id + '_file_checkbox').prop('checked', e.target.checked);
             }
-        // END functions for Document Permission modal, UI
-
+        // END functions for Document Permission modal
 
         function downloadFile(fileID){
             $.ajax({
@@ -630,7 +758,7 @@
                 },
                 type: "GET",
                 success: function (data) {
-                    console.log('success');               
+                    console.log('success');            
                 }
             });
         }
