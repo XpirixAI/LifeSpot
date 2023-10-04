@@ -113,7 +113,6 @@
                                             </div> --}}
                                         </div>
                                     </div>
-                                    <a href="#!" class="text-2xl font-bold text-right">...</a>
                                 </div>
                             </div>
 
@@ -170,7 +169,27 @@
                                             </div>
                                             </div>
                                         </div>
-                                        <a href="#!" class="text-2xl font-bold text-right">...</a>
+                                        <x-jet-dropdown align="right" width="48">
+                                        <x-slot name="trigger">
+                                            <a href="#!" class="text-2xl font-bold text-right">...</a>
+                                        </x-slot>
+                                            <x-slot name="content">
+                                                @if($is_owned_by_current_user)
+                                                    <button
+                                                        @click="toggleIsDeleteRelationshipModalOpen({{ $rel['user']->id }})"
+                                                        class="block btn bg-red-500 p-2 rounded-lg text-white"
+                                                    >
+                                                        Delete
+                                                    </button>
+                                                    <button
+                                                        @click="toggleIsEditRelationshipModalOpen({{ $rel['user']->id }}, {{ $rel['info']->id }})"
+                                                        class="block btn bg-blue-500 p-2 rounded-lg text-white"
+                                                    >
+                                                        Edit
+                                                    </button>
+                                                @endif
+                                            </x-slot>
+                                        </x-jet-dropdown>
                                     </div>
                                 </div>
 
@@ -518,6 +537,73 @@
                 </div>
             </div>
         {{-- END DOCUMENT PERMISSIONS MODAL --}}
+
+        {{-- START DELETE RELATIONSHIP MODAL --}}
+            <div
+                x-cloak
+                x-show="isDeleteRelationshipModalOpen"
+                style="background-color: rgba(0, 0, 0, .5)"
+                class="fixed inset-0 z-30 flex items-center justify-center overflow-auto bg-black bg-opacity-50"
+            >
+                <div
+                    @click.away="toggleIsDeleteRelationshipModalOpen()"
+                    x-transition:enter="motion-safe:ease-out duration-500"
+                    x-transition:enter-start="opacity-0 scale-90"
+                    x-transition:enter-end="opacity-100 scale-100"
+                    class="xmax-w-5xl px-5 py-4 mx-auto text-left bg-white rounded-xl shadow-lg"
+                >
+                    <h1>Are you sure you want to delete this user?</h1>
+                    <input id="delete_relationship_user_id" type="hidden" />
+                    <button
+                        type="button"
+                        class="btn bg-red-500 p-3 rounded-lg text-white float-right"
+                        @click="submitDeleteRelationship()"
+                    >
+                        Delete
+                    </button>
+                    <button
+                        type="button"
+                        class="btn bg-blue-500 p-3 rounded-lg text-white float-right"
+                        @click="toggleIsDeleteRelationshipModalOpen()"
+                    >
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        {{-- END DELETE RELATIONSHIP MODAL --}}
+        {{-- START EDIT RELATIONSHIP MODAL --}}
+            <div
+                x-cloak
+                x-show="isEditRelationshipModalOpen"
+                style="background-color: rgba(0, 0, 0, .5)"
+                class="fixed inset-0 z-30 flex items-center justify-center overflow-auto bg-black bg-opacity-50"
+            >
+                <div
+                    @click.away="toggleIsEditRelationshipModalOpen"
+                    x-transition:enter="motion-safe:ease-out duration-500"
+                    x-transition:enter-start="opacity-0 scale-90"
+                    x-transition:enter-end="opacity-100 scale-100"
+                    class="xmax-w-5xl px-5 py-4 mx-auto text-left bg-white rounded-xl shadow-lg"
+                >
+                    <h1>EDIT RELATIONSIHP MODAL</h1>
+                    <div>
+                        <input id="edit_relationship_user_id" type="hidden"/>
+                        <select id="edit_relationship_type" class="block mb-5 rounded-md w-full" name="relationship_type">
+                            <option value="" disabled>Select An Option</option>
+                            @foreach ($rel_types as $rel)
+                                <option
+                                    id="edit_relationship_option_{{$rel->id}}"
+                                    value="{{$rel->id}}"
+                                >
+                                    {{$rel->title}}
+                                </option>
+                            @endforeach
+                        </select>
+                        <button type="button" class="btn bg-blue-500 p-3 rounded-lg text-white float-right" @click="submitEditRelationship()">Submit</button>
+                    </div>
+                </div>
+            </div>
+        {{-- END EDIT RELATIONSHIP MODAL --}}
     </div>
 @endsection
 
@@ -624,6 +710,56 @@
                 toggleIsInvitationListModalOpen() {
                     this.isInvitationListModalOpen = !this.isInvitationListModalOpen;
                     this.$dispatch('body-scroll', {})
+                },
+                isDeleteRelationshipModalOpen: false,
+                toggleIsDeleteRelationshipModalOpen(userID) {
+                    // opening
+                     if(this.isDeleteRelationshipModalOpen == false) {
+                        $('#delete_relationship_user_id').val(userID);
+                    }
+                    this.isDeleteRelationshipModalOpen = !this.isDeleteRelationshipModalOpen;
+                },
+                submitDeleteRelationship() {
+                    var userID = $('#delete_relationship_user_id').val();
+                    console.log('submit:', userID);
+                    $.ajax({
+                        context: this,
+                        url: "{{ route('delete.relationship') }}",
+                        type: "DELETE",
+                        data: {
+                            "_token": "{{ csrf_token() }}",
+                            user_id: userID,
+                        },
+                        success() {
+                            window.location.reload();
+                        }
+                    })
+                },
+                isEditRelationshipModalOpen: false,
+                toggleIsEditRelationshipModalOpen(userID, relationshipID) {
+                    // opening
+                    if(this.isEditRelationshipModalOpen == false) {
+                        $('#edit_relationship_option_' + relationshipID).attr('selected', true);
+                        $('#edit_relationship_user_id').val(userID);
+                    }
+                    this.isEditRelationshipModalOpen = !this.isEditRelationshipModalOpen;
+                },
+                submitEditRelationship() {                 
+                    var userID = $('#edit_relationship_user_id').val();
+                    var relationshipID = $('#edit_relationship_type').val();
+                    $.ajax({
+                        context: this,
+                        url: "{{ route('edit.relationship') }}",
+                        type: "POST",
+                        data: {
+                            "_token": "{{ csrf_token() }}",
+                            user_id: userID,
+                            relationship_id: relationshipID,
+                        },
+                        success() {
+                            window.location.reload();
+                        }
+                    })
                 },
             }));
         });

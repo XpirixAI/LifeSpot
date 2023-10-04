@@ -26,7 +26,7 @@
                 This is so important to me, I want to give you access, and the ability to have access to my most current documents that I have for my Estate.
             </p>
             <p>
-                Please accept my invitation by becoming a member with LifeSpot.com. and consider saving, sharing and growing your own estate.
+                Please accept my invitation by becoming a member with LifeSpot.ai. and consider saving, sharing and growing your own estate.
                 Please let me know if you have any questions.
             </p>
             <p>
@@ -34,7 +34,7 @@
                 {{ $user->name }}
             </p>
             <p>
-                If you have any questions please visit the LifeSpot Help Center at <a href="https://LifeSpot.ai/help">LifeSpot.com/help</a>
+                If you have any questions please visit the LifeSpot Help Center at <a href="https://lifespot.ai/help">LifeSpot.ai/help</a>
             </p>
             <p>
                 Not Interested?

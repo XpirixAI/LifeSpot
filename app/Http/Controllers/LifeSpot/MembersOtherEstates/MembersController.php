@@ -213,4 +213,24 @@ class MembersController extends Controller
             'profile_photo_path' => url('upload/admin_images/'.$user->profile_photo_path)
         ]);
     }
+
+    public function delete_relationship(Request $request)
+    {
+        DB::table('estate_relationships')
+            ->where('rel_user_id', $request->user_id)
+            ->where('owner_id', Auth::user()->id)
+            ->delete();
+        return response()->json([]);
+    }
+
+    public function edit_relationship(Request $request)
+    {
+        DB::table('estate_relationships')
+            ->where('rel_user_id', $request->user_id)
+            ->where('owner_id', Auth::user()->id)
+            ->update([
+                'relationship_type' => $request->relationship_id,
+            ]);
+        return response()->json([]);
+    }
 }

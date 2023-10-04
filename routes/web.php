@@ -352,6 +352,8 @@ use Illuminate\Support\Facades\Mail;
         Route::get('members/download_file', [MembersController::class, 'download_file'])->name('download.file');
         Route::get('members/load_user_suggestions', [MembersController::class, 'load_user_suggestions'])->name('load.user.suggestions');
         Route::get('members/select_user_suggestion', [MembersController::class, 'select_user_suggestion'])->name('select.user.suggestion');
+        Route::delete('members/delete_relationship', [MembersController::class, 'delete_relationship'])->name('delete.relationship');
+        Route::post('members/edit_relationship', [MembersController::class, 'edit_relationship'])->name('edit.relationship');
 
         //Documents
             // ...handling change of page/view
