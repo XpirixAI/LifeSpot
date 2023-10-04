@@ -19,11 +19,8 @@
     <div 
         x-cloak 
         x-data="data"
-        @keydown.escape="showModal = false"
         class="grid lg:grid-cols-5 bg-gray-50 h-screen"
     >
-        {{-- <div x-data="{ 'showModal': false }" @keydown.escape="showModal = false" x-cloak class="grid md:col-span-5 lg:col-span-3 col-span-12 bg-gray-50 h-screen"> --}}
-
         <div class="col-span-4 lg:col-span-1 bg-white pt-6 px-3 pb-3">
             <h2 class="font-black text-lg mb-4">Documents</h2>
             <ul class="space-y-3 mb-5">
@@ -48,13 +45,16 @@
                     </a>
                 </li>
             </ul>
-            <div class="flex justify-between mb-3">
-                <h2 class="font-black text-sm mb-4">Folders</h2>
-                <button type="button" class="cursor-pointer" @click="toggleCreateFolderOpen">
+            <div class="flex justify-between items-center mb-5">
+                <button @click="toggleIsUploadDocumentModalOpen()" class="bg-[#1f588d] text-white border float-right border-gray-400 rounded-lg font-semibold text-xs py-1 lg:py-2 px-2 lg:px-5">Upload a Document</button>
+            </div>
+            <div class="flex justify-between items-center mb-5">
+                <h2 class="font-black text-sm">Folders</h2>
+                {{-- <button type="button" class="cursor-pointer" @click="toggleCreateFolderOpen">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                </button>
+                </button> --}}
             </div>
             <div class="flex justify-between mb-3">
                 <div class="rounded-xl text-xs bg-gray-100 px-5 py-1 uppercase">Recommended</div>
@@ -67,7 +67,9 @@
             <ul class="space-y-3 mb-5">
 
                 @foreach ($default_categories as $def_cat)
-                    <li class="{{ isset($cat_id) && $cat_id == $def_cat->id ? 'bg-blue-50' : '' }} hover:bg-blue-50 rounded-lg w-full py-1">
+                    <li
+                        class="{{ isset($cat_id) && $cat_id == $def_cat->id ? 'bg-blue-50' : '' }} hover:bg-blue-50 rounded-lg w-full py-1"
+                    >
                         <a class="flex space-x-2 text-xs items-center" href="{{route('documents', $def_cat->id)}}">
                             <span>
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -89,7 +91,10 @@
             </div>
             <ul class="space-y-3 mb-5">
                 @foreach ($custom_categories as $cat)
-                    <li id="{{'js-category_side_link'.$cat->id}}" class="{{ isset($custom_cat_id) && $custom_cat_id == $cat->id ? 'bg-blue-50' : '' }} hover:bg-blue-50 hover:rounded-lg w-full py-1">
+                    <li
+                        id="{{'js-category_side_link'.$cat->id}}"
+                        class="{{ isset($custom_cat_id) && $custom_cat_id == $cat->id ? 'bg-blue-50' : '' }} hover:bg-blue-50 hover:rounded-lg w-full py-1"
+                    >
                         <a class="flex space-x-2 text-xs items-center" href="{{route('documents.custom.category', $cat->id)}}">
                             <span>
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -100,7 +105,13 @@
                         </a>
                     </li>
                 @endforeach
-                <button type="button" class="text-xs text-blue-500"  @click="toggleCreateFolderOpen">Add a Folder</button>
+                <button @click="toggleCreateFolderOpen()" type="button" href="#!" class="flex space-x-2 font-bold items-center text-blue-700 lg:my-0 my-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-blue-700 ">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+
+                    <span>Add a Folder</span>
+                </button>
             </ul>
         </div>
         <div class="col-span-1 lg:col-span-4 mx-5">
@@ -181,7 +192,6 @@
                             </a>
                         </span>
                     </div>
-                    <button @click="showModal = true" class="bg-[#1f588d] text-white border float-right border-gray-400 rounded-lg font-semibold text-xs py-1 lg:py-2 px-2 lg:px-5">Upload a Document</button>
                 </div>
 
                 <div class="grid lg:grid-cols-4 gap-4">
@@ -491,19 +501,20 @@
         </div>
 
         <!-- Upload Modal -->
-        <div x-cloak x-show="showModal" style="background-color: rgba(0, 0, 0, .5)"
+        <div x-cloak x-show="isUploadDocumentModalOpen" style="background-color: rgba(0, 0, 0, .5)"
             class="fixed inset-0 z-30 flex items-center justify-center overflow-auto bg-black bg-opacity-50">
             <!-- inner modal -->
             <div
-                @click.away="showModal = false"
+                @click.away="toggleIsUploadDocumentModalOpen()"
                 x-transition:enter="motion-safe:ease-out duration-500"
                 x-transition:enter-start="opacity-0 scale-90"
                 x-transition:enter-end="opacity-100 scale-100"
-                class="xmax-w-3xl px-5 py-4 mx-auto text-left bg-white rounded-xl shadow-lg">
+                class="xmax-w-3xl px-5 py-4 mx-auto text-left bg-white rounded-xl shadow-lg"
+            >
                 <!-- Title / Close-->
                 <div class="flex items-center justify-between space-y-3 mb-3">
                     <h5 class="mr-3 font-black text-black xmax-w-none">Upload a Document</h5>
-                    <button type="button" class="z-50 cursor-pointer" @click="showModal = false">
+                    <button type="button" class="z-50 cursor-pointer" @click="toggleIsUploadDocumentModalOpen()">
                         <svg xmlns="http://www.w3.org/2000/svg" xwidth="20" xheight="20 text-gray-300" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                         </svg>
@@ -534,12 +545,24 @@
                             </button> --}}
 
                             <select name="folder" class="category_select form-select w-full bg-gray-100 border border-gray-300 rounded-md">
-                                <option value="" disabled selected>Select a Folder</option>
+                                <option value="" disabled>Select a Folder</option>
                                 @foreach ($default_categories as $def_cat)
-                                    <option class="js-default-cat-option" value="{{ $def_cat->id }}">{{ $def_cat->title }}</option>
+                                    <option
+                                        class="js-default-cat-option"
+                                        value="{{ $def_cat->id }}"
+                                        {!! isset($cat_id) && !isset($custom_cat_id) && $cat_id == $def_cat->id ? 'selected' : '' !!}
+                                    >
+                                        {{ $def_cat->title }}
+                                    </option>
                                 @endforeach
                                 @foreach ($custom_categories as $cat)
-                                    <option class="js-custom-cat-option hidden" value="{{$cat->id}}">{{$cat->title}}</option>
+                                    <option
+                                        class="js-custom-cat-option hidden"
+                                        value="{{$cat->id}}"
+                                        {!! isset($custom_cat_id) && $custom_cat_id == $cat->id ? 'selected' : '' !!}
+                                    >
+                                        {{$cat->title}}
+                                    </option>
                                 @endforeach
                             </select>
 
@@ -841,7 +864,8 @@
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.data('data', () => ({
-                'showModal': false,
+                isUploadDocumentModalOpen: false,
+                toggleIsUploadDocumentModalOpen() { this.isUploadDocumentModalOpen = !this.isUploadDocumentModalOpen},
                 'docDetailsOpen': false,
                 toggleDocDetailsOpen() { this.docDetailsOpen = !this.docDetailsOpen },
                 'docDeleteOpen': false,
