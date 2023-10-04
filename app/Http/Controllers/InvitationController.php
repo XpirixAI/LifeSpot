@@ -30,19 +30,32 @@ class InvitationController extends Controller
      */
     public function index(Request $request)
     {
-        if(Auth::check()) {
-            Auth::logout();
+        $invite = DB::table('invitations')
+            ->where('id', $request->invite_id)
+            ->where('responded', 0)
+            ->first();
 
-            $request->session()->invalidate();
- 
-            $request->session()->regenerateToken();
+        if($invite) {
+            if(Auth::check()) {
+                Auth::logout();
+    
+                $request->session()->invalidate();
+     
+                $request->session()->regenerateToken();
+            }
+            
+            return view('auth.invite-register', [
+                'invite_id' => $request->invite_id,
+                'owner_id' => $request->owner_id,
+                'relationship_type' => $request->relationship_type
+            ]);
+        } else {
+            return view('auth.invite_invalid', [
+                'invite_id' => $request->invite_id,
+                'owner_id' => $request->owner_id,
+                'relationship_type' => $request->relationship_type
+            ]);
         }
-        
-        return view('auth.invite-register', [
-            'invite_id' => $request->invite_id,
-            'owner_id' => $request->owner_id,
-            'relationship_type' => $request->relationship_type
-        ]);
     }
 
     /**
@@ -185,5 +198,23 @@ class InvitationController extends Controller
         Auth::attempt(['email' => $request->email, 'password' => $request->password]);
 
         return redirect()->route('getting_started');
+    }
+
+    public function decline_invite(Request $request)
+    {
+
+        if(Auth::check()) {
+            Auth::logout();
+
+            $request->session()->invalidate();
+ 
+            $request->session()->regenerateToken();
+        }
+
+        DB::table('invitations')->where('id', $request->invite_id)->update([
+            'responded' => 1,
+        ]);
+        
+        return response()->view('auth.decline_invite_success');
     }
 }

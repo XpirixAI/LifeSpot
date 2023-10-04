@@ -49,7 +49,7 @@ class MyTestEmail extends Mailable
     public function content()
     {
         return new Content(
-            view: 'mail.test-email',
+            view: 'mail.off_platform_invite_email',
             with: [
                 'relationship' => $this->relationship,
                 'user' => $this->user,

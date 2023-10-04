@@ -61,19 +61,24 @@ class ListConversationAndMessages extends Component
             ->latest()
             ->get();
 
-        // Find users that are in the current user's estate
+        
         $relations = array();
 
+        // Find users that are in the current user's estate
         $estate_relationships = DB::table('estate_relationships')->where('owner_id', Auth::user()->id)->get();
         foreach($estate_relationships as $estate_rel) {
             $rel_user = User::find($estate_rel->rel_user_id);
             array_push($relations, $rel_user);
         }
-        
-        $other_estate_relationships = DB::table('estate_relationships')->where('rel_user_id', Auth::user()->id)->get();
-        foreach($other_estate_relationships as $estate_rel) {
-            $rel_user = User::find($estate_rel->rel_user_id);
-            array_push($relations, $rel_user);
+
+        // Find users that are in the current user's estate
+        $non_owned_estate_relationships = DB::table('estate_relationships')->where('rel_user_id', Auth::user()->id)->get();
+        foreach($non_owned_estate_relationships as $estate_rel) {
+            $non_owned_estate_rel = DB::table('estate_relationships')->where('owner_id', $estate_rel->owner_id)->get();
+            foreach($non_owned_estate_rel as $rel) {
+                $rel_user = User::find($rel->rel_user_id);
+                array_push($relations, $rel_user);
+            }
         }
 
         return view('livewire.admin.messages.list-conversation-and-messages', [

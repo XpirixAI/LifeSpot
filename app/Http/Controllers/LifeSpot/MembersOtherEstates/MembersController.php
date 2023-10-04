@@ -23,6 +23,8 @@ class MembersController extends Controller
             $owner_id = $request->estate_id;
         }
 
+        $current_owner = User::find($owner_id);
+
         $is_owned_by_current_user = false;
         if($owner_id == $user_id) {
             $is_owned_by_current_user = true;
@@ -31,9 +33,7 @@ class MembersController extends Controller
 
         // Find users that should be included in the selected estate
         $estate_relationships = DB::table('estate_relationships')->where('owner_id', $owner_id)->get();
-
         $relations = array();
-
         foreach($estate_relationships as $estate_rel) {
             $rel_user = User::find($estate_rel->rel_user_id);
             $rel_info = DB::table('relationship_types')->where('id', $estate_rel->relationship_type)->first();
@@ -45,7 +45,6 @@ class MembersController extends Controller
         // Find list of other estates
         $estates = DB::table('estate_relationships')->where('rel_user_id', $user_id)->get();
         $owners = array();
-
         foreach($estates as $est) {
             $owner = User::find($est->owner_id);
             if(!empty($owner)) {
@@ -53,11 +52,10 @@ class MembersController extends Controller
             }
         }
 
+        // IF selected estate is not owned by the current user, get list of current documents
         $files = [];
         $default_file_categories = DB::table('file_categories')->get();
         $custom_file_categories = [];
-        
-        // IF selected estate is not owned by the current user, get list of current documents
         if($is_owned_by_current_user) {
             $files = DB::table('files')->where('user_id', $user_id)->get();
             $custom_file_categories = DB::table('user_custom_file_categories')->where('user_id', $user_id)->get();
@@ -90,6 +88,7 @@ class MembersController extends Controller
 
         return view('lifespot.members_other_estates.members.index')
             ->with([
+                'current_owner' => $current_owner,
                 'rel_types' => $rel_types,
                 'relations' => $relations,
                 'owners' => $owners,

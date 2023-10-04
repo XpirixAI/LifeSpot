@@ -97,6 +97,7 @@ use Illuminate\Support\Facades\Mail;
     // Off-Platform User Invite
     Route::get('/invite/register/{invite_id}', [InvitationController::class, 'index'])->name('view.invite');
     Route::post('/invite/accept-invite', [InvitationController::class, 'accept_invite'])->name('accept.invite');
+    Route::get('/invite/decline-invite', [InvitationController::class, 'decline_invite'])->name('decline.invite');
 
     /*  ---------------------------------------------------------------------------------------*/
     /*                         End Guest/Public Access Routes                                  */
