@@ -65,7 +65,7 @@ class BankingController extends Controller
         }
 
         Bank::create($validated);
-            return redirect('/myestate/financials/banking');
+        return redirect('/myestate/financials/banking');
     }
 
     public function StoreMultiImage(Request $request, Bank $asset) //NOTE $asset = $bank

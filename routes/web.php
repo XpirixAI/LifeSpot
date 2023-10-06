@@ -32,9 +32,9 @@ use App\Http\Controllers\LifeSpot\MyLifeSpot\Family\PetsController;
 use App\Http\Controllers\LifeSpot\MyLifeSpot\PersonalInfoController;
 use App\Http\Controllers\LifeSpot\MyLifeSpot\Family\SpouseController;
 use App\Http\Controllers\LifeSpot\GrowMyEstate\GrowMyEstateController;
-use App\Http\Controllers\LifeSpot\MyEstate\Financials\TaxesController;
 use App\Http\Controllers\LifeSpot\MembersOtherEstates\MembersController;
 use App\Http\Controllers\LifeSpot\MyEstate\Financials\BankingController;
+use App\Http\Controllers\LifeSpot\MyEstate\Financials\TaxController;
 use App\Http\Controllers\LifeSpot\MyLifeSpot\Family\DependentController;
 use App\Http\Controllers\LifeSpot\MyLifeSpot\Family\DependentsController;
 use App\Http\Controllers\LifeSpot\MyLifeSpot\Family\BeneficeriesController;
@@ -320,6 +320,8 @@ use Illuminate\Support\Facades\Mail;
 
         // My Estate
 
+            Route::get('/myestate',[MyestateController::class, 'index'])->name('myestate');
+
             // My ESTATE Financial Routes --BANKS
             Route::get('/myestate/financials/banking', [BankingController::class, 'index'])->name('myestate.financials.banking');
             Route::get('/myestate/financials/banking/add-bank', [BankingController::class, 'create'])->name('myestate.financials.add.bank');
@@ -334,12 +336,14 @@ use Illuminate\Support\Facades\Mail;
             Route::post('/store/multi/bank/{asset}', [BankingController::class, 'StoreMultiImage'])->name('store.multi.image.bank');
             Route::delete('/store/multi/bank/{additionalAsset}', [BankingController::class, 'DestroyMultiImage'])->name('destroy.mulit.image.bank');
 
-
-
-
-        Route::get('/myestate',[MyestateController::class, 'index'])->name('myestate');
-        Route::get('myestate/financials/banking',[BankingController::class, 'index'])->name('myestate.financials.banking');
-        Route::get('myestate/financials/taxes',[TaxesController::class, 'index'])->name('myestate.financials.taxes');
+            // My ESTATE Financial Routes --TAXES
+            Route::get('myestate/financials/taxes',[TaxController::class, 'index'])->name('myestate.financials.tax');
+            Route::get('myestate/financials/taxes/add-taxes',[TaxController::class, 'create'])->name('myestate.financials.add.tax');
+            Route::post('myestate/financials/taxes/store-taxes',[TaxController::class, 'store'])->name('myestate.financials.store.tax');
+            Route::get('/myestate/financials/taxes/{asset}',[TaxController::class, 'show'])->name('myestate.financials.show.tax');
+            Route::get('/myestate/financials/taxex/edit/{asset}',[TaxController::class, 'edit'])->name('myestate.financials.edit.tax');
+            Route::put('/myestate/financials/taxes/update/{asset}',[TaxController::class, 'update'])->name('myestate.financials.update.tax');
+            Route::delete('/myestate/financials/taxes/delete/{asset}',[TaxController::class, 'destroy'])->name('myestate.financials.destroy.tax');
 
         // Members & Other Estates
         Route::get('members',[MembersController::class, 'index'])->name('mymembers');

@@ -184,8 +184,8 @@ use Symfony\Component\HttpFoundation\Session\Session as SessionSession;
             return view('lifespot.myestate.financials.banking.index');
         })->name('myestate.financials.banking');
         Route::get('myestate/financials/taxes', function() {
-            return view('lifespot.myestate.financials.taxes.index');
-        })->name('myestate.financials.taxes');
+            return view('lifespot.myestate.financials.tax.index');
+        })->name('myestate.financials.tax');
 
         // Grow My Estate
         Route::resource('/growmyestate', GrowMyEstateController::class);
