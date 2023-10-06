@@ -69,8 +69,19 @@ class InvitationController extends Controller
         
         // on platform invite
         if($request->selected_user_id) {
-            $selected_user = User::where('id', $request->selected_user_id)->first();
+            // check for existing invite not already responded to
+            $invite = DB::table('invitations')
+                ->where('invitee_id', $request->selected_user_id)
+                ->where('responded', 0)
+                ->first();
+            if($invite) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Invitation already sent!'
+                ]);
+            }
 
+            $selected_user = User::where('id', $request->selected_user_id)->first();
             DB::table('invitations')->insertGetId([
                 'relationship_id' => $request->relationship_type,
                 'email' => $selected_user->email,
@@ -81,8 +92,20 @@ class InvitationController extends Controller
             ]);
         // off platform invite
         } else {
-            $user = Auth::user();
+            // check for existing invite not already responded to
+            $invite = DB::table('invitations')
+                ->where('email', $request->email)
+                ->where('responded', 0)
+                ->first();
+            if($invite) {
+                Log::info('DEV: existing invitation');
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Invitation already sent!'
+                ]);
+            }
 
+            $user = Auth::user();
             $invite_id = DB::table('invitations')->insertGetId([
                 'relationship_id' => $request->relationship_type,
                 'email' => $request->email,
@@ -94,10 +117,13 @@ class InvitationController extends Controller
                 $relationship,
                 $user,
                 $invite_id,
-            ));
+            ));                            
         }
 
-        return redirect()->back();
+        return response()->json([
+            'success' => true,
+            'message' => 'Invitation successfully sent!'
+        ]);;
     }
 
     /**

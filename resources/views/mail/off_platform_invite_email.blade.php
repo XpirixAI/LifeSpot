@@ -21,7 +21,7 @@
             <p>Hi,</p>
             <p>
                 I have requested you to be Trustee and additional roles for my estate.
-                I have found this awesome program called LifeSpot (LifeSpotAI) to store my important documents that will pertain to you.
+                I have found this awesome program called LifeSpot (<a href="{{url('/')}}">LifeSpotAI</a>) to store my important documents that will pertain to you.
                 LifeSpot is allowing me to safely store and share all my estate information including Will & Trust documents, assets, and wishes for my family.
                 This is so important to me, I want to give you access, and the ability to have access to my most current documents that I have for my Estate.
             </p>
@@ -34,7 +34,7 @@
                 {{ $user->name }}
             </p>
             <p>
-                If you have any questions please visit the LifeSpot Help Center at <a href="https://lifespot.ai/help">LifeSpot.ai/help</a>
+                If you have any questions please visit the LifeSpot Help Center at <a href="{{route('help')}}">LifeSpot.ai/help</a>
             </p>
             <p>
                 Not Interested?
