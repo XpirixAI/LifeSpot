@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('title');
             $table->string('category');
             $table->string('name');
+            $table->tinyInteger('is_custom_category')->default(0);
+            $table->tinyInteger('is_favorite')->default(0);
             $table->timestamps();
         });
     }
