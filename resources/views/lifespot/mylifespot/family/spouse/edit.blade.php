@@ -60,22 +60,37 @@
                     @enderror
                 </div>--}}
                 <div class="mt-6">
-                        <label for="estate_role" class="block text-sm font-black text-black">Estate Role</label>
-                        <input type="text" name="estate_role"  autocomplete="estate_role" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                        value="{{ old('estate_role',$asset->estate_role) }}" placeholder="Co-Trustee">
-                        @error('estate_role')
-                            <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
-                        @enderror
-                    </div>
+                    <label for="estate_role" class="block text-sm font-black text-black">Estate Role</label>
+                    <select
+                        name="estate_role"
+                        class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                    >
+                        <option 
+                            value=""
+                            {!! !old('estate_role') ?? 'selected' !!}
+                        >
+                            Select an Option
+                        </option>
+                        @foreach($relationship_types as $rel)
+                            <option 
+                                value="{{$rel->id}}"
+                                {!! $asset ->estate_role == $rel->id ? 'selected' : '' !!}
+                            >
+                                {{$rel->title}}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('estate_role')
+                        <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
+                    @enderror
+                </div>
                 <div class="mt-6 flex items-center">
-
                     <input type="checkbox" name="isBeneficiary"  id="isBeneficiary" autocomplete="isBeneficiary" class="xmt-1 focus:ring-blue-500 focus:border-blue-500 block xw-full sm:text-sm border-gray-300 rounded-md"
                     value="{{ old('isBeneficiary',$asset->isBeneficiary) }}" {{ $asset->isBeneficiary == "on" ? 'checked': '' }} >
                     <label for="isBeneficiary" class="block text-sm font-black text-black ml-2">Beneficiary</label>
                     @error('isBeneficiary')
                         <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
                     @enderror
-
                     {{-- <input type="checkbox" name="isBeneficiary" value="{{ old('isBeneficiary',$asset->isBeneficiary) }}" {{ $asset->isBeneficiary == "on" ? 'checked': '' }} >
                     <label>Beneficiary</label><br/><br/> --}}
                 </div>

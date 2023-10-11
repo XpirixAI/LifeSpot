@@ -199,7 +199,7 @@ class WebSpotController extends Controller
     public function createMyXpirixPost()
     {
         $categories = Category::all();
-        return view('lifespot.webspot.blogs.create',compact('categories'));
+        return view('lifespot.webspot.blogs.create', compact('categories'));
     }
 
     public function storeMyXpirixPost(Request $request)

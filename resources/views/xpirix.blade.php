@@ -1,24 +1,20 @@
 <x-xpirix>
 
     <div x-data="{open:true}" >
+        <div  class="lg:hidden lg:relative sticky top-0 z-50 xhidden grid lg:grid-cols-1 h-3 xh-12 lg:h-0 lg:mb-4">
+            <div class="relative  bg-[#056591] lg:border-none lg:border-2 xrounded-lg xlg:w-1/2 lg:text-left lg:pl-6">
 
-            <div  class="lg:hidden lg:relative sticky top-0 z-50 xhidden grid lg:grid-cols-1 h-3 xh-12 lg:h-0 lg:mb-4">
-                <div class="relative  bg-[#056591] lg:border-none lg:border-2 xrounded-lg xlg:w-1/2 lg:text-left lg:pl-6">
-
-                    <div class="flex space-x-3 pl-5 w-full lg:w-1/2">
-                        <div @click.prevent="open=!open" class="text-xs text-gray-100 cursor-pointer pl-16">
-                            <span x-text="open ? 'See what\'s trending' : 'See More'"></span>
-                        </div>
-                        <a class="text-xs text-gray-100 cursor-pointer pl-6" href="{{ route('posts.create') }}">Create a post</a>
+                <div class="flex space-x-3 pl-5 w-full lg:w-1/2">
+                    <div @click.prevent="open=!open" class="text-xs text-gray-100 cursor-pointer pl-16">
+                        <span x-text="open ? 'See what\'s trending' : 'See More'"></span>
                     </div>
-
+                    <a class="text-xs text-gray-100 cursor-pointer pl-6" href="{{ route('posts.create') }}">Create a post</a>
                 </div>
-            </div>
-            @guest
-            <div x-show="open" >@include('xpirix.body.top-content')</div>
 
-            <div class="border border-b"></div>
-            @endguest
+            </div>
+        </div>
+        <div x-show="open" >@include('xpirix.body.top-content')</div>
+        <div class="border border-b"></div>
 
         <!--All non trending posts area -->
         <div x-show="open"  class="px-12 pt-6 md:px-24">
@@ -28,7 +24,6 @@
 
             <!--LifeSport Content ARTICLES -->
             <div class="grid lg:grid-cols-3 grid-cols-1 gap-4 mb-12">
-
                 <div class="mt-8">
                     <a href="#!">
                         <img class="rounded-xl h-52 w-96" src="{{ asset('img/WalkerFamilyPics/kitchen.jpeg') }}" alt="">
@@ -36,14 +31,12 @@
                     <div class="mt-3">
                         <div class="flex space-x-2 items-center">
                             <span class="text-xs">Jul 18 </span>
-
                         </div>
                         <h2 class="font-bold text-lg mt-2">Lorem, ipsum dolor sit amet consectetur adipisicing elit.</h2>
-                        <p class="text-sm my-1.5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, sapiente? A, dolores suscipit.
-                    </p>
-                    <a href="#!" class="text-blue-700">Read more...</a>
-
-
+                        <p class="text-sm my-1.5">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, sapiente? A, dolores suscipit.
+                        </p>
+                        <a href="#!" class="text-blue-700">Read more...</a>
                     </div>
                 </div>
 
@@ -54,14 +47,12 @@
                     <div class="mt-3">
                         <div class="flex space-x-2 items-center">
                             <span class="text-sm">Jul 18 </span>
-
                         </div>
                         <h2 class="font-bold text-lg mt-2">Lorem, ipsum dolor sit amet consectetur adipisicing elit.</h2>
-                        <p class="text-sm my-1.5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, sapiente? A, dolores suscipit.
-                    </p>
-                    <a href="#!" class="text-blue-700">Read more...</a>
-
-
+                        <p class="text-sm my-1.5">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, sapiente? A, dolores suscipit.
+                        </p>
+                        <a href="#!" class="text-blue-700">Read more...</a>
                     </div>
                 </div>
 

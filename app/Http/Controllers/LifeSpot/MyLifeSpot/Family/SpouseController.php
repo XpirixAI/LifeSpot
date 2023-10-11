@@ -13,6 +13,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Intervention\Image\Facades\Image;
 
 class SpouseController extends Controller
@@ -28,7 +29,8 @@ class SpouseController extends Controller
         $months = BirthMonth::all();
         $days = BirthDay::all();
         $genders = Gender::all();
-        return view('lifespot.mylifespot.family.spouse.create',compact('months','days','genders'));
+        $relationship_types = DB::table('relationship_types')->get();
+        return view('lifespot.mylifespot.family.spouse.create',compact('months','days','genders', 'relationship_types'));
     }
 
     public function store(Request $request)
@@ -36,8 +38,8 @@ class SpouseController extends Controller
         $validated = $request->validate([
             'fname' => 'required|max:50',
             'lname' => 'required|max:50',
-            'isBeneficiary' => '',
-            // 'estate_role' => '',
+            // 'isBeneficiary' => '',
+            'estate_role' => '',
             'email' =>  '',
             'phone' => '',
             // 'gender' => '',
@@ -65,8 +67,6 @@ class SpouseController extends Controller
         $validated['user_id'] = auth()->id();
         // $validated['isBeneficiary'] = 0;
 
-
-
         $image = $request->thumbnail;
 
         if ($image){
@@ -80,15 +80,15 @@ class SpouseController extends Controller
 
         if($request->has('isBeneficiary')){
             //Checkbox checked
-            $validated['isBeneficiary'] = "on";
             Beneficiary::create($validated);
+            $validated['isBeneficiary'] = 1;
         }else{
             //Checkbox not checked
-            $validated['isBeneficiary'] = NULL;
+            $validated['isBeneficiary'] = 0;
         }
         $validated['estate_role'] = $request->estate_role; //this is added after the above $validated, otherwise I need a field on the Beneficiaries for 'estate_role'
         Spouse::create($validated);
-            return redirect('/mylifespot/family/spouse');
+        return redirect('/mylifespot/family/spouse');
     }
 
     public function StoreMultiImage(Request $request, Spouse $asset) //NOTE $asset = $spouse
@@ -136,7 +136,15 @@ class SpouseController extends Controller
         $months = BirthMonth::all();
         $days = BirthDay::all();
         $genders = Gender::all();
-        return view('lifespot.mylifespot.family.spouse.edit', compact('asset','user','months','days','genders'));
+        $relationship_types = DB::table('relationship_types')->get();
+        return view('lifespot.mylifespot.family.spouse.edit', compact(
+            'asset',
+            'user',
+            'months',
+            'days',
+            'genders',
+            'relationship_types',
+        ));
     }
 
     public function update(Request $request, Spouse $asset)

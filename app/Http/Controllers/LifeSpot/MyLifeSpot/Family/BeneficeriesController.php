@@ -9,6 +9,7 @@ use App\Models\BirthDay;
 use App\Models\BirthMonth;
 use App\Models\Gender;
 use App\Models\User;
+use App\Models\Spouse;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -35,60 +36,60 @@ class BeneficeriesController extends Controller
        $isEntity = $request->isEntity;
 
        if($isEntity == 'Person'){
-        $validated = $request->validate([
-            'fname' => 'required|max:50',
-            'lname' => 'required|max:50',
-            'email' => '',
-            'phone' => '',
-            'gender' => '',
-            // 'relationship' => '',
-            // 'isBeneficiary' => '',
-            'address' => '',
-            'address2' => '',
-            'city' => '',
-            'st' => '',
-            'zip' => '',
-            'birth_month' => '',
-            'birth_day' => '',
-            'birth_year' => '',
-            'notes_wishes' => '',
-            'thumbnail' => 'file|max:5000|mimes:jpeg,png,jpg,webp,',
-        ],
-            ['fname.required' => 'The first name field is required',
-            'lname.required' => 'The last name field is required',
-        ]);
+            $validated = $request->validate([
+                'fname' => 'required|max:50',
+                'lname' => 'required|max:50',
+                'email' => '',
+                'phone' => '',
+                'gender' => '',
+                // 'relationship' => '',
+                // 'isBeneficiary' => '',
+                'address' => '',
+                'address2' => '',
+                'city' => '',
+                'st' => '',
+                'zip' => '',
+                'birth_month' => '',
+                'birth_day' => '',
+                'birth_year' => '',
+                'notes_wishes' => '',
+                'thumbnail' => 'file|max:5000|mimes:jpeg,png,jpg,webp,',
+            ],
+                ['fname.required' => 'The first name field is required',
+                'lname.required' => 'The last name field is required',
+            ]);
 
-        $validated['user_id'] = auth()->id();
-        $validated['entity_name'] = 'Human';
-        $validated['isEntity'] = 'Person';
+            $validated['user_id'] = auth()->id();
+            $validated['entity_name'] = 'Human';
+            $validated['isEntity'] = 'Person';
        } else {
-        $validated = $request->validate([
-            'entity_name' => 'required|max:50',
-            // 'lname' => 'required|max:50',
-            'email' => '',
-            'phone' => '',
-            'gender' => '',
-            // 'relationship' => '',
-            // 'isBeneficiary' => '',
-            'address' => '',
-            'address2' => '',
-            'city' => '',
-            'st' => '',
-            'zip' => '',
-            'birth_month' => '',
-            'birth_day' => '',
-            'birth_year' => '',
-            'notes_wishes' => '',
-            'thumbnail' => 'file|max:5000|mimes:jpeg,png,jpg,webp,',
-        ],
-            ['entity_name.required' => 'The first name field is required',
-            // 'lname.required' => 'The last name field is required',
-        ]);
+            $validated = $request->validate([
+                'entity_name' => 'required|max:50',
+                // 'lname' => 'required|max:50',
+                'email' => '',
+                'phone' => '',
+                'gender' => '',
+                // 'relationship' => '',
+                // 'isBeneficiary' => '',
+                'address' => '',
+                'address2' => '',
+                'city' => '',
+                'st' => '',
+                'zip' => '',
+                'birth_month' => '',
+                'birth_day' => '',
+                'birth_year' => '',
+                'notes_wishes' => '',
+                'thumbnail' => 'file|max:5000|mimes:jpeg,png,jpg,webp,',
+            ],
+                ['entity_name.required' => 'The first name field is required',
+                // 'lname.required' => 'The last name field is required',
+            ]);
 
-        $validated['user_id'] = auth()->id();
-        $validated['fname'] = 'Organization';
-        $validated['lname'] = 'Organization';
-        $validated['isEntity'] = 'Entity';
+            $validated['user_id'] = auth()->id();
+            $validated['fname'] = 'Organization';
+            $validated['lname'] = 'Organization';
+            $validated['isEntity'] = 'Entity';
        }
 
         $image = $request->thumbnail;
@@ -102,7 +103,7 @@ class BeneficeriesController extends Controller
         }
 
         Beneficiary::create($validated);
-            return redirect('/mylifespot/family/beneficeries');
+        return redirect('/mylifespot/family/beneficeries');
     }
 
     public function show(Beneficiary $asset)

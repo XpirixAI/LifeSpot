@@ -1,5 +1,5 @@
 <x-xpirix>
-    <script src="https://cdn.tiny.cloud/1/detamb5laj9woxfosdw977t3pb43ni4maa7f6eege035mgdd/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.tiny.cloud/1/{{env('TINY_MCE_API_KEY')}}/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <div class="pt-4 pb-6 px-8 lg:px-24">

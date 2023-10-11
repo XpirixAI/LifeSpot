@@ -266,7 +266,11 @@
             </h1>
 
             <div class="px-5 lg:px-20">
-                <p class="text-center text-sm text-gray-700 mx-5 lg:mx-20">Welcome to Lifespot! Lifespot helps you to plan, manage and protect your estate, so you can start building your legacy today.  <a class="text-blue-500" href="{{ route('gettingStartedGuide') }}">Getting Started Guide</a></p>
+                <p class="text-center text-sm text-gray-700 mx-5 lg:mx-20">Welcome to Lifespot! Lifespot helps you to plan, manage and protect your estate, so you can start building your legacy today.</p>
+            </div>
+
+            <div class="px-5 lg:px-20 mt-5">
+                <a class="block btn bg-blue-500 hover:bg-blue-700 p-2 rounded-lg text-white text-center" href="{{ route('gettingStartedGuide') }}">Getting Started Guide</a>
             </div>
 
             <div class="mx-3 lg:mx-20 border-l-8 border-l-blue-400 bg-white rounded-lg mt-8 px-5">

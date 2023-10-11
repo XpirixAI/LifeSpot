@@ -1,5 +1,5 @@
 <x-xpirix>
-    <script src="https://cdn.tiny.cloud/1/detamb5laj9woxfosdw977t3pb43ni4maa7f6eege035mgdd/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.tiny.cloud/1/{{env('TINY_MCE_API_KEY')}}/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <div class="pt-4 pb-6 px-8 lg:px-24">
         <div class="flex justify-between">
@@ -51,13 +51,13 @@
 
     <script>
         tinymce.init({
-        selector: 'textarea',
-        plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
-        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link ximage media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+            selector: 'textarea',
+            plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link ximage media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
         });
     </script>
 
-    {{-- <script src="https://cdn.tiny.cloud/1/nnd7pakaxqr7isf3oqefsdlew1jsidgl78umfeus6tg21ng0/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    {{-- <script src="https://cdn.tiny.cloud/1/{{env('TINY_MCE_API_KEY')}}/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 
 <script>
         tinymce.init({

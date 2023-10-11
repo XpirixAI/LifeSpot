@@ -11,7 +11,6 @@
         <div class="col-span-4 lg:col-span-1 xmax-h-48 xw-auto lg:border-r px-2 xmx-4">
             <div class="relative top-0 left-0 xh-full">
                 <img id="showImage" class="object-fit rounded-lg min-h-72 h-auto w-full" src="{{ (!empty($asset->thumbnail))? url($asset->thumbnail):url('thumbnails/default.jpeg') }}" alt="Card image cap">
-
                 {{-- <input xclass="rounded-lg xmax-h-56 h-full w-full" type="hidden" name="oldimage" value="{{ $asset->thumbnail }}"> --}}
                 <style>
                     .image-upload>input {
@@ -19,16 +18,12 @@
                 }
                 </style>
 
-
                 <div class="image-upload">
-
                     <label for="image">
-
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 bg-white cursor-pointer rounded-full p-1 absolute bottom-0 left-0 fill-blue-600 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
                         </svg>
-
                     </label>
                     <input xclass="rounded-lg max-h-full h-auto w-full" type="file" name="thumbnail" id="image" value="'{{ old('thumbnail') }}'">
                     @error('thumbnail')
@@ -54,9 +49,28 @@
                     @enderror
                </div> --}}
                <div class="mt-2">
-                    <label for="estate_role" class="block text-sm font-black text-black">Estate Role</label>
-                    <input type="text" name="estate_role"  autocomplete="estate_role" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                    value="{{ old('estate_role') }}" placeholder="Co-Trustee">
+                    <label for="estate_role" class="block text-sm font-black text-black">Estate Role {{ old('estate_role') }}</label>
+                    {{-- <input type="text" name="estate_role"  autocomplete="estate_role" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                        value="" placeholder="Co-Trustee"> --}}
+                    <select
+                        name="estate_role"
+                        class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                    >
+                        <option 
+                            value=""
+                            {!! !old('estate_role') ?? 'selected' !!}
+                        >
+                            Select an Option
+                        </option>
+                        @foreach($relationship_types as $rel)
+                            <option 
+                                value="{{$rel->id}}"
+                                {!! old('estate_role') == $rel->id ? 'selected' : '' !!}
+                            >
+                                {{$rel->title}}
+                            </option>
+                        @endforeach
+                    </select>
                     @error('estate_role')
                         <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
                     @enderror

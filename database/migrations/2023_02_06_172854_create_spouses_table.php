@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('fname');
             $table->string('lname');
             $table->string('isBeneficiary')->nullable();
-            $table->string('estate_role')->nullable();
+            $table->integer('estate_role')->nullable();
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
             $table->string('address')->nullable();

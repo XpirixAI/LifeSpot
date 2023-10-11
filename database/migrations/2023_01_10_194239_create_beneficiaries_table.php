@@ -25,7 +25,8 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('gender')->nullable();
             $table->string('relationship')->nullable();
-            // $table->boolean('isBeneficiary')->nullable();
+            $table->integer('estate_role')->nullable();
+            // $table->tinyInteger('isBeneficiary')->default(0);
             // $table->string('isBeneficiary')->nullable();
             $table->string('address')->nullable();
             $table->string('address2')->nullable();
