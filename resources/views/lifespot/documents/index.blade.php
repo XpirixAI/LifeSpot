@@ -56,6 +56,20 @@
                     </svg>
                 </button> --}}
             </div>
+            <ul class="space-y-3 mb-5">
+                <li
+                    class="{{ isset($cat_id) && $cat_id == 0 ? 'bg-blue-50' : '' }} hover:bg-blue-50 rounded-lg w-full py-1"
+                >
+                    <a class="flex space-x-2 text-xs items-center" href="{{route('documents', 0)}}">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 19a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1M5 19h14a2 2 0 002-2v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5a2 2 0 01-2 2z" />
+                            </svg>
+                        </span>
+                        <div class="{{ isset($cat_id) && $cat_id == 0 ? 'font-bold' : '' }}">Uncategorized</div>
+                    </a>
+                </li>
+            </ul>
             <div class="flex justify-between mb-3">
                 <div class="rounded-xl text-xs bg-gray-100 px-5 py-1 uppercase">Recommended</div>
                 <a href="#!">
@@ -65,7 +79,6 @@
                 </a>
             </div>
             <ul class="space-y-3 mb-5">
-
                 @foreach ($default_categories as $def_cat)
                     <li
                         class="{{ isset($cat_id) && $cat_id == $def_cat->id ? 'bg-blue-50' : '' }} hover:bg-blue-50 rounded-lg w-full py-1"
@@ -545,7 +558,12 @@
                             </button> --}}
 
                             <select name="folder" class="category_select form-select w-full bg-gray-100 border border-gray-300 rounded-md">
-                                <option value="" disabled>Select a Folder</option>
+                                <option 
+                                    value="0"
+                                    {!! isset($cat_id) && $cat_id == 0 ? 'selected' : '' !!}
+                                >
+                                    Uncategorized
+                                </option>
                                 @foreach ($default_categories as $def_cat)
                                     <option
                                         class="js-default-cat-option"
@@ -608,7 +626,7 @@
                             </a> 
                             <br>
                             <div class="float-right mt-5">
-                                <button type="button" @click="showModal = false" class="border border-blue-800 rounded-lg font-semibold text-xs py-2 px-8 mr-1">Cancel</button>
+                                <button type="button" @click="toggleIsUploadDocumentModalOpen()" class="border border-blue-800 rounded-lg font-semibold text-xs py-2 px-8 mr-1">Cancel</button>
                                 <button type="submit" class="bg-[#1f588d] text-white border border-gray-400 rounded-lg font-semibold text-xs py-2 px-8">Upload</button>
                             </div>
                         </div>
@@ -644,7 +662,7 @@
 
                         <label class="font-semibold text-sm mb-2">Document Category</label>
                         <select id="detail_modal_category" class="category_select form-select w-full bg-gray-100 border border-gray-300 mb-5 rounded-md" name="category">
-                            <option value="" disabled selected>Select a Folder</option>
+                            <option value="0" selected>Uncategorized</option>
                             @foreach ($default_categories as $def_cat)
                                 <option class="js-default-cat-option" value="{{ $def_cat->id }}">{{ $def_cat->title }}</option>
                             @endforeach

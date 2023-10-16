@@ -29,8 +29,11 @@ class DocumentsController extends Controller
         $custom_categories = $this->get_custom_categories($user_id);
         $default_categories = DB::table('file_categories')->get();
 
-        $selected_cat = DB::table('file_categories')->where('id', $cat_id)->get();
-        $page_title = $selected_cat[0]->title;
+        $page_title = 'Uncategorized';
+        if($cat_id != 0) {
+            $selected_cat = DB::table('file_categories')->where('id', $cat_id)->get();
+            $page_title = $selected_cat[0]->title;
+        }
 
         return view('lifespot.documents.index')->with([
             'documents' => $documents,
@@ -173,7 +176,7 @@ class DocumentsController extends Controller
             )
         );
         $request->formFile->storeAs('upload', $fileName);  
-        return redirect('/documents/1');
+        return redirect('/documents/0');
     }
 
     public function get_doc_details(Request $request) 
