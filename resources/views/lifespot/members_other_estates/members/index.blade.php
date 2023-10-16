@@ -416,7 +416,7 @@
                                     <label for="all_documents_checkbox">ALL DOCUMENTS</label>
                                 </div>
                                 @foreach($default_file_categories as $cat)
-                                    <div class="border-b-2 w-full min-w-32 mb-2">
+                                    <div class="border-b-2 w-full min-w-32 mb-2 cat_container">
                                         <button
                                             type="button"
                                             class="w-full"
@@ -472,7 +472,7 @@
                                 @endforeach
 
                                 @foreach($custom_file_categories as $cat)
-                                    <div class="border-b-2 w-full min-w-32 mb-2">
+                                    <div class="border-b-2 w-full min-w-32 mb-2 cat_container">
                                         <button
                                             type="button"
                                             class="w-full"
@@ -659,6 +659,30 @@
                                         // console.log("no input found");
                                     }
                                 })
+                                // check category checkboxes and "All" checkbox
+                                var allFilesChecked = true;
+                                $('.cat_container').each(function() {
+                                    var allFilesCheckedInCategory = true;
+
+                                    $(this).find('.file_checkbox').each(function() {
+                                        if($(this).is(':checked')){
+                                            console.log('checked');
+                                        } else {
+                                            allFilesCheckedInCategory = false;
+                                        }
+                                    });
+
+                                    if (allFilesCheckedInCategory) {
+                                        console.log('allFilesCheckedInCategory');
+                                        $(this).find('.cat_checkbox').prop('checked', true);
+                                    } else {
+                                        allFilesChecked = false;
+                                    }
+                                });
+                                if(allFilesChecked) {
+                                    $('#all_documents_checkbox').prop('checked', true);
+                                }
+
                                 // TODO: create logic to check categories and the 'ALL DOCUMENTS' inputs if all relevant files have been given viewing permission
                                 this.isDocumentPermissionsModalOpen = true;
                                 this.$dispatch('body-scroll', {})
@@ -666,7 +690,10 @@
                         });
                     }
                     else {
-                        $('.file_checkbox').prop('checked', true);
+                        $('.file_checkbox').prop('checked', false);
+                        $('.cat_checkbox').prop('checked', false);
+                        $('#all_documents_checkbox').prop('checked', false);
+                        
                         $('#doc_permissions_user_id').val('');
                         $('.doc_permissions_modal_accordion_content').addClass('hidden');
                         this.isDocumentPermissionsModalOpen = false;
