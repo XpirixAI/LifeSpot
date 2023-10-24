@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 use Carbon\Carbon;
 
@@ -210,5 +211,12 @@ class DocumentsController extends Controller
     {
         DB::table('files')->where('id', $request->id)->update(['is_favorite' => $request->is_favorite]);
         return response()->json(["success"=>"Document successfully favorited!"]);
+    }
+
+    public function download_doc(Request $request)
+    {
+        $fileDB = DB::table('files')->where('id', $request->id)->first();
+        $path = storage_path('app/upload/'.$fileDB->name);
+        return response()->download($path);
     }
 }

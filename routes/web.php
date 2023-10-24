@@ -364,6 +364,7 @@ use Illuminate\Support\Facades\Mail;
         Route::post('members/edit_relationship', [MembersController::class, 'edit_relationship'])->name('edit.relationship');
 
         //Documents
+        Route::any('/documents/download', [DocumentsController::class, 'download_doc'])->name('documents.download');
             // ...handling change of page/view
         Route::get('/documents/favorites', [DocumentsController::class, 'favorites'])->name('documents.favorites');
         Route::get('/documents/recents', [DocumentsController::class, 'recents'])->name('documents.recents');
@@ -375,6 +376,7 @@ use Illuminate\Support\Facades\Mail;
         Route::patch('/documents/update', [DocumentsController::class, 'update_doc'])->name('document.update');
         Route::post('/documents/delete', [DocumentsController::class, 'delete_doc'])->name('document.delete');
         Route::patch('/documents/favorite', [DocumentsController::class, 'favorite_doc'])->name('document.favorite');
+
         Route::post('/documents/custom/create', [DocumentsController::class, 'custom_create'])->name('documents.custom.category.create');
         Route::delete('/documents/custom/delete', [DocumentsController::class, 'custom_delete'])->name('documents.custom.category.delete');
         Route::patch('/documents/custom/update', [DocumentsController::class, 'custom_update'])->name('documents.custom.category.update');

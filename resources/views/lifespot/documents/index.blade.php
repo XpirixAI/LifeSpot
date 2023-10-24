@@ -317,17 +317,41 @@
                         <section class="text-gray-600 body-font">
                             <div class="grid grid-cols-3 gap-4">
                                 @foreach($documents as $doc)
-                                    <a href="#!" class="" >
+                                    <div>
                                         <div class="border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
                                             <div class="w-full">
                                                 <div class="w-full flex p-2">
                                                     <div class="p-2">
                                                         <div class="flex justify-between items-center mx-2">
-                                                            <svg @click="favoriteDoc( {{$doc->id}}, {{$doc->is_favorite ? 0 : 1}} );" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="{{$doc->is_favorite ? 'red' : 'none'}}" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                                            <svg 
+                                                                @click="favoriteDoc( {{$doc->id}}, {{$doc->is_favorite ? 0 : 1}} );" 
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                class="h-4 w-4 cursor-pointer"
+                                                                fill="{{$doc->is_favorite ? 'red' : 'none'}}"
+                                                                viewBox="0 0 24 24"
+                                                                stroke="currentColor"
+                                                                stroke-width="2"
+                                                            >
+                                                                <path 
+                                                                    stroke-linecap="round" 
+                                                                    stroke-linejoin="round" 
+                                                                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" 
+                                                                />
                                                             </svg>
-                                                            <svg @click="selectedDocID = {{$doc->id}}; getDocumentDetails();" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
+                                                            <svg 
+                                                                @click="selectedDocID = {{$doc->id}}; getDocumentDetails();" 
+                                                                xmlns="http://www.w3.org/2000/svg" 
+                                                                class="h-6 w-6 cursor-pointer text-gray-500" 
+                                                                fill="none" 
+                                                                viewBox="0 0 24 24" 
+                                                                stroke="currentColor" 
+                                                                stroke-width="2"
+                                                            >
+                                                                <path 
+                                                                    stroke-linecap="round" 
+                                                                    stroke-linejoin="round" 
+                                                                    d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" 
+                                                                />
                                                             </svg>
                                                         </div>
                                                         <div class="my-2 mx-10">
@@ -339,7 +363,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </a>
+                                    </div>
                                 @endforeach
                             </div>
                             {{-- <div class="container py-5 mx-auto">
@@ -653,6 +677,15 @@
                     <h5 class="font-black text-black">Document Details</h5>
                     <button type="button" class="cursor-pointer" @click="toggleDocDetailsOpen">X</button>
                 </div>
+                <div class="flex items-center justify-start mb-5">
+                    <button
+                        type="button"
+                        @click="downloadDocument()"
+                        class="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white border float-right border-gray-400 rounded-lg font-semibold text-xs py-1 lg:py-2 px-2 lg:px-5" 
+                    >
+                        Download
+                    </button>
+                </div>
                 <div id="doc_details_content">
                     <form method="POST" action="{{route('document.update')}}">
                         @csrf
@@ -883,15 +916,18 @@
         document.addEventListener('alpine:init', () => {
             Alpine.data('data', () => ({
                 isUploadDocumentModalOpen: false,
-                toggleIsUploadDocumentModalOpen() { this.isUploadDocumentModalOpen = !this.isUploadDocumentModalOpen},
+                toggleIsUploadDocumentModalOpen() { this.isUploadDocumentModalOpen = !this.isUploadDocumentModalOpen },
                 'docDetailsOpen': false,
                 toggleDocDetailsOpen() { this.docDetailsOpen = !this.docDetailsOpen },
                 'docDeleteOpen': false,
-                toggleDocDeleteOpen() { this.docDeleteOpen = !this.docDeleteOpen} ,
+                toggleDocDeleteOpen() { this.docDeleteOpen = !this.docDeleteOpen },
                 'selectedDocID': '',
+                setSelectedDocID(id) { 
+                    this.setSelectedDocID = id;
+
+                },
+                
                 getDocumentDetails() {
-                    console.log('getDocumentDetails() fired');
-                    console.log('selectedDocID:', this.selectedDocID);
                     $.ajax({
                         context: this,
                         url: "{{ route('document.get.details') }}",
@@ -904,14 +940,18 @@
                         // This is a temporary solution.
                         type: "POST",
                         success: function (data) {
-                            console.log('data.title:', data.title);
-                            console.log('data.category:', data.category)
                             this.toggleDocDetailsOpen();
                             $('#detail_modal_title').val(data.title);
                             $('#detail_modal_category').val(data.category);
                             $('#detail_modal_id').val(this.selectedDocID);
                         }
                     });
+                },
+                downloadDocument() {
+                    const link = document.createElement('a');
+                    const path = "{{ route('documents.download') }}?id=" + this.selectedDocID;
+                    link.setAttribute('href', path);
+                    link.click();
                 },
                 deleteDoc() {
                     $.ajax({
@@ -945,7 +985,7 @@
                 },
                 'createFolderOpen': false,
                 toggleCreateFolderOpen() { this.createFolderOpen = !this.createFolderOpen },
-                createFolder(){
+                createFolder() {
                     console.log('test');
                 },
                 'viewFoldersOpen': false,
