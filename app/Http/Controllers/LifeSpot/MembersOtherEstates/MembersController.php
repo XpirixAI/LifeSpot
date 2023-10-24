@@ -102,42 +102,42 @@ class MembersController extends Controller
     }
 
     // START document permissions methods
-    // TODO: move these to their own controller
-    public function update_user_document_permissions(Request $request) {
-        $user_id = Auth::user()->id;
+        // TODO: move these to their own controller
+        public function update_user_document_permissions(Request $request) {
+            $user_id = Auth::user()->id;
 
-        $permissions = [];
-        foreach($request->file_permissions as $file_name => $file_perm) {
-            if($file_perm == 'true') {
-                // $file_type = strtok($file_name, "_");
-                $file_id = (int)substr($file_name, strrpos($file_name, '_') + 1);
-                array_push($permissions, [
-                    'doc_owner_id' => $user_id,
-                    'doc_viewer_id' => $request->doc_viewer_id,
-                    'doc_id' => $file_id,
-                ]);
+            $permissions = [];
+            foreach($request->file_permissions as $file_name => $file_perm) {
+                if($file_perm == 'true') {
+                    // $file_type = strtok($file_name, "_");
+                    $file_id = (int)substr($file_name, strrpos($file_name, '_') + 1);
+                    array_push($permissions, [
+                        'doc_owner_id' => $user_id,
+                        'doc_viewer_id' => $request->doc_viewer_id,
+                        'doc_id' => $file_id,
+                    ]);
+                }
             }
+
+            if(count($permissions) > 0) {
+                DB::table('estate_user_file_permissions')
+                    ->where('doc_viewer_id', $request->doc_viewer_id)
+                    ->delete();
+            }
+            DB::table('estate_user_file_permissions')->insert($permissions);
+            return redirect()->back();
         }
 
-        if(count($permissions) > 0) {
-            DB::table('estate_user_file_permissions')
+        public function get_user_document_permissions(Request $request) {
+            $doc_permissions = DB::table('estate_user_file_permissions')
+                ->where('doc_owner_id', Auth::user()->id)
                 ->where('doc_viewer_id', $request->doc_viewer_id)
-                ->delete();
+                ->get();
+            return response()
+                ->json([
+                    'doc_permissions' => $doc_permissions
+                ]);
         }
-        DB::table('estate_user_file_permissions')->insert($permissions);
-        return redirect()->back();
-    }
-
-    public function get_user_document_permissions(Request $request) {
-        $doc_permissions = DB::table('estate_user_file_permissions')
-            ->where('doc_owner_id', Auth::user()->id)
-            ->where('doc_viewer_id', $request->doc_viewer_id)
-            ->get();
-        return response()
-            ->json([
-                'doc_permissions' => $doc_permissions
-            ]);
-    }
     // END document permissions methods
 
     public function download_file(Request $request)
@@ -207,10 +207,20 @@ class MembersController extends Controller
     public function select_user_suggestion(Request $request) 
     {
         $user = User::where('id', $request->id)->first();
+
+
+        $url = url('upload/no_image.png');
+        if (
+            !empty($user->profile_photo_path) 
+            && file_exists(public_path('upload/admin_images/'.$user->profile_photo_path))
+        ) {
+            $url = url('upload/admin_images/'.$user->profile_photo_path);
+        }
+
         return response()->json([
             'id' => $user->id,
             'name' => $user->name,
-            'profile_photo_path' => url('upload/admin_images/'.$user->profile_photo_path)
+            'profile_photo_path' => $url
         ]);
     }
 

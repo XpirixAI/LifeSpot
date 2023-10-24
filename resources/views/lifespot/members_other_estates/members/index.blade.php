@@ -853,7 +853,6 @@
                     ajax: {
                         url: "{{ route('load.user.suggestions') }}",
                         data: function(d) {
-
                             // Get the values directly from the inputs
                             d.search_text = $("#email_invite").val(); 
                         },
@@ -884,6 +883,7 @@
                         $('#invite_table_and_search').addClass('hidden');
                         $('#selected_user_id').val(data.id);
                         $('#selected_user_img').attr('src', data.profile_photo_path);
+                        console.log('data.profile_photo_path:', data.profile_photo_path)
                         $('#selected_user_name').html(data.name);
                     }
                 })
