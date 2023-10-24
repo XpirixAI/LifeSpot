@@ -32,7 +32,6 @@
                             <button
                                 @click="toggleIsInvitationListModalOpen()"
                                 type="button"
-                                href="#!"
                                 class="flex space-x-2 font-bold items-center text-white bg-green-700 lg:my-0 my-4 px-4 py-2 rounded-lg relative"
                             >
                                 <span>New Invitations</span>
