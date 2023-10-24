@@ -29,14 +29,16 @@
                     </div>
                     <div class="col-span-2 flex items-center justify-end">
                         @if(count($invitations) > 0)
-                        <button
-                            @click="toggleIsInvitationListModalOpen()"
-                            type="button"
-                            href="#!"
-                            class="flex space-x-2 font-bold items-center text-white bg-green-700 lg:my-0 my-4 px-4 py-2 rounded-lg relative"
-                        >
-                            <span>New Invitations</span>
-                        </button>
+                            <button
+                                @click="toggleIsInvitationListModalOpen()"
+                                type="button"
+                                href="#!"
+                                class="flex space-x-2 font-bold items-center text-white bg-green-700 lg:my-0 my-4 px-4 py-2 rounded-lg relative"
+                            >
+                                <span>New Invitations</span>
+                            </button>
+                        @else
+                            <h1>No invitations</h1>
                         @endif
                     </div>
                     <div class="col-span-2">
@@ -883,7 +885,6 @@
                         $('#invite_table_and_search').addClass('hidden');
                         $('#selected_user_id').val(data.id);
                         $('#selected_user_img').attr('src', data.profile_photo_path);
-                        console.log('data.profile_photo_path:', data.profile_photo_path)
                         $('#selected_user_name').html(data.name);
                     }
                 })
