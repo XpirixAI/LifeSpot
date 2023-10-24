@@ -73,98 +73,29 @@
         <div class="items-center space-y-3">
             <h3 class="font-semibold text-lg">Additional Information Related To <span class="">{{ Str::limit($asset->fname, 25, '...') }}</span> </h3>
 
-
-
-            {{-- <livewire:pet :asset="$asset">
-            <livewire:pet-vet :asset="$asset"> --}}
-
-
-
-            {{-- <div class="mt-2 space-y-3 col-span-5 items-center lg:text-base text-sm">
-                <div class="xbg-gray-400 grid grid-cols-8 lg:grid-cols-12 gap-0 lg:gap-4 items-center whitespace-nowrap">
-                    <div class="xbg-green-400 col-span-3 lg:col-span-3 text-right space-y-3">
-                        <p class="text-gray-800">Guardian
-
-                            @isset($guardian[0])
-                                <button type="button" data-bs-toggle="modal" data-bs-target="#viewGuardianModal" wire:model=$guardian[0] class="bg-sky-800 text-white text-xs rounded-md  px-1 py-1">View</button>
-                                @else
-                                <button wire:click="create()" type="button" data-bs-toggle="modal" data-bs-target="#addGuardian" class="bg-sky-800 text-white text-xs rounded-md  px-1.5 py-1">Add</button>
-                            @endisset
-                            :
-                        </p>
-                        <p class="text-gray-800">Medical
-                            @isset($medical[0])
-                                <button type="button" data-bs-toggle="modal" data-bs-target="#viewMedicalModal" wire:model=$medical[0] class="bg-sky-800 text-white text-xs rounded-md  px-1 py-1">View</button>
-                                @else
-                                <button wire:click="create()" type="button" data-bs-toggle="modal" data-bs-target="#addMedical" class="bg-sky-800 text-white text-xs rounded-md  px-1.5 py-1">Add</button>
-                            @endisset
-                            :
-                        </p>
-
-                    </div>
-                    <div class="xbg-blue-400 col-span-5 lg:col-span-7 text-left ml-1 space-y-4 lg:space-y-3">
-                        <p class="text-gray-500">
-                            @isset($guardian[0])
-                                <span wire:model="create()"> {{ $guardian[0]->fname }} {{ $guardian[0]->lname }}</span>
-                                @else <span>-</span>
-                            @endisset
-                        </p>
-                        <p class="text-gray-500">
-                            @isset($medical[0])
-                            <span wire:model="create()"> {{ $medical[0]->family_doctor }} </span>
-                                @else <span>-</span>
-                            @endisset
-                        </p>
-
-                    </div>
-                    <div class="hidden xbg-yellow-500 col-span-5 ml-3 lg:col-span-2 text-left lg:ml-1 space-y-3 lg:mt-0 mt-5">
-                        <h3 class="font-semibold text-lg">Key Documents </h3>
-                        <div class="xlg:bg-gray-50 rounded-lg mt-5 lg:px-2 xpy-4">
-                            <div class="xmt-6">
-                                ???? :
-                                @isset($xxxguardian[0])
-                                    <button type="button" data-bs-toggle="modal" data-bs-target="#xviewGuardianModal" wire:model=$guardian[0] class="bg-sky-800 text-white text-xs rounded-md  px-1 py-1">View</button>
-                                @else
-                                    <button type="button" data-bs-toggle="modal" data-bs-target="#xaddGuardianModal" class="bg-sky-800 text-white text-xs rounded-md  px-1.5 py-1">Add</button>
-                                    @endisset
-                            </div>
-                            <div class="mt-2">
-                                ???? :
-                                @isset($xxxguardian[0])
-                                        <button type="button" data-bs-toggle="modal" data-bs-target="#xviewGuardianModal" wire:model=$guardian[0] class="bg-sky-800 text-white text-xs rounded-md  px-1 py-1">View</button>
-                                @else
-                                    <button type="button" data-bs-toggle="modal" data-bs-target="#xaddGuardianModal" class="bg-sky-800 text-white text-xs rounded-md  px-1.5 py-1">Add</button>
-                                @endisset
-                            </div>
-                            <div class="mt-6 flex items-center">
-
-
-                            </div>
-
-                        </div>
-                    </div>
-
-                </div>
-            </div> --}}
-
             <div x-data="{open: false}" >
-                <form method="POST" action="{{ route('store.multi.image.bank',$asset->id) }}" enctype="multipart/form-data" multiple="" class="border-none">
+                <form method="POST" action="{{ route('store.multi.image.tax',$asset->id) }}" enctype="multipart/form-data" multiple="" class="border-none">
                     @csrf
                     <label @click="open=!open"  for="image" class="xml-2 text-blue-500 whitespace-nowrap cursor-pointer">
                         Add Documents and Photos
                     </label>
-                    <input x-show="open" name="multi_image[]" class="xhidden" type="file" id="image" multiple="">
-
-                <div x-show="open"  class="flex space-x-3">
-
-
+                    <input 
+                        x-show="open" 
+                        name="multi_image[]" 
+                        class="xhidden" 
+                        type="file" 
+                        id="image"
+                        multiple=""
+                        accept=".jpeg,.png,.jpg,.webp"
+                    />
+                    <div x-show="open"  class="flex space-x-3">
                         <input @click="open=!open" type="submit" class="rounded-lg bg-blue-700 text-white px-4 py-1 mt-3" value="Add Files">
                         <button @click="open=!open" type="reset"  class="rounded-lg bg-gray-700 text-white px-4 py-1 mt-3">Cancel</button>
                     </div>
                 </form>
             </div>
 
-            {{-- <div class="ml-5">
+            <div class="ml-5">
                 <div class="items-center mr-2 mb-3">
                     <h5 class="font-black text-gray-400 text-xs uppercase mb-2">Documents & Photos <span>({{ $additionalAssets->count() }})</span>
                     </h5>
@@ -174,7 +105,7 @@
                     <div class="relative">
                     <!-- Modal toggle -->
                         <button type="button" data-modal-toggle="{{ $additionalAsset->id }}"> <img class="h-24 w-28 rounded object-cover" src="{{ asset($additionalAsset->multi_image) }}" alt=""></button>
-                        <form method="POST" action="{{ route('destroy.mulit.image.bank',$additionalAsset->id)  }}">
+                        <form method="POST" action="{{ route('destroy.mulit.image.tax',$additionalAsset->id)  }}">
                             @csrf
                             @method('DELETE')
                             <button class="absolute left-0 bottom-0 rounded-full bg-white p-1" onclick="return confirm('Are you sure you want to delete this?')">
@@ -187,15 +118,11 @@
                     @endforeach
 
                 </div>
-            </div> --}}
+            </div>
         </div>
 
-
-
-
         <!--Modal for Additional Information -->
-        {{-- @foreach ($additionalAssets as $additionalAsset)
-
+        @foreach ($additionalAssets as $additionalAsset)
             <!-- Main modal for Additional Assets (photos/documents) -->
             <div id="{{ $additionalAsset->id }}" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full">
                 <div class="relative w-full h-full max-w-2xl md:h-auto">
@@ -222,8 +149,7 @@
                     </div>
                 </div>
             </div>
-
-        @endforeach --}}
+        @endforeach
     </div>
 
     <ul class="md:col-span-12 lg:col-span-3 col-span-12 mb-12 mt-8 space-y-8">

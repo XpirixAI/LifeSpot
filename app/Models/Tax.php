@@ -15,4 +15,9 @@ class Tax extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function taxAssets()
+    {
+        return $this->hasMany(TaxAsset::class);
+    }
 }

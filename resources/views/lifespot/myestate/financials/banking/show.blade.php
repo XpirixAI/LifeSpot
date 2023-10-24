@@ -162,11 +162,17 @@
                 <label @click="open=!open"  for="image" class="xml-2 text-blue-500 whitespace-nowrap cursor-pointer">
                     Add Documents and Photos
                 </label>
-                <input x-show="open" name="multi_image[]" class="xhidden" type="file" id="image" multiple="">
+                <input 
+                    x-show="open" 
+                    name="multi_image[]" 
+                    class="xhidden" 
+                    type="file" 
+                    id="image" 
+                    multiple=""
+                    accept=".jpeg,.png,.jpg,.webp"
+                >
 
-               <div x-show="open"  class="flex space-x-3">
-
-
+                <div x-show="open"  class="flex space-x-3">
                     <input @click="open=!open" type="submit" class="rounded-lg bg-blue-700 text-white px-4 py-1 mt-3" value="Add Files">
                     <button @click="open=!open" type="reset"  class="rounded-lg bg-gray-700 text-white px-4 py-1 mt-3">Cancel</button>
                 </div>
@@ -194,7 +200,6 @@
                     </form>
                 </div>
                 @endforeach
-
             </div>
         </div>
     </div>

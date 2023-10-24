@@ -69,7 +69,8 @@
             <div class="text-gray-500">
                 {{ ($user->personalInformation->birth_month ) != NULL || '' ? $user->personalInformation->birth_month : '-' }}/
                 {{ ($user->personalInformation->birth_day   ) != NULL || '' ? $user->personalInformation->birth_day   : '-' }}/
-                {{ ($user->personalInformation->birth_year  ) != NULL || '' ? $user->personalInformation->birth_year  : '-' }}</div>
+                {{ ($user->personalInformation->birth_year  ) != NULL || '' ? $user->personalInformation->birth_year  : '-' }}
+            </div>
             <div class="text-gray-500">{{ ($user->personalInformation->notes_wishes) != NULL || '' ? $user->personalInformation->notes_wishes : '-' }}</div>
            </div>
           </div>

@@ -332,9 +332,9 @@ use Illuminate\Support\Facades\Mail;
             Route::delete('/myestate/financials/banks/delete/{asset}',[BankingController::class, 'destroy'])->name('myestate.financials.destroy.bank');
 
 
-            //MUlti BANK Assets
-            Route::post('/store/multi/bank/{asset}', [BankingController::class, 'StoreMultiImage'])->name('store.multi.image.bank');
-            Route::delete('/store/multi/bank/{additionalAsset}', [BankingController::class, 'DestroyMultiImage'])->name('destroy.mulit.image.bank');
+            // Multi BANK Assets
+            Route::post('/store/multi/tax/{asset}', [BankingController::class, 'StoreMultiImage'])->name('store.multi.image.bank');
+            Route::delete('/store/multi/tax/{additionalAsset}', [BankingController::class, 'DestroyMultiImage'])->name('destroy.mulit.image.bank');
 
             // My ESTATE Financial Routes --TAXES
             Route::get('myestate/financials/taxes',[TaxController::class, 'index'])->name('myestate.financials.tax');
@@ -344,6 +344,10 @@ use Illuminate\Support\Facades\Mail;
             Route::get('/myestate/financials/taxex/edit/{asset}',[TaxController::class, 'edit'])->name('myestate.financials.edit.tax');
             Route::put('/myestate/financials/taxes/update/{asset}',[TaxController::class, 'update'])->name('myestate.financials.update.tax');
             Route::delete('/myestate/financials/taxes/delete/{asset}',[TaxController::class, 'destroy'])->name('myestate.financials.destroy.tax');
+
+            // Multi TAX Assets
+            Route::post('/store/multi/bank/{asset}', [TaxController::class, 'StoreMultiImage'])->name('store.multi.image.tax');
+            Route::delete('/store/multi/bank/{additionalAsset}', [TaxController::class, 'DestroyMultiImage'])->name('destroy.mulit.image.tax');
 
         // Members & Other Estates
         Route::get('members',[MembersController::class, 'index'])->name('mymembers');
