@@ -51,7 +51,7 @@
                         name="thumbnail" 
                         id="image" 
                         value="'{{ old('thumbnail') }}'"
-                        accept=".jpeg,.pdf,.jpg,.webp"
+                        accept=".jpeg,.png,.jpg,.webp"
                     />
                     @error('thumbnail')
                         <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
