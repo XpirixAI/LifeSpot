@@ -20,14 +20,13 @@
               </svg>
              Go Back
         </a>
-        <div class="flex space-x-8 mb-2">
-
-                <h1 class="font-black text-xl">
-                   Bank
-                </h1>
-                <a href="{{ route('myestate.financials.edit.bank',$asset->id) }}" class="flex">
-                    <span class="text-blue-500">Edit</span>
-                </a>
+        <div>
+            <h1 class="font-black text-xl inline">
+                Bank
+            </h1>
+            <a href="{{ route('myestate.financials.edit.bank',$asset->id) }}" class="inline ml-5">
+                <span class="text-blue-500">Edit</span>
+            </a>
         </div>
         <div class="mt-3">
             <img class="rounded-lg lg:min-h-36 lg:max-h-48  lg:w-auto object-cover" src="{{ (!empty($asset->thumbnail))? asset($asset->thumbnail):url('thumbnails/default.jpeg') }}" alt="no image">

@@ -11,18 +11,15 @@
                 </svg>
                 Go Back
             </a>
-            <div class="flex space-x-8 mb-2">
-                <h1 class="font-black text-xl">
-                    Bank
+            <div>
+                <h1 class="font-black text-xl inline">
+                    Tax
                 </h1>
-                <a href="{{ route('myestate.financials.edit.tax', $asset->id) }}" class="flex">
+                <a href="{{ route('myestate.financials.edit.tax', $asset->id) }}" class="inline ml-5">
                     <span class="text-blue-500">Edit</span>
                 </a>
             </div>
-            <div class="mt-3">
-                <img class="rounded-lg lg:min-h-36 lg:max-h-48  lg:w-auto object-cover" src="{{ (!empty($asset->thumbnail))? asset($asset->thumbnail):url('thumbnails/default.jpeg') }}" alt="no image">
-            </div>
-            <div class="shrink-0 flex items-center ml-4 mt-5">
+            <div class="shrink-0 flex items-center mt-10">
                 <a xhref="">
                     <x-jet-application-mark class="block h-9 w-auto" />
                 </a>
@@ -33,7 +30,7 @@
         <div class="xbg-orange-500 rounded-lg xshadow-xl min-h-20 row-span-5 col-span-3 mt-5">
             <div class="grid grid-cols-7 gap-2 ">
             <div class="col-span-2 text-right mr-1 xspace-y-3">
-                <div class="mb-3 ">Tax Advisor</div>
+                <div class="mb-3 ">Tax Advisor:</div>
                 <div class="mb-3"><span class="hidden lg:block">Acct Type:</span><span class="lg:hidden block">Type:</span></div>
                 <div class="mb-3"><span class="hidden lg:block">Acct Description:</span><span class="lg:hidden block">Description:</span></div>
                 <div class="mb-3 ">Contact:</div>

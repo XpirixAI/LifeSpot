@@ -83,8 +83,6 @@
                 <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
             @enderror
         </div>
-
-
     </div>
 
     <div class="lg:flex lg:space-x-2 space-y-4 lg:space-y-0">

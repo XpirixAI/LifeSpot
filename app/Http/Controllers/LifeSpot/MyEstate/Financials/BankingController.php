@@ -145,7 +145,9 @@ class BankingController extends Controller
             $image_one = uniqid().'.'.$image->getClientOriginalExtension();
             Image::make($image)->resize(400,400, function($constraint){
                 $constraint->upsize();
-            })->orientate()->save('thumbnails/'.$image_one);
+            })->orientate()->save(public_path('thumbnails/'.$image_one));
+            // })->orientate()->save('thumbnails/'.$image_one);
+            
             $validated['thumbnail'] = 'thumbnails/'.$image_one;
 
             $asset->update($validated);
