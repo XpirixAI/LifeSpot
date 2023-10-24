@@ -65,6 +65,10 @@ class InvitationController extends Controller
      */
     public function create(Request $request)
     {
+        // $request->validate([
+        //     ''
+        // ]);
+        
         $relationship = DB::table('relationship_types')->where('id', $request->relationship_type)->first();
         
         // on platform invite

@@ -32,7 +32,7 @@
                             <button
                                 @click="toggleIsInvitationListModalOpen()"
                                 type="button"
-                                class="flex space-x-2 font-bold items-center text-white bg-green-700 lg:my-0 my-4 px-4 py-2 rounded-lg relative"
+                                class="bg-[#1f588d] text-white border float-right border-gray-400 rounded-lg font-semibold text-xs py-1 lg:py-2 px-2 lg:px-5"
                             >
                                 <span>New Invitations</span>
                             </button>
@@ -284,7 +284,10 @@
                                         @endforeach
                                     </td>
                                     <td>
-                                        <button onclick="acceptInvitation({{$invite->id}})" class="text-white bg-green-700 lg:my-0 my-2 px-4 py-2 rounded-lg">
+                                        <button 
+                                            onclick="acceptInvitation({{$invite->id}})"
+                                            class="bg-[#1f588d] text-white border float-right border-gray-400 rounded-lg font-semibold text-xs py-1 lg:py-2 px-2 lg:px-5"
+                                        >
                                             Accept
                                         </button>
                                     </td>
