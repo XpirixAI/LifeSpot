@@ -158,7 +158,7 @@
         <div x-data="{open: false}" >
             <form method="POST" action="{{ route('store.multi.image.bank',$asset->id) }}" enctype="multipart/form-data" multiple="" class="border-none">
                 @csrf
-                <label @click="open=!open"  for="image" class="xml-2 text-blue-500 whitespace-nowrap cursor-pointer">
+                <label @click="open=!open" for="image" class="xml-2 text-blue-500 whitespace-nowrap cursor-pointer">
                     Add Documents and Photos
                 </label>
                 <input 

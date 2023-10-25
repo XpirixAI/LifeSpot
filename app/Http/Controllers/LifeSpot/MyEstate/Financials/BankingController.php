@@ -66,7 +66,24 @@ class BankingController extends Controller
             $validated['thumbnail'] = 'thumbnails/'.$image_one;
         }
 
-        Bank::create($validated);
+        $bank = Bank::create($validated);
+        $bank = $bank->fresh();
+
+        $images = $request->file('multi_image');
+        foreach ($images as $multi_image){
+            $name_gen = hexdec(uniqid()).'.'.$multi_image->getClientOriginalExtension();
+
+            Image::make($multi_image)->resize(220,220)->save('upload/multi/'.$name_gen);
+            $save_url = 'upload/multi/'.$name_gen;
+
+            BankAsset::insert([
+                'multi_image' => $save_url,
+                'created_at' => Carbon::now(),
+                'user_id' => auth()->user()->id,
+                'bank_id' => $bank['id'],
+            ]);
+        }
+
         return redirect('/myestate/financials/banking');
     }
 

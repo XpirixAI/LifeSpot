@@ -924,9 +924,7 @@
                 'selectedDocID': '',
                 setSelectedDocID(id) { 
                     this.setSelectedDocID = id;
-
                 },
-                
                 getDocumentDetails() {
                     $.ajax({
                         context: this,
