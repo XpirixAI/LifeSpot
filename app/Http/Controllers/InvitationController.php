@@ -66,8 +66,28 @@ class InvitationController extends Controller
     public function create(Request $request)
     {
         // $request->validate([
-        //     ''
+        //     'relationship_type' => 'required'
+        // ],
+        // [
+        //     'relationship_type.required' => ''
         // ]);
+        $validator = Validator::make([
+            'email' => $request->email,
+            'relationship_type' => $request->relationship_type,
+            'selected_user_id' => $request->selected_user_id,
+        ], 
+        [
+            'relationship_type' => 'required',
+            'email' => 'required_without:selected_user_id',
+        ]);
+
+        if($validator->fails()) {
+            Log::info('DEV: validator failed');
+            return response()->json([
+                'success' => false,
+                'message' => 'All fields are required to send an invitation.',
+            ]);
+        }
         
         $relationship = DB::table('relationship_types')->where('id', $request->relationship_type)->first();
         

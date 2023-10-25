@@ -86,12 +86,6 @@ class MembersController extends Controller
             ->where('responded', 0)
             ->get();
 
-        if(empty($invitations)) {
-            Log::info('DEV: no invitations exist');
-        } else {
-            Log::info('DEV: at least one invitation exists');
-        }
-
         return view('lifespot.members_other_estates.members.index')
             ->with([
                 'current_owner' => $current_owner,

@@ -36,8 +36,6 @@
                             >
                                 <span>New Invitations</span>
                             </button>
-                        @else
-                            <h1>No invitations</h1>
                         @endif
                     </div>
                     <div class="col-span-2">
@@ -97,8 +95,13 @@
                 </div>
 
                 @if(!$is_owned_by_current_user)
-                    <div class="w-full flex justify-end">
-                        <button @click="toggleIsSharedDocumentsModalOpen()" type="button" href="#!" class="flex space-x-2 font-bold items-center text-blue-700 pr-8 lg:my-0 my-4">
+                    <div class="w-full flex justify-end mb-5">
+                        <button 
+                            @click="toggleIsSharedDocumentsModalOpen()" 
+                            type="button" 
+                            href="#!" 
+                            class="bg-[#1f588d] text-white border float-right border-gray-400 rounded-lg font-semibold text-xs py-1 lg:py-2 px-2 lg:px-5"
+                        >
                             <span>View Shared Documents</span>
                         </button>
                     </div>
@@ -639,190 +642,6 @@
             });
         */
 
-        document.addEventListener('alpine:init', () => {
-            Alpine.data('data', () => ({
-                isDocumentPermissionsModalOpen: false,
-                toggleIsDocumentPermissionsModalOpen(user_id) {
-                    if(!this.isDocumentPermissionsModalOpen) {
-                        $('#doc_permissions_user_id').val(user_id);
-                        $.ajax({
-                            context: this,
-                            url: "{{ route('get.user.document.permissions') }}",
-                            data: {
-                                "_token": "{{ csrf_token() }}",
-                                doc_viewer_id: user_id,
-                            },
-                            type: "GET",
-                            success: function (data) {
-                                data.doc_permissions.forEach(filePerm => {
-                                    if($('#custom_cat_file_' + filePerm.doc_id).length) {
-                                        $('#custom_cat_file_' + filePerm.doc_id).prop('checked', true);
-                                    } else if($('#default_cat_file_' + filePerm.doc_id).length) {
-                                        $('#default_cat_file_' + filePerm.doc_id).prop('checked', true);
-                                    } else {
-                                        // console.log("no input found");
-                                    }
-                                })
-                                // check category checkboxes and "All" checkbox
-                                var allFilesChecked = true;
-                                $('.cat_container').each(function() {
-                                    var allFilesCheckedInCategory = true;
-
-                                    $(this).find('.file_checkbox').each(function() {
-                                        if($(this).is(':checked')){
-                                            console.log('checked');
-                                        } else {
-                                            allFilesCheckedInCategory = false;
-                                        }
-                                    });
-
-                                    if (allFilesCheckedInCategory) {
-                                        console.log('allFilesCheckedInCategory');
-                                        $(this).find('.cat_checkbox').prop('checked', true);
-                                    } else {
-                                        allFilesChecked = false;
-                                    }
-                                });
-                                if(allFilesChecked) {
-                                    $('#all_documents_checkbox').prop('checked', true);
-                                }
-
-                                // TODO: create logic to check categories and the 'ALL DOCUMENTS' inputs if all relevant files have been given viewing permission
-                                this.isDocumentPermissionsModalOpen = true;
-                                this.$dispatch('body-scroll', {})
-                            }
-                        });
-                    }
-                    else {
-                        $('.file_checkbox').prop('checked', false);
-                        $('.cat_checkbox').prop('checked', false);
-                        $('#all_documents_checkbox').prop('checked', false);
-                        
-                        $('#doc_permissions_user_id').val('');
-                        $('.doc_permissions_modal_accordion_content').addClass('hidden');
-                        this.isDocumentPermissionsModalOpen = false;
-                        this.$dispatch('body-scroll', {})
-                    }
-                },
-                submitDocumentPermissions() {
-                    // TODO: replace modal content with loading animation.
-                    // Do not allow user to click away while loading is occuring.
-                    var file_permissions = {};
-                    $('.file_checkbox').each(function() {
-                        file_permissions[$(this).attr("name")] = $(this).prop('checked');
-                    })
-                    $.ajax({
-                        context: this,
-                        url: "{{ route('update.user.document.permissions') }}",
-                        data: {
-                            "_token": "{{ csrf_token() }}",
-                            file_permissions: file_permissions,
-                            doc_viewer_id: $('#doc_permissions_user_id').val(),
-                        },
-                        type: "POST",
-                        success: function (data) {                      
-                            this.toggleIsDocumentPermissionsModalOpen();
-                            // TODO: remove loading animation
-                        }
-                    });
-                },
-                isSharedDocumentsModalOpen: false,
-                toggleIsSharedDocumentsModalOpen() { 
-                    this.isSharedDocumentsModalOpen = !this.isSharedDocumentsModalOpen;
-                    this.$dispatch('body-scroll', {}); 
-                },
-                isInviteModalOpen: false,
-                toggleIsInviteModalOpen() {
-                    this.isInviteModalOpen = !this.isInviteModalOpen;
-                    this.$dispatch('body-scroll', {})
-                },
-                submitInvite() {
-                    // TODO: replace modal content with loading animation.
-                    // Do not allow user to click away while loading is occuring.
-                    var email = $('#email_invite').val();
-                    var rel = $('#relationship_type').val();
-                    var id = $('#selected_user_id').val();
-                    $.ajax({
-                        context: this,
-                        url: "{{ route('dispatch.invite.email') }}",
-                        data: {
-                            "_token": "{{ csrf_token() }}",
-                            email: email,
-                            relationship_type: rel,
-                            selected_user_id: id,
-                        },
-                        type: "POST",
-                        success: function (data) {
-                            this.toggleIsInviteModalOpen();
-                            $('#email_invite').val('');
-                            $('#relationship_type').val('');
-                            if(data.success) {
-                                toastr.success(data.message);
-                            } else {
-                                toastr.error(data.message);
-                            }
-                            // TODO: remove loading animation
-                        },
-                    });
-                },
-                isInvitationListModalOpen: false,
-                toggleIsInvitationListModalOpen() {
-                    this.isInvitationListModalOpen = !this.isInvitationListModalOpen;
-                    this.$dispatch('body-scroll', {})
-                },
-                isDeleteRelationshipModalOpen: false,
-                toggleIsDeleteRelationshipModalOpen(userID) {
-                    // opening
-                     if(this.isDeleteRelationshipModalOpen == false) {
-                        $('#delete_relationship_user_id').val(userID);
-                    }
-                    this.isDeleteRelationshipModalOpen = !this.isDeleteRelationshipModalOpen;
-                },
-                submitDeleteRelationship() {
-                    var userID = $('#delete_relationship_user_id').val();
-                    console.log('submit:', userID);
-                    $.ajax({
-                        context: this,
-                        url: "{{ route('delete.relationship') }}",
-                        type: "DELETE",
-                        data: {
-                            "_token": "{{ csrf_token() }}",
-                            user_id: userID,
-                        },
-                        success() {
-                            window.location.reload();
-                        }
-                    })
-                },
-                isEditRelationshipModalOpen: false,
-                toggleIsEditRelationshipModalOpen(userID, relationshipID) {
-                    // opening
-                    if(this.isEditRelationshipModalOpen == false) {
-                        $('#edit_relationship_option_' + relationshipID).attr('selected', true);
-                        $('#edit_relationship_user_id').val(userID);
-                    }
-                    this.isEditRelationshipModalOpen = !this.isEditRelationshipModalOpen;
-                },
-                submitEditRelationship() {                 
-                    var userID = $('#edit_relationship_user_id').val();
-                    var relationshipID = $('#edit_relationship_type').val();
-                    $.ajax({
-                        context: this,
-                        url: "{{ route('edit.relationship') }}",
-                        type: "POST",
-                        data: {
-                            "_token": "{{ csrf_token() }}",
-                            user_id: userID,
-                            relationship_id: relationshipID,
-                        },
-                        success() {
-                            window.location.reload();
-                        }
-                    })
-                },
-            }));
-        });
-
         // START functions for New Invitations modal
             function acceptInvitation(invitationID) {
                 $.ajax({
@@ -953,5 +772,191 @@
                 }
             });
         }
+
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('data', () => ({
+                isDocumentPermissionsModalOpen: false,
+                toggleIsDocumentPermissionsModalOpen(user_id) {
+                    if(!this.isDocumentPermissionsModalOpen) {
+                        $('#doc_permissions_user_id').val(user_id);
+                        $.ajax({
+                            context: this,
+                            url: "{{ route('get.user.document.permissions') }}",
+                            data: {
+                                "_token": "{{ csrf_token() }}",
+                                doc_viewer_id: user_id,
+                            },
+                            type: "GET",
+                            success: function (data) {
+                                data.doc_permissions.forEach(filePerm => {
+                                    if($('#custom_cat_file_' + filePerm.doc_id).length) {
+                                        $('#custom_cat_file_' + filePerm.doc_id).prop('checked', true);
+                                    } else if($('#default_cat_file_' + filePerm.doc_id).length) {
+                                        $('#default_cat_file_' + filePerm.doc_id).prop('checked', true);
+                                    } else {
+                                        // console.log("no input found");
+                                    }
+                                })
+                                // check category checkboxes and "All" checkbox
+                                var allFilesChecked = true;
+                                $('.cat_container').each(function() {
+                                    var allFilesCheckedInCategory = true;
+
+                                    $(this).find('.file_checkbox').each(function() {
+                                        if($(this).is(':checked')){
+                                            console.log('checked');
+                                        } else {
+                                            allFilesCheckedInCategory = false;
+                                        }
+                                    });
+
+                                    if (allFilesCheckedInCategory) {
+                                        console.log('allFilesCheckedInCategory');
+                                        $(this).find('.cat_checkbox').prop('checked', true);
+                                    } else {
+                                        allFilesChecked = false;
+                                    }
+                                });
+                                if(allFilesChecked) {
+                                    $('#all_documents_checkbox').prop('checked', true);
+                                }
+
+                                // TODO: create logic to check categories and the 'ALL DOCUMENTS' inputs if all relevant files have been given viewing permission
+                                this.isDocumentPermissionsModalOpen = true;
+                                this.$dispatch('body-scroll', {})
+                            }
+                        });
+                    }
+                    else {
+                        $('.file_checkbox').prop('checked', false);
+                        $('.cat_checkbox').prop('checked', false);
+                        $('#all_documents_checkbox').prop('checked', false);
+                        
+                        $('#doc_permissions_user_id').val('');
+                        $('.doc_permissions_modal_accordion_content').addClass('hidden');
+                        this.isDocumentPermissionsModalOpen = false;
+                        this.$dispatch('body-scroll', {})
+                    }
+                },
+                submitDocumentPermissions() {
+                    // TODO: replace modal content with loading animation.
+                    // Do not allow user to click away while loading is occuring.
+                    var file_permissions = {};
+                    $('.file_checkbox').each(function() {
+                        file_permissions[$(this).attr("name")] = $(this).prop('checked');
+                    })
+                    $.ajax({
+                        context: this,
+                        url: "{{ route('update.user.document.permissions') }}",
+                        data: {
+                            "_token": "{{ csrf_token() }}",
+                            file_permissions: file_permissions,
+                            doc_viewer_id: $('#doc_permissions_user_id').val(),
+                        },
+                        type: "POST",
+                        success: function (data) {                      
+                            this.toggleIsDocumentPermissionsModalOpen();
+                            // TODO: remove loading animation
+                        }
+                    });
+                },
+                isSharedDocumentsModalOpen: false,
+                toggleIsSharedDocumentsModalOpen() { 
+                    this.isSharedDocumentsModalOpen = !this.isSharedDocumentsModalOpen;
+                    this.$dispatch('body-scroll', {}); 
+                },
+                isInviteModalOpen: false,
+                toggleIsInviteModalOpen() {
+                    this.isInviteModalOpen = !this.isInviteModalOpen;
+                    this.$dispatch('body-scroll', {})
+                },
+                submitInvite() {
+                    // TODO: replace modal content with loading animation.
+                    // Do not allow user to click away while loading is occuring.
+                    var email = $('#email_invite').val();
+                    var rel = $('#relationship_type').val();
+                    var id = $('#selected_user_id').val();
+                    $.ajax({
+                        context: this,
+                        url: "{{ route('dispatch.invite.email') }}",
+                        data: {
+                            "_token": "{{ csrf_token() }}",
+                            email: email,
+                            relationship_type: rel,
+                            selected_user_id: id,
+                        },
+                        type: "POST",
+                        success: function (data) {                            
+                            this.toggleIsInviteModalOpen();
+                            cancelSelectedUser();
+                            $('#email_invite').val('');
+                            searchExistingUsers('');
+                            $('#relationship_type').val('');
+                            if(data.success) {
+                                toastr.success(data.message);
+                            } else {
+                                toastr.error(data.message);
+                            }
+                            // TODO: remove loading animation
+                        },
+                    });
+                },
+                isInvitationListModalOpen: false,
+                toggleIsInvitationListModalOpen() {
+                    this.isInvitationListModalOpen = !this.isInvitationListModalOpen;
+                    this.$dispatch('body-scroll', {})
+                },
+                isDeleteRelationshipModalOpen: false,
+                toggleIsDeleteRelationshipModalOpen(userID) {
+                    // opening
+                     if(this.isDeleteRelationshipModalOpen == false) {
+                        $('#delete_relationship_user_id').val(userID);
+                    }
+                    this.isDeleteRelationshipModalOpen = !this.isDeleteRelationshipModalOpen;
+                },
+                submitDeleteRelationship() {
+                    var userID = $('#delete_relationship_user_id').val();
+                    console.log('submit:', userID);
+                    $.ajax({
+                        context: this,
+                        url: "{{ route('delete.relationship') }}",
+                        type: "DELETE",
+                        data: {
+                            "_token": "{{ csrf_token() }}",
+                            user_id: userID,
+                        },
+                        success() {
+                            window.location.reload();
+                        }
+                    })
+                },
+                isEditRelationshipModalOpen: false,
+                toggleIsEditRelationshipModalOpen(userID, relationshipID) {
+                    // opening
+                    if(this.isEditRelationshipModalOpen == false) {
+                        $('#edit_relationship_option_' + relationshipID).attr('selected', true);
+                        $('#edit_relationship_user_id').val(userID);
+                    }
+                    this.isEditRelationshipModalOpen = !this.isEditRelationshipModalOpen;
+                },
+                submitEditRelationship() {                 
+                    var userID = $('#edit_relationship_user_id').val();
+                    var relationshipID = $('#edit_relationship_type').val();
+                    $.ajax({
+                        context: this,
+                        url: "{{ route('edit.relationship') }}",
+                        type: "POST",
+                        data: {
+                            "_token": "{{ csrf_token() }}",
+                            user_id: userID,
+                            relationship_id: relationshipID,
+                        },
+                        success() {
+                            window.location.reload();
+                        }
+                    })
+                },
+            }));
+        });
     </script>
 @endpush
