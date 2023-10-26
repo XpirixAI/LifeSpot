@@ -61,8 +61,6 @@ class XpirixLandingPageController extends Controller
 
     public function index()
     {   
-        Log::info('DEV: index fired');
-
         $posts = Post::latest()->paginate(10);
         // $post_count = Post::withCount(['isPublished'])->get();
         $contents = XpirixContent::find(1);

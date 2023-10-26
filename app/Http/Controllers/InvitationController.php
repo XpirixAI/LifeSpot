@@ -82,7 +82,6 @@ class InvitationController extends Controller
         ]);
 
         if($validator->fails()) {
-            Log::info('DEV: validator failed');
             return response()->json([
                 'success' => false,
                 'message' => 'All fields are required to send an invitation.',
@@ -122,7 +121,6 @@ class InvitationController extends Controller
                 ->where('responded', 0)
                 ->first();
             if($invite) {
-                Log::info('DEV: existing invitation');
                 return response()->json([
                     'success' => false,
                     'message' => 'Invitation already sent!'

@@ -15,7 +15,7 @@
 
 @section('myestate')
     <div
-        x-cloak 
+        x-cloak
         x-data="data"
     >
         <form id="create_bank_form" method="POST" action="{{ route('myestate.financials.store.bank') }}" enctype="multipart/form-data">

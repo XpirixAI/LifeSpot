@@ -141,12 +141,15 @@
                                 {{ __('Manage Account') }}
                             </div>
 
-                            <x-jet-dropdown-link href="{{ route('viewProfile') }}">
+                            <x-jet-dropdown-link href="{{ route('mylifespot.personal') }}">
                                 {{ __('Profile') }}
                             </x-jet-dropdown-link>
-                            <x-jet-dropdown-link href="{{ route('dashboard_home') }}">
-                                {{ __('Admin') }}
-                            </x-jet-dropdown-link>
+
+                            @canany(['owner_access', 'xpirix_edit', 'sponsor_access'])
+                                <x-jet-dropdown-link href="{{ route('dashboard_home') }}">
+                                    {{ __('Admin') }}
+                                </x-jet-dropdown-link>
+                            @endcanany
 
                             @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
                                 <x-jet-dropdown-link href="{{ route('api-tokens.index') }}">

@@ -260,8 +260,8 @@
 
         <div class="xh-full bg-gray-100 pb-12">
             <h1 class="font-black text-black text-3xl text-center mx-2 pt-16 pb-4">
-                Welcome to <br>
-               The {{ Auth::user()->fname }} {{ Auth::user()->lname }} Family<br>
+                Welcome to<br>
+                The {{ Auth::user()->fname }} {{ Auth::user()->lname }} Family<br>
                 Estate's Lifespot
             </h1>
 

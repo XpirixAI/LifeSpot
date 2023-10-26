@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -22,41 +24,32 @@ class UserController extends Controller
 
     public function update(Request $request, User $user)
     {
-
-        // NOTE:  This is temporary -- as more roles added - FIX THIS LOGIC
-
         $validated = $request->validate([
             'role' => 'required',
         ]);
 
-        $updatedRole = $request->role;
-
-        if ($updatedRole == 'Editor') {
+        $updatedRole = $validated['role'];
+        if ($updatedRole == 'Owner' && Auth::user()->role == 'Owner'){
+            $user->has_access = 1;
+            $user->can_edit = 1;
+            $user->ads_access = 1;
+        } elseif ($updatedRole == 'Editor') {
+            $user->has_access = 0;
             $user->can_edit = 1;
             $user->ads_access = 0;
         } elseif ($updatedRole == 'Sponsor') {
+            $user->has_access = 0;
             $user->can_edit = 0;
             $user->ads_access = 1;
         } else {
+            $user->has_access = 0;
             $user->can_edit = 0;
             $user->ads_access = 0;
         }
 
-
-        $user->update($validated,[
-
-        ] );
-
-
-        // $validated=='Editor' ? $user->can_edit = 1 : $user->can_edit == 0;
-        // $validated=='Sponsor' ? $user->ads_access = 1 : $user->ads_access == 0;
-        // $validated=='Member' ? $user->can_edit = 0 : $user->ads_access == 0;
-
-        return to_route('users.index');
-
-
-
+        // return to_route('users.index');
         // return to_route('users.index')->with('message', 'User access has been updated');
+        return redirect()->route('users.index');
     }
 
 }

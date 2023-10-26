@@ -28,49 +28,64 @@
                     <form method="POST" action="{{ route('users.update', $user->id) }}" class="text-center">
                         @csrf
                         @method('PUT')
-
                         <select  name="role" class="rounded-md">
-                            @if ('Owner' ==$user->role)
-                                <option value="Owner" @if ('Owner' ==$user->role) selected
-
-                                    @endif>Owner</option>
-                           @else
-
-                            <option value="Member" @if ('Member' ==$user->role) selected
-
-                            @endif>Member</option>
-                            <option value="Editor" @if ('Editor' ==$user->role) selected
-
-                            @endif>Editor</option>
-                            <option value="Sponsor" @if ('Sponsor' ==$user->role) selected
-
-                            @endif>Sponsor</option>
-
+                            @if('Owner' == $user->role)
+                                <option 
+                                    value="Owner" 
+                                    @if ('Owner' ==$user->role) 
+                                        selected
+                                    @endif
+                                >
+                                    Owner
+                                </option>
+                            @else
+                                <option 
+                                    value="Member"
+                                    @if ('Member' ==$user->role) 
+                                        selected
+                                    @endif
+                                >
+                                    Member
+                                </option>
+                                <option 
+                                    value="Editor" 
+                                    @if ('Editor' ==$user->role) 
+                                        selected
+                                    @endif
+                                >
+                                    Editor
+                                </option>
+                                <option 
+                                    value="Sponsor" 
+                                    @if ('Sponsor' ==$user->role)
+                                        selected
+                                    @endif
+                                >
+                                    Sponsor
+                                </option>
                             @endif
                         </select>
                         {{-- <input type="text" name="fname" value="{{ $user->fname }}"> --}}
 
-                        <button type="submit"
-                        @if ('Owner' ==$user->role) @disabled(true) @endif
+                        <button 
+                            type="submit"
+                            @if ('Owner' == $user->role) @disabled(true) @endif
                             class="px-3 py-2 mt-10 bg-indigo-400 hover:bg-indigo-600 rounded-md
                                 font-medium text-white uppercase
-                                focus:outline-none hover:shadow-none">
+                                focus:outline-none hover:shadow-none"
+                        >
                             Change Role
                         </button>
                     </form>
                 </div>
             </div>
-
-<p class="m-5 text-blue-500"><a href="{{ route('users.index') }}">Back to all users</a></p>
-
-
-
-
+            <p class="m-5 text-blue-500"><a href="{{ route('users.index') }}">Back to all users</a></p>
         </div>
     </div>
-
-
-
-
+    <script>
+        $(document).ready({
+            
+        });
+    </script>
 </x-admin-layout>
 
