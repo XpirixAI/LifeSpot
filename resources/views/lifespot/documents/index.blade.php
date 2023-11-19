@@ -22,7 +22,7 @@
         class="grid lg:grid-cols-5 bg-gray-50 h-screen"
     >
         <div class="col-span-4 lg:col-span-1 bg-white pt-6 px-3 pb-3">
-            <h2 class="font-black text-lg mb-4">Documents</h2>
+            <h2 class="font-black text-lg mb-20">Documents</h2>
             <ul class="space-y-3 mb-5">
                 <li class="{{ $page_title == 'Recents' ? 'bg-blue-50' : '' }} hover:bg-blue-50 rounded-lg w-full py-1">
                     <a class="flex space-x-2 text-xs" href="{{route('documents.recents')}}">

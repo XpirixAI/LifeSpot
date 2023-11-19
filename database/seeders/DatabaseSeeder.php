@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\BirthDay;
 use App\Models\PriceContent;
 use App\Models\XpirixContent;
 use \App\Models\User;
@@ -19,11 +20,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        
-
-
         User::factory(10)->create();
         XpirixContent::factory()->count(5)->create();
         PriceContent::factory()->count(5)->create();
+        BirthDay::insert(
+            [
+                'days' => 0
+            ],
+            [
+                'days' => 1
+            ],
+            // ...
+        );
     }
 }

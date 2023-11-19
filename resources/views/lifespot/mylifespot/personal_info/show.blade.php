@@ -26,10 +26,7 @@
                 <x-jet-application-mark class="block h-9 w-auto" />
             </a>
         </div>
-
-
-
-        <hr class="lg:hidden mt-3">
+        <hr class="lg:hidden mt-3" />
     </div>
 
     <div class="xbg-orange-500 rounded-lg xshadow-xl min-h-20 row-span-5 col-span-3 mt-5">
@@ -94,9 +91,12 @@
 {{-- @include('livewire.guardian') --}}
 {{-- {{ $medical->id }} --}}
 
+{{-- <div class="my-5 block">
+    <a href="{{ route('stripe.api.test') }}" class="p-10 bg-blue-800 rounded-lg text-white">TEST</a>
+</div> --}}
+
 <div class="mx-4">
     <hr class="mt-6 pb-4 mb-3 px-10">
-
     <div class="items-center space-y-3">
         <h3 class="font-semibold text-lg">Additional Information Related To You </h3>
 
@@ -237,9 +237,7 @@
                     </label>
                     <input x-show="open" name="multi_image[]" class="xhidden" type="file" id="image" multiple="">
 
-                   <div x-show="open"  class="flex space-x-3">
-
-
+                    <div x-show="open"  class="flex space-x-3">
                         <input @click="open=!open" type="submit" class="rounded-lg bg-blue-700 text-white px-4 py-1 mt-3" value="Add Files">
                         <button @click="open=!open" type="reset"  class="rounded-lg bg-gray-700 text-white px-4 py-1 mt-3">Cancel</button>
                     </div>

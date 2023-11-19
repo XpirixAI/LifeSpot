@@ -6,254 +6,245 @@
             <h1 class="text-center text-gray-800 font-black text-5xl pt-12 pb-4">{{ $contentsForPricing->price_main_title }}</h1>
             <p class="text-gray-700 text-center pb-4">{{ $contentsForPricing->price_desc_heading }}</p>
 
-        <!--Pricing Section-->
-          <div x-data="{ open: false, toggle() { this.open = ! this.open } }">
-            <div class="text-center">
-                <label class="align-top mr-3 text-blue-800 font-bold text-sm" for="">Monthly</label>
-                <label for="default-toggle" class="inline-flex relative items-center cursor-pointer">
-                    <input @click="toggle()" type="checkbox" value="Yearly" id="default-toggle" class="sr-only peer">
-                    <div class="w-11 h-6 bg-blue-800 peer-focus:outline-none peer-focus:ring-4 xpeer-focus:ring-blue-300 xdark:peer-focus:ring-blue-800 rounded-full peer xdark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white xafter:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all xdark:border-gray-600 xpeer-checked:bg-blue-600"></div>
-                    <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Yearly</span>
-                </label>
+            <!--Pricing Section-->
+            <div x-data="{ open: false, toggle() { this.open = ! this.open } }">
+                <div class="text-center">
+                    <label class="align-top mr-3 text-blue-800 font-bold text-sm" for="">Monthly</label>
+                    <label for="default-toggle" class="inline-flex relative items-center cursor-pointer">
+                        <input @click="toggle()" type="checkbox" value="Yearly" id="default-toggle" class="sr-only peer">
+                        <div class="w-11 h-6 bg-blue-800 peer-focus:outline-none peer-focus:ring-4 xpeer-focus:ring-blue-300 xdark:peer-focus:ring-blue-800 rounded-full peer xdark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white xafter:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all xdark:border-gray-600 xpeer-checked:bg-blue-600"></div>
+                        <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Yearly</span>
+                    </label>
+                </div>
+
+                {{-- <!-- component -->
+                <div class="flex items-center justify-center">
+                    <input
+                        type="checkbox"
+                        class="appearance-none w-9 focus:outline-none checked:bg-blue-300 h-5 bg-gray-300 rounded-full before:inline-block before:rounded-full before:bg-blue-500 before:h-4 before:w-4 checked:before:translate-x-full shadow-inner transition-all duration-300 before:ml-0.5"
+                    />
+                </div> --}}
+
+                <section class="lg:max-w-5xl lg:container lg:mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4 pb-12">
+                    <div class="rounded-xl border-2 border-gray-900 py-4 px-6">
+                        <div class="w-1/2 border border-black rounded-2xl pl-4 uppercase text-xs font-black p-1">{{ $contentsForPricing->xpirix_plan_title }}</div>
+                        <div class="font-black text-3xl text-gray-900 my-2">{{ $contentsForPricing->month_price_free }}</div>
+                        <button class=" w-full bg-black text-white px-8 py-2 rounded-lg text-sm font-bold">{{ $contentsForPricing->button_free_text }}</button>
+                    <ul class="mt-4 space-y-3">
+                        <li class="flex justify-start space-x-2 items-center">
+                            <span class="font-bold text-blue-700"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                            </svg></span>
+                            <span class="text-sm font-black">{{ $contentsForPricing->free_feature_1 }}</span>
+                        </li>
+                        <li class="flex justify-start space-x-2 items-center">
+                            <span class="font-black text-gray-800"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg></span>
+                            <span class="text-sm">{{ $contentsForPricing->free_feature_2 }}</span>
+                        </li>
+                        <li class="flex justify-start space-x-2 items-center">
+                            <span class="font-black text-gray-800"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg></span>
+                            <span class="text-sm">{{ $contentsForPricing->free_feature_3 }}</span>
+                        </li>
+                        <li class="flex justify-start space-x-2 items-center">
+                            <span class="font-black text-gray-800"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg></span>
+                            <span class="text-sm">{{ $contentsForPricing->free_feature_4 }}</span>
+                        </li>
+                        <li class="flex justify-start space-x-2 items-center">
+                            <span class="font-black text-gray-800"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg></span>
+                            <span class="text-sm">{{ $contentsForPricing->free_feature_5 }}</span>
+                        </li>
+                        <li class="flex justify-start space-x-2 items-center">
+                            <span class="font-black text-gray-800"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg></span>
+                            <span class="text-sm">{{ $contentsForPricing->free_feature_6 }}</span>
+                        </li>
+                        <li class="flex justify-start space-x-2 items-center">
+                            <span class="font-black text-gray-800"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg></span>
+                            <span class="text-sm">{{ $contentsForPricing->free_feature_7 }}</span>
+                        </li>
+
+                    </ul>
+                    </div>
+                    <div x-cloak class="rounded-xl shadow-xl bg-white py-4 px-6">
+                        <div class="w-3/4 rounded-2xl bg-[hsl(0,5%,96%)] pl-4 uppercase text-xs font-black p-1">{{ $contentsForPricing->basic_plan_title }}</div>
+                        <div x-cloak  x-show="!open" class="font-black text-3xl text-gray-900 my-2">
+                            {{ $contentsForPricing->month_price_basic }}
+                        </div>
+                        <div x-cloak  x-show="open" class="font-black text-3xl text-gray-900 my-2">
+                            {{ $contentsForPricing->year_price_basic }}
+                        </div>
+                        <button x-cloak  class=" w-full bg-black text-white px-8 py-2 rounded-lg text-sm font-bold">{{ $contentsForPricing->button_basic_text }}</button>
+                        <ul class="mt-4 space-y-3">
+                            <li class="flex justify-start space-x-2 items-center">
+                                <span class="font-black text-blue-700"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                </svg></span>
+                                <span class="text-sm font-bold">{{ $contentsForPricing->basic_feature_1 }}</span>
+                            </li>
+                            <li class="flex justify-start space-x-2 items-center">
+                                <span class="font-black text-blue-700"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                </svg></span>
+                                <span class="text-sm font-bold">{{ $contentsForPricing->basic_feature_2 }}</span>
+                            </li>
+                            <li class="flex justify-start space-x-2 items-center">
+                                <span class="font-black text-blue-700"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                </svg></span>
+                                <span class="text-sm font-bold">{{ $contentsForPricing->basic_feature_3 }}</span>
+                            </li>
+                            <li class="flex justify-start space-x-2 items-center">
+                                <span class="font-black text-gray-800"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                </svg></span>
+                                <span class="text-sm">{{ $contentsForPricing->basic_feature_4 }}</span>
+                            </li>
+                            <li class="flex justify-start space-x-2 items-center">
+                                <span class="font-black text-gray-800"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                </svg></span>
+                                <span class="text-sm">{{ $contentsForPricing->basic_feature_5 }}</span>
+                            </li>
+                            <li class="flex justify-start space-x-2 items-center">
+                                <span class="font-black text-gray-800"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                </svg></span>
+                                <span class="text-sm">{{ $contentsForPricing->basic_feature_6 }}</span>
+                            </li>
+                            <li class="flex justify-start space-x-2 items-center">
+                                <span class="font-black text-gray-800"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                </svg></span>
+                                <span class="text-sm">{{ $contentsForPricing->basic_feature_7 }}</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div x-cloak class="rounded-xl shadow-xl border bg-white border-blue-700 py-4 px-6">
+                        <div class="w-3/4 rounded-2xl bg-cyan-100 text-cyan-800 pl-4 uppercase text-xs font-black p-1">{{ $contentsForPricing->family_plan_title }}</div>
+                        <div class="font-black text-3xl text-gray-900 my-2">
+                            <div x-cloak  x-show="!open" class="font-black text-3xl text-gray-900 my-2">
+                                {{ $contentsForPricing->month_price_family }}
+                            </div>
+                            <div x-cloak  x-show="open" class="font-black text-3xl text-gray-900 my-2">
+                                {{ $contentsForPricing->year_price_family }}
+                            </div>
+                        </div>
+                        <button x-cloak  class=" w-full bg-cyan-600 text-white px-8 py-2 rounded-lg text-sm font-bold">{{ $contentsForPricing->button_family_text }}</button>
+                        <ul class="mt-4 space-y-3">
+                            <li class="flex justify-start space-x-2 items-center">
+                                <span class="font-bold text-blue-700"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                </svg></span>
+                                <span class="text-sm font-black">{{ $contentsForPricing->family_feature_1 }}</span>
+                            </li>
+                            <li class="flex justify-start space-x-2 items-center">
+                                <span class="font-bold text-blue-700"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                </svg></span>
+                                <span class="text-sm font-black">{{ $contentsForPricing->family_feature_2 }}</span>
+                            </li>
+                            <li class="flex justify-start space-x-2 items-center">
+                                <span class="font-bold text-blue-700"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                </svg></span>
+                                <span class="text-sm font-black">{{ $contentsForPricing->family_feature_3 }}</span>
+                            </li>
+                            <li class="flex justify-start space-x-2 items-center">
+                                <span class="font-bold text-blue-700"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                </svg></span>
+                                <span class="text-sm font-black">{{ $contentsForPricing->family_feature_4 }}</span>
+                            </li>
+                            <li class="flex justify-start space-x-2 items-center">
+                                <span class="font-bold text-blue-700"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                </svg></span>
+                                <span class="text-sm font-black">{{ $contentsForPricing->family_feature_5 }}</span>
+                            </li>
+                            <li class="flex justify-start space-x-2 items-center">
+                                <span class="font-black text-gray-800"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                </svg></span>
+                                <span class="text-sm">{{ $contentsForPricing->family_feature_6 }}</span>
+                            </li>
+                            <li class="flex justify-start space-x-2 items-center">
+                                <span class="font-black text-gray-800"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                </svg></span>
+                                <span class="text-sm">{{ $contentsForPricing->family_feature_7 }}</span>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div x-cloak class="rounded-xl shadow-xl bg-white py-4 px-6">
+                        <div class="w-3/4 rounded-2xl bg-indigo-100 text-indigo-800 pl-4 uppercase text-xs font-black p-1">{{ $contentsForPricing->premium_plan_title }}</div>
+                        <div class="font-black text-3xl text-gray-900 my-2">
+                            <div x-cloak  x-show="!open" class="font-black text-3xl text-gray-900 my-2">
+                                {{ $contentsForPricing->month_price_premium }}
+                            </div>
+                            <div x-cloak  x-show="open" class="font-black text-3xl text-gray-900 my-2">
+                                {{ $contentsForPricing->year_price_premium }}
+                            </div>
+                        </div>
+                        <button x-cloak class=" w-full bg-indigo-700 text-white px-8 py-2 rounded-lg text-sm font-bold">{{ $contentsForPricing->button_premium_text }}</button>
+                        <ul class="mt-4 space-y-3">
+                            <li class="flex justify-start space-x-2 items-center">
+                                <span class="font-bold text-blue-700"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                </svg></span>
+                                <span class="text-sm font-bold">{{ $contentsForPricing->premium_feature_1 }}</span>
+                            </li>
+                            <li class="flex justify-start space-x-2 items-center">
+                                <span class="font-bold text-blue-700"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                </svg></span>
+                                <span class="text-sm font-bold">{{ $contentsForPricing->premium_feature_2 }}</span>
+                            </li>
+                            <li class="flex justify-start space-x-2 items-center">
+                                <span class="font-bold text-blue-700"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                </svg></span>
+                                <span class="text-sm font-bold">{{ $contentsForPricing->premium_feature_3 }}</span>
+                            </li>
+                            <li class="flex justify-start space-x-2 items-center">
+                                <span class="font-bold text-blue-700"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                </svg></span>
+                                <span class="text-sm font-bold">{{ $contentsForPricing->premium_feature_4 }}</span>
+                            </li>
+                            <li class="flex justify-start space-x-2 items-center">
+                                <span class="font-bold text-blue-700"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                </svg></span>
+                                <span class="text-sm font-bold">{{ $contentsForPricing->premium_feature_5 }}</span>
+                            </li>
+                            <li class="flex justify-start space-x-2 items-center">
+                                <span class="font-bold text-blue-700"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                </svg></span>
+                                <span class="text-sm font-bold">{{ $contentsForPricing->premium_feature_6 }}</span>
+                            </li>
+                            <li class="flex justify-start space-x-2 items-center">
+                                <span class="font-bold text-blue-700"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                </svg></span>
+                                <span class="text-sm font-bold">{{ $contentsForPricing->premium_feature_7 }}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </section>
             </div>
-
-
-    {{-- <!-- component -->
-    <div class="flex items-center justify-center">
-        <input
-            type="checkbox"
-            class="appearance-none w-9 focus:outline-none checked:bg-blue-300 h-5 bg-gray-300 rounded-full before:inline-block before:rounded-full before:bg-blue-500 before:h-4 before:w-4 checked:before:translate-x-full shadow-inner transition-all duration-300 before:ml-0.5"
-        />
-    </div> --}}
-
-
-
-
-
-
-            <section class="lg:max-w-5xl lg:container lg:mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4 pb-12">
-                <div class="rounded-xl border-2 border-gray-900 py-4 px-6">
-                    <div class="w-1/2 border border-black rounded-2xl pl-4 uppercase text-xs font-black p-1">{{ $contentsForPricing->xpirix_plan_title }}</div>
-                    <div class="font-black text-3xl text-gray-900 my-2">{{ $contentsForPricing->month_price_free }}</div>
-                    <button class=" w-full bg-black text-white px-8 py-2 rounded-lg text-sm font-bold">{{ $contentsForPricing->button_free_text }}</button>
-                   <ul class="mt-4 space-y-3">
-                    <li class="flex justify-start space-x-2 items-center">
-                        <span class="font-bold text-blue-700"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                          </svg></span>
-                        <span class="text-sm font-black">{{ $contentsForPricing->free_feature_1 }}</span>
-                    </li>
-                    <li class="flex justify-start space-x-2 items-center">
-                        <span class="font-black text-gray-800"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                          </svg></span>
-                        <span class="text-sm">{{ $contentsForPricing->free_feature_2 }}</span>
-                    </li>
-                    <li class="flex justify-start space-x-2 items-center">
-                        <span class="font-black text-gray-800"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                          </svg></span>
-                        <span class="text-sm">{{ $contentsForPricing->free_feature_3 }}</span>
-                    </li>
-                    <li class="flex justify-start space-x-2 items-center">
-                        <span class="font-black text-gray-800"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                          </svg></span>
-                        <span class="text-sm">{{ $contentsForPricing->free_feature_4 }}</span>
-                    </li>
-                    <li class="flex justify-start space-x-2 items-center">
-                        <span class="font-black text-gray-800"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                          </svg></span>
-                        <span class="text-sm">{{ $contentsForPricing->free_feature_5 }}</span>
-                    </li>
-                    <li class="flex justify-start space-x-2 items-center">
-                        <span class="font-black text-gray-800"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                          </svg></span>
-                        <span class="text-sm">{{ $contentsForPricing->free_feature_6 }}</span>
-                    </li>
-                    <li class="flex justify-start space-x-2 items-center">
-                        <span class="font-black text-gray-800"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                          </svg></span>
-                        <span class="text-sm">{{ $contentsForPricing->free_feature_7 }}</span>
-                    </li>
-
-                   </ul>
-                </div>
-                <div x-cloak class="rounded-xl shadow-xl bg-white py-4 px-6">
-                    <div class="w-3/4 rounded-2xl bg-[hsl(0,5%,96%)] pl-4 uppercase text-xs font-black p-1">{{ $contentsForPricing->basic_plan_title }}</div>
-                    <div x-cloak  x-show="!open" class="font-black text-3xl text-gray-900 my-2">
-                        {{ $contentsForPricing->month_price_basic }}
-                    </div>
-                    <div x-cloak  x-show="open" class="font-black text-3xl text-gray-900 my-2">
-                        {{ $contentsForPricing->year_price_basic }}
-                    </div>
-                    <button x-cloak  class=" w-full bg-black text-white px-8 py-2 rounded-lg text-sm font-bold">{{ $contentsForPricing->button_basic_text }}</button>
-                   <ul class="mt-4 space-y-3">
-                    <li class="flex justify-start space-x-2 items-center">
-                        <span class="font-black text-blue-700"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                          </svg></span>
-                        <span class="text-sm font-bold">{{ $contentsForPricing->basic_feature_1 }}</span>
-                    </li>
-                    <li class="flex justify-start space-x-2 items-center">
-                        <span class="font-black text-blue-700"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                          </svg></span>
-                        <span class="text-sm font-bold">{{ $contentsForPricing->basic_feature_2 }}</span>
-                    </li>
-                    <li class="flex justify-start space-x-2 items-center">
-                        <span class="font-black text-blue-700"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                          </svg></span>
-                        <span class="text-sm font-bold">{{ $contentsForPricing->basic_feature_3 }}</span>
-                    </li>
-                    <li class="flex justify-start space-x-2 items-center">
-                        <span class="font-black text-gray-800"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                          </svg></span>
-                        <span class="text-sm">{{ $contentsForPricing->basic_feature_4 }}</span>
-                    </li>
-                    <li class="flex justify-start space-x-2 items-center">
-                        <span class="font-black text-gray-800"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                          </svg></span>
-                        <span class="text-sm">{{ $contentsForPricing->basic_feature_5 }}</span>
-                    </li>
-                    <li class="flex justify-start space-x-2 items-center">
-                        <span class="font-black text-gray-800"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                          </svg></span>
-                        <span class="text-sm">{{ $contentsForPricing->basic_feature_6 }}</span>
-                    </li>
-                    <li class="flex justify-start space-x-2 items-center">
-                        <span class="font-black text-gray-800"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                          </svg></span>
-                        <span class="text-sm">{{ $contentsForPricing->basic_feature_7 }}</span>
-                    </li>
-
-                   </ul>
-                </div>
-                <div x-cloak class="rounded-xl shadow-xl border bg-white border-blue-700 py-4 px-6">
-                    <div class="w-3/4 rounded-2xl bg-cyan-100 text-cyan-800 pl-4 uppercase text-xs font-black p-1">{{ $contentsForPricing->family_plan_title }}</div>
-                    <div class="font-black text-3xl text-gray-900 my-2">
-                        <div x-cloak  x-show="!open" class="font-black text-3xl text-gray-900 my-2">
-                            {{ $contentsForPricing->month_price_family }}
-                        </div>
-                        <div x-cloak  x-show="open" class="font-black text-3xl text-gray-900 my-2">
-                            {{ $contentsForPricing->year_price_family }}
-                        </div>
-                    </div>
-                    <button x-cloak  class=" w-full bg-cyan-600 text-white px-8 py-2 rounded-lg text-sm font-bold">{{ $contentsForPricing->button_family_text }}</button>
-                   <ul class="mt-4 space-y-3">
-                    <li class="flex justify-start space-x-2 items-center">
-                        <span class="font-bold text-blue-700"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                          </svg></span>
-                        <span class="text-sm font-black">{{ $contentsForPricing->family_feature_1 }}</span>
-                    </li>
-                    <li class="flex justify-start space-x-2 items-center">
-                        <span class="font-bold text-blue-700"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                          </svg></span>
-                        <span class="text-sm font-black">{{ $contentsForPricing->family_feature_2 }}</span>
-                    </li>
-                    <li class="flex justify-start space-x-2 items-center">
-                        <span class="font-bold text-blue-700"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                          </svg></span>
-                        <span class="text-sm font-black">{{ $contentsForPricing->family_feature_3 }}</span>
-                    </li>
-                    <li class="flex justify-start space-x-2 items-center">
-                        <span class="font-bold text-blue-700"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                          </svg></span>
-                        <span class="text-sm font-black">{{ $contentsForPricing->family_feature_4 }}</span>
-                    </li>
-                    <li class="flex justify-start space-x-2 items-center">
-                        <span class="font-bold text-blue-700"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                          </svg></span>
-                        <span class="text-sm font-black">{{ $contentsForPricing->family_feature_5 }}</span>
-                    </li>
-                    <li class="flex justify-start space-x-2 items-center">
-                        <span class="font-black text-gray-800"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                          </svg></span>
-                        <span class="text-sm">{{ $contentsForPricing->family_feature_6 }}</span>
-                    </li>
-                    <li class="flex justify-start space-x-2 items-center">
-                        <span class="font-black text-gray-800"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                          </svg></span>
-                        <span class="text-sm">{{ $contentsForPricing->family_feature_7 }}</span>
-                    </li>
-
-                   </ul>
-                </div>
-                <div x-cloak class="rounded-xl shadow-xl bg-white py-4 px-6">
-                    <div class="w-3/4 rounded-2xl bg-indigo-100 text-indigo-800 pl-4 uppercase text-xs font-black p-1">{{ $contentsForPricing->premium_plan_title }}</div>
-                    <div class="font-black text-3xl text-gray-900 my-2">
-                        <div x-cloak  x-show="!open" class="font-black text-3xl text-gray-900 my-2">
-                            {{ $contentsForPricing->month_price_premium }}
-                        </div>
-                        <div x-cloak  x-show="open" class="font-black text-3xl text-gray-900 my-2">
-                            {{ $contentsForPricing->year_price_premium }}
-                        </div>
-                    </div>
-                    <button x-cloak class=" w-full bg-indigo-700 text-white px-8 py-2 rounded-lg text-sm font-bold">{{ $contentsForPricing->button_premium_text }}</button>
-                   <ul class="mt-4 space-y-3">
-                    <li class="flex justify-start space-x-2 items-center">
-                        <span class="font-bold text-blue-700"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                          </svg></span>
-                        <span class="text-sm font-bold">{{ $contentsForPricing->premium_feature_1 }}</span>
-                    </li>
-                    <li class="flex justify-start space-x-2 items-center">
-                        <span class="font-bold text-blue-700"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                          </svg></span>
-                        <span class="text-sm font-bold">{{ $contentsForPricing->premium_feature_2 }}</span>
-                    </li>
-                    <li class="flex justify-start space-x-2 items-center">
-                        <span class="font-bold text-blue-700"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                          </svg></span>
-                        <span class="text-sm font-bold">{{ $contentsForPricing->premium_feature_3 }}</span>
-                    </li>
-                    <li class="flex justify-start space-x-2 items-center">
-                        <span class="font-bold text-blue-700"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                          </svg></span>
-                        <span class="text-sm font-bold">{{ $contentsForPricing->premium_feature_4 }}</span>
-                    </li>
-                    <li class="flex justify-start space-x-2 items-center">
-                        <span class="font-bold text-blue-700"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                          </svg></span>
-                        <span class="text-sm font-bold">{{ $contentsForPricing->premium_feature_5 }}</span>
-                    </li>
-                    <li class="flex justify-start space-x-2 items-center">
-                        <span class="font-bold text-blue-700"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                          </svg></span>
-                        <span class="text-sm font-bold">{{ $contentsForPricing->premium_feature_6 }}</span>
-                    </li>
-                    <li class="flex justify-start space-x-2 items-center">
-                        <span class="font-bold text-blue-700"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                          </svg></span>
-                        <span class="text-sm font-bold">{{ $contentsForPricing->premium_feature_7 }}</span>
-                    </li>
-
-                   </ul>
-                </div>
-
-            </section>
-          </div>
         </div>
 
 

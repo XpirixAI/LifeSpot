@@ -35,6 +35,7 @@ class User extends Authenticatable
         'ads_access',
         'role',
         'password',
+        'profile_photo_path'
     ];
 
     /**

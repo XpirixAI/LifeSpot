@@ -22,6 +22,7 @@ use Carbon\Carbon;
 use Intervention\Image\Facades\Image;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class PersonalInfoController extends Controller
 {
@@ -57,6 +58,7 @@ class PersonalInfoController extends Controller
 
     public function update(Request $request, User $user)
     {
+        Log::info('DEV: PersonalInfoController::update() fired');
         $data = $request->validate([
             'fname' => 'required',
             'lname' => 'required',
@@ -69,6 +71,18 @@ class PersonalInfoController extends Controller
             'email.required' => 'The email field is required',
         ]);
         $data['name'] = $request->fname.' '.$request->lname;
+
+        if ($request->file('thumbnail')) {
+            $file = $request->file('thumbnail');
+            $filename = date('YmdHi').$file->getClientOriginalName();
+            Image::make($file)->resize(200,200, function($const) {
+                $const->aspectRatio();
+            });
+
+            $file->move(public_path('upload/admin_images'),$filename);
+            $data['profile_photo_path'] = $filename;
+        }
+
         $user->update($data);
 
         $personalInfo = $request->validate([
@@ -98,7 +112,7 @@ class PersonalInfoController extends Controller
     public function StoreMultiImage(Request $request)
     {
         $user = Auth::user()->id;
-// dd($user);
+        // dd($user);
         // $assetId = $asset['id'];
         // $assetId = 7;
         // dd($assetId);
@@ -203,42 +217,58 @@ class PersonalInfoController extends Controller
 
 
 //     public function StoreMultiImage(Request $request, ModelsPersonalInformation $asset)
-//     {
-// // dd($asset);
-//         // $assetId = $asset['id'];
-//         // $assetId = 7;
-//         // dd($assetId);
-//         // $validated = $request->validate([
+    //     {
+    // // dd($asset);
+    //         // $assetId = $asset['id'];
+    //         // $assetId = 7;
+    //         // dd($assetId);
+    //         // $validated = $request->validate([
 
-//         //     'multi_image' => 'file|max:5000|mimes:jpeg,png,jpg,webp',
-//         // ]);
-//         $image = $request->file('multi_image');
+    //         //     'multi_image' => 'file|max:5000|mimes:jpeg,png,jpg,webp',
+    //         // ]);
+    //         $image = $request->file('multi_image');
 
-//         foreach ($image as $multi_image){
-//             $name_gen = hexdec(uniqid()).'.'.$multi_image->getClientOriginalExtension();
+    //         foreach ($image as $multi_image){
+    //             $name_gen = hexdec(uniqid()).'.'.$multi_image->getClientOriginalExtension();
 
-//             Image::make($multi_image)->resize(220,220)->save('upload/multi/'.$name_gen);
-//             $save_url = 'upload/multi/'.$name_gen;
+    //             Image::make($multi_image)->resize(220,220)->save('upload/multi/'.$name_gen);
+    //             $save_url = 'upload/multi/'.$name_gen;
 
-//             PersonalInfoAssets::insert([
-//                 'multi_image' => $save_url,
-//                 'created_at' => Carbon::now(),
-//                 'user_id' => auth()->user()->id,
-//                 // 'personal_information_id' => $asset['id'],
-//             ]);
-//         }
-//         return redirect()->back();
+    //             PersonalInfoAssets::insert([
+    //                 'multi_image' => $save_url,
+    //                 'created_at' => Carbon::now(),
+    //                 'user_id' => auth()->user()->id,
+    //                 // 'personal_information_id' => $asset['id'],
+    //             ]);
+    //         }
+    //         return redirect()->back();
+    //     }
+
+    //     public function DestroyMultiImage(PersonalInfoAssets $additionalAsset)
+    //     {
+    //         unlink($additionalAsset->multi_image);
+    //         $additionalAsset->delete();
+    //         return redirect()->back();
+    //     }
+
+    //     public function showMulti(PersonalInfoAssets $additionalAsset)
+    //     {
+    //         return view('lifespot.mylifespot.personal_info.show',compact('additionalAsset'));
 //     }
 
-//     public function DestroyMultiImage(PersonalInfoAssets $additionalAsset)
-//     {
-//         unlink($additionalAsset->multi_image);
-//         $additionalAsset->delete();
-//         return redirect()->back();
-//     }
+    public function test_stripe_api(Request $request)
+    {
+        Log::info('DEV: testStripeAPI() fired');
+        $user = Auth::user();
 
-//     public function showMulti(PersonalInfoAssets $additionalAsset)
-//     {
-//         return view('lifespot.mylifespot.personal_info.show',compact('additionalAsset'));
-//     }
+        $stripe = new \Stripe\StripeClient(env('STRIPE_PRIV_KEY'));
+        $customer = $stripe->customers->create([
+            'name' => $user->name,
+            'email' => $user->email,
+        ]);
+        
+        Log::info(['DEV: $customer', $customer->id]);
+
+        return redirect()->back();
+    }
 }

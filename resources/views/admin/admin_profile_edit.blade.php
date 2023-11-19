@@ -23,21 +23,21 @@
                     </div>
                     <div class="items-center col-span-2 space-y-3">
                         <x-jet-input class="w-5/6 h-10 px-2" name="fname" value="{{ $user->fname }}"></x-jet-input>
-                                @error('fname')
-                                    <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
-                                @enderror
+                        @error('fname')
+                            <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
+                        @enderror
                         <x-jet-input class="w-5/6 h-10 px-2" name="lname" value="{{ $user->lname }}"></x-jet-input>
-                                @error('lname')
-                                    <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
-                                @enderror
+                        @error('lname')
+                            <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
+                        @enderror
                         <x-jet-input class="w-5/6 h-10 px-2" name="email" value="{{ $user->email }}"></x-jet-input>
-                                @error('email')
-                                    <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
-                                @enderror
+                        @error('email')
+                            <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
+                        @enderror
                         <x-jet-input class="w-5/6 h-10 px-2" name="uname" value="{{ $user->uname }}"></x-jet-input>
-                                @error('uname')
-                                    <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
-                                @enderror
+                        @error('uname')
+                            <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
+                        @enderror
                         <x-jet-input 
                             id="image" 
                             class="w-5/6 h-10 px-2" 
@@ -45,9 +45,9 @@
                             name="profile_photo_path"
                             accept=".jpeg,.png,.jpg,.webp"
                         />
-                                @error('profile_photo_path')
-                                    <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
-                                @enderror
+                        @error('profile_photo_path')
+                            <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
+                        @enderror
                        <img id="showImage" class="object-cover rounded-full w-20 h-20" src="{{ (!empty($user->profile_photo_path)) ? url('upload/admin_images/'.$user->profile_photo_path) : url('/upload/no_image.png') }}" alt="">
                        <input type="hidden" name="oldProfileimage" value="{{ $user->profile_photo_path }}">
                     </div>
