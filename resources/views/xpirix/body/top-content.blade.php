@@ -159,7 +159,7 @@
             Coming Soon
         </h2>
         <div class="w-full flex justify-center mb-10">
-            <video width="700" height="240" controls class="border-2 rounded-sm mb-10">
+            <video width="700" height="240" controls class="border-2 rounded-xl mb-10">
                 <source src="{{ asset("storage/files/LifeSpot-Coming-2020-no-date.mp4")}}" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
