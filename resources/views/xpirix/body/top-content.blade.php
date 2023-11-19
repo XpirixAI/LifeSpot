@@ -280,7 +280,6 @@
 <script>
     $(document).ready(function() {
         $('#submit-keep-updated-email').on('click', function() {
-            console.log('clicked');
             $.ajax({
                 url: "{{ route('email.list.add') }}",
                 type: "POST",
@@ -289,7 +288,7 @@
                     email: $('#keep-updated-email').val(),
                 },
                 success: function() {
-                    console.log('success');
+                    // console.log('success');
                 }
             })
         })
