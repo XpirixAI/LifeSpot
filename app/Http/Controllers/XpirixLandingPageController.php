@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Livewire\WithPagination;
 
+use App\Mail\AddToKeepUpdatedList;
+use Illuminate\Support\Facades\Mail;
+
 class XpirixLandingPageController extends Controller
 {
     use WithPagination;
@@ -112,5 +115,14 @@ class XpirixLandingPageController extends Controller
     {
         $contents = XpirixContent::find(1);
         return view('posts.show',compact('post','contents'));
+    }
+
+    public function email_list_add (Request $request)
+    {
+        Log::info(['DEV: email_list_add fired']);
+        Mail::to($request->email)->send(new AddToKeepUpdatedList(
+            $request->email
+        ));  
+        return response()->json(['status' => 'success']);
     }
 }

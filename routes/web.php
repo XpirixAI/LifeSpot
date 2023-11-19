@@ -71,6 +71,7 @@ use Illuminate\Support\Facades\Mail;
     /*  ---------------------------GUEST PUBLIC Access Routes --------------------------- */
 
     Route::get('/',[XpirixLandingPageController::class, 'index']);
+    Route::post('/email-list/add', [XpirixLandingPageController::class, 'email_list_add'])->name('email.list.add');
 
     // START Temporary pre-launch routes (delete post launch, or use for site maintenance)
     // Route::get('/',[XpirixLandingPageController::class, 'temp_coming_soon'])->name('temp.coming.soon');

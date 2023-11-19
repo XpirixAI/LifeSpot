@@ -2,13 +2,10 @@
     <div class="bg-[#056591] py-4">
          <!--Top CTA Area-->
         <div class="grid grid-cols-1 lg:grid-cols-3 bg-[#056591]  items-center xsm:pt-12 pt-4 pb-6 lg:px-24">
-
             <!--Top Left-->
             <div class="col-span-2 space-y-5 md:mb-4 px-4">
                 {{-- <h1 class="font-black text-gray-800 text-4xl md:text-5xl ">{{ $contents->main_title }}</h1> --}}
                 <h1 class="text-white text-4xl lg:text-8xl tracking-wider font-semibold">Simplify your digital world</h1>
-
-
                 {{-- <p class="container  text-gray-700 text-lg font-semibold mr-32">{{ $contents->main_message }}</p> --}}
                 <h4 class="text-white text=2xl lg:text-4xl tracking-wide">LifeSpot safeguards your life story and helps you to prepare for what's to come.</h4>
                 <div class="flex justify-start ml-5 space-x-4 items-center">
@@ -154,8 +151,34 @@
                 </div>
             </div> --}}
         </div>
-       {{-- <div class="grid grid-cols-1 md:grid-cols-3 gap-3 md:mt-0 mt-6 md:px-4">
-       </div> --}}
+        {{-- <div class="grid grid-cols-1 md:grid-cols-3 gap-3 md:mt-0 mt-6 md:px-4">
+        </div> --}}
+    </div>
+    <div class="py-16 px-4">
+        <h2 class="text-center text-[#056591] font-black text-3xl mb-10">
+            Coming Soon
+        </h2>
+        <div class="w-full flex justify-center mb-10">
+            <video width="700" height="240" controls class="border-2 rounded-sm mb-10">
+                <source src="{{ asset("storage/files/LifeSpot-Coming-2020-no-date.mp4")}}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="w-full flex flex-col md:flex-row justify-center items-center">
+            <input 
+                id="keep-updated-email" 
+                class="w-96 rounded-xl md:mr-4 " 
+                type="email"
+                placeholder="myemail@gmail.com"
+            />
+            <button
+                type="button"
+                id="submit-keep-updated-email"
+                class="text-white font-bold rounded-xl mt-4 md:mt-0 py-2 px-3 bg-[#056591]"
+            >
+                Keep Me Updated
+            </button>
+        </div>
     </div>
     <div class="bg-[#e1e8ec] py-16 px-4">
         <h1 class="text-[#056591] text-6xl tracking-wide font-bold text-center">Secure. Private. Sharable</h1>
@@ -252,3 +275,23 @@
         </div>
     </div> --}}
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#submit-keep-updated-email').on('click', function() {
+            console.log('clicked');
+            $.ajax({
+                url: "{{ route('email.list.add') }}",
+                type: "POST",
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    email: $('#keep-updated-email').val(),
+                },
+                success: function() {
+                    console.log('success');
+                }
+            })
+        })
+    })
+</script>
