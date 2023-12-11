@@ -52,9 +52,6 @@ use App\Http\Controllers\LifeSpot\MyLifeSpot\Work_and_Education\EducationControl
 use App\Http\Controllers\LifeSpot\MyLifeSpot\Work_and_Education\VolunteerController;
 use App\Http\Controllers\LifeSpot\MyLifeSpot\Home_and_Property\AdditionalAssetController;
 
-use App\Mail\MyTestEmail;
-use Illuminate\Support\Facades\Mail;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -71,11 +68,8 @@ use Illuminate\Support\Facades\Mail;
     /*  ---------------------------GUEST PUBLIC Access Routes --------------------------- */
 
     Route::get('/',[XpirixLandingPageController::class, 'index']);
+    Route::get('/welcome', [XpirixLandingPageController::class, 'show_welcome_page'])->name('show.welcome.page');
     Route::post('/email-list/add', [XpirixLandingPageController::class, 'email_list_add'])->name('email.list.add');
-
-    // START Temporary pre-launch routes (delete post launch, or use for site maintenance)
-    // Route::get('/',[XpirixLandingPageController::class, 'temp_coming_soon'])->name('temp.coming.soon');
-    // Route::get('/temp-dev-pass',[XpirixLandingPageController::class, 'temp_dev_pass'])->name('temp.dev.pass');
 
     Route::get('/article/{post}',[XpirixLandingPageController::class, 'show'])->name('article.show');
 
@@ -427,6 +421,7 @@ Route::middleware([
     Route::post('/invite-member', [InvitationController::class, 'create'])->name('dispatch.invite.email');
     Route::post('/accept-on-platform-invitation', [InvitationController::class, 'accept_on_platform_invite'])->name('accept.on.platform.invite');
 
+    // TEST / DEV ROUTES
     Route::get('/stripe/api/test', [PersonalInfoController::class, 'test_stripe_api'])->name('stripe.api.test');
 });
  /*  ------------------------End Auth - Member - Owner Access Routes --------------------------- */

@@ -58,7 +58,6 @@ class PersonalInfoController extends Controller
 
     public function update(Request $request, User $user)
     {
-        Log::info('DEV: PersonalInfoController::update() fired');
         $data = $request->validate([
             'fname' => 'required',
             'lname' => 'required',
@@ -258,7 +257,6 @@ class PersonalInfoController extends Controller
 
     public function test_stripe_api(Request $request)
     {
-        Log::info('DEV: testStripeAPI() fired');
         $user = Auth::user();
 
         $stripe = new \Stripe\StripeClient(env('STRIPE_PRIV_KEY'));
@@ -267,8 +265,6 @@ class PersonalInfoController extends Controller
             'email' => $user->email,
         ]);
         
-        Log::info(['DEV: $customer', $customer->id]);
-
         return redirect()->back();
     }
 }

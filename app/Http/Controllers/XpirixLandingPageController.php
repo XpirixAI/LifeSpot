@@ -17,51 +17,6 @@ class XpirixLandingPageController extends Controller
 {
     use WithPagination;
 
-    // public function temp_coming_soon()
-    // {
-    //     return view('coming_soon');
-    // }
-
-    // public function temp_dev_pass(Request $request)
-    // {   
-    //     Log::info('DEV: temp_dev_pass fired');
-    //     if ($request->password == '127lifespot127!'){
-    //         $posts = Post::latest()->paginate(10);
-    //         // $post_count = Post::withCount(['isPublished'])->get();
-    //         $contents = XpirixContent::find(1);
-    //         $categories = Category::all();
-    //         if(Auth::check()) {
-    //             return view('xpirix', compact('contents','categories'),[
-    //                 'posts' => Post::where('isPublic','public')
-    //                     ->where('isPublished','Published')
-    //                     ->orWhere('user_id', auth()->user()->id)->where('isPublic','private')->where('isPublished','Published')
-    //                     // ->latest()
-    //                     ->orderBy('updated_at','desc')
-    //                     ->orderBy('user_id','desc')->filter(request(['author','category','search']))
-    //                     // ->paginate(10)
-    //                     // ->withQueryString(),
-    //                     ->get(),
-    //             ]);
-    //             } else {
-    //                 return view('xpirix', compact('contents','categories'),[
-    //                     'posts' => Post::where('isPublic','public')
-    //                         ->where('isPublished','Published')
-    //                         // ->orWhere('user_id', auth()->user()->id)->where('isPublic','private')
-    //                         // ->latest()
-    //                         ->orderBy('updated_at','desc')
-    //                         ->filter(request(['author', 'category','search']))
-    //                         // ->paginate(10)
-    //                         // ->withQueryString(),
-    //                         ->get(),
-    //                 ]);
-    //         }
-    //     } else {
-    //         Log::info(['DEV: password', $request->password]);
-    //         return redirect()->back();
-    //     }
-        
-    // }
-
     public function index()
     {   
         $posts = Post::latest()->paginate(10);
@@ -117,12 +72,16 @@ class XpirixLandingPageController extends Controller
         return view('posts.show',compact('post','contents'));
     }
 
-    public function email_list_add (Request $request)
+    public function email_list_add(Request $request)
     {
-        Log::info(['DEV: email_list_add fired']);
         Mail::to($request->email)->send(new AddToKeepUpdatedList(
             $request->email
         ));  
         return response()->json(['status' => 'success']);
+    }
+
+    public function show_welcome_page() 
+    {
+        return view('welcome');
     }
 }

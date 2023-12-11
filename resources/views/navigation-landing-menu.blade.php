@@ -203,14 +203,19 @@
                 @else
                 <li>
                     @if (Route::has('login'))
-                        <a href="{{ route('login') }}" class="border-2 border-[#0682d4] bg-white text-[#0682d4] py-2 px-4 lg:px-8 rounded-lg font-bold">
-                        Log in
+                        {{-- <a href="{{ route('show.welcome.page') }}" class="border-2 border-[#0682d4] bg-white text-[#0682d4] py-2 px-4 lg:px-8 rounded-lg font-bold">
+                            Log In
+                        </a> --}}
+                        <a href="{{ route('show.welcome.page') }}" class="border-2 border-[#0682d4] bg-white text-[#0682d4] py-2 px-4 lg:px-8 rounded-lg font-bold">
+                            Log In
                         </a>
                     @endif
                 </li>
                 <li>
+                    
                     @if (Route::has('register'))
-                        <a href="{{ route('register') }}" class="border border-[#0682d4] text-white bg-[#0682d4] py-2 px-4 lg:px-8 rounded-lg font-bold">Sign Up</a>
+                        <a href="{{ route('show.welcome.page') }}" class="border border-[#0682d4] text-white bg-[#0682d4] py-2 px-4 lg:px-8 rounded-lg font-bold">Sign Up</a>
+                        {{-- <a href="{{ route('register') }}" class="border border-[#0682d4] text-white bg-[#0682d4] py-2 px-4 lg:px-8 rounded-lg font-bold">Sign Up</a> --}}
                     @endif
                 </li>
             @endauth

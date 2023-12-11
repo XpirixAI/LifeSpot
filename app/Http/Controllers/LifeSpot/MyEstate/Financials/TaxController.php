@@ -92,7 +92,6 @@ class TaxController extends Controller
      */
     public function update(Request $request, Tax $asset)
     {
-        Log::info(['update() fired:', $asset]);
         $validated = $request->validate([
             'account_type' => 'required',
             'account_number' => 'required',
